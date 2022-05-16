@@ -1,19 +1,24 @@
 {
-  "name": "tormenta-beyond",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MarcyMagi/tormenta-beyond.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/MarcyMagi/tormenta-beyond/issues"
-  },
-  "homepage": "https://github.com/MarcyMagi/tormenta-beyond#readme"
+	"name": "tormenta-beyond",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "npx eslint *.js --fix"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/MarcyMagi/tormenta-beyond.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/MarcyMagi/tormenta-beyond/issues"
+	},
+	"homepage": "https://github.com/MarcyMagi/tormenta-beyond#readme",
+	"devDependencies": {
+		"eslint": "^8.15.0",
+		"prettier": "^2.6.2"
+	}
 }
