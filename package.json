@@ -1,10 +1,12 @@
 {
 	"name": "tormenta-beyond",
+	"type": "module",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
+		"test-watch": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --watchAll",
 		"lint": "npx eslint *.js --fix"
 	},
 	"repository": {
@@ -20,6 +22,7 @@
 	"devDependencies": {
 		"eslint": "^8.15.0",
 		"eslint-config-prettier": "^8.5.0",
+		"jest": "^28.1.0",
 		"prettier": "^2.6.2"
 	},
 	"dependencies": {
