@@ -1,26 +1,64 @@
 import config from '../configs/attributes.config.js'
-import Dice from 'dice-notation-js'
+import _ from 'lodash'
+import { numberCheck, arrayCheck } from '../helpers/common-checks.js'
 
 const sumReduce = (prev, cur) => prev + cur
 const sorter = (a, b) => a - b
+const pricesParser = (prices) => {
+	const defaultPrices = config.pointPrices
+	const filterPrices = _.pick(prices, ...Object.keys(defaultPrices))
 
-export const modifier = {
+	return _.merge(defaultPrices, filterPrices)
+}
+
+const attributeCheck = (value) => {
+	numberCheck(value)
+	if (value < config.minAttValue) {
+		throw new Error(`attribute must be greater than ${config.minAttValue}`)
+	}
+	if (value > config.maxAttValue) {
+		throw new Error(`attribute must be less than ${config.maxAttValue}`)
+	}
+}
+
+const attributeArrCheck = (values) => {
+	arrayCheck(values)
+	if (values.length > config.maxAttArr) {
+		throw new Error(`attribute array cannot have more than ${config.maxAttArr}`)
+	}
+	for (const value of values) {
+		attributeCheck(value)
+	}
+}
+
+export const modifierCalculator = {
 	calculate: (attribute) => {
+		attributeCheck(attribute)
 		return Math.floor((attribute - 10) / 2)
 	},
 	calculateMany: (attributes) => {
+		attributeArrCheck(attributes)
 		const reduceFun = (prev, cur) => {
-			prev.push(modifier.calculate(cur))
+			prev.push(modifierCalculator.calculate(cur))
 			return prev
 		}
 		return attributes.reduce(reduceFun, [])
 	},
 	validate: (attribute, modifier) => {
-		const shouldModifier = modifier.calculate(attribute)
+		attributeCheck(attribute)
+		numberCheck(modifier)
+		const shouldModifier = modifierCalculator.calculate(attribute)
 		return shouldModifier === modifier
 	},
 	validateMany: (attributes, modifiers) => {
-		const shouldModifiers = modifier.calculateMany(attributes)
+		attributeArrCheck(attributes)
+		if (attributes.length !== modifiers.length) {
+			throw new Error(
+				'modifiers array must have same length as attributes array'
+			)
+		}
+		arrayCheck(modifiers)
+		const shouldModifiers = modifierCalculator.calculateMany(attributes)
 		for (let i = 0; i < modifiers.length; i++) {
 			if (shouldModifiers[i] !== modifiers[i]) {
 				return false
@@ -29,50 +67,61 @@ export const modifier = {
 		return true
 	},
 }
-export const roll = {
-	validate: (attributes) => {
-		const modifiers = modifier.calculateMany(attributes)
+export const rollCalculator = {
+	validate: (attributes, expectSum = config.expectSum) => {
+		attributeArrCheck(attributes)
+		numberCheck(expectSum)
+		const modifiers = modifierCalculator.calculateMany(attributes)
 		const sum = modifiers.reduce(sumReduce, 0)
-		if (sum < 6) {
+		if (sum < expectSum) {
 			return false
 		}
 		return true
 	},
-	generate: () => {
+	generate: (Dice) => {
 		const rolls = Dice.detailed('4d6').rolls
 		rolls.sort(sorter)
-		rolls.shift()
-		const attribute = rolls.reduce(sumReduce, 0)
-		const modifier = modifier.calculate(attribute)
+		const rollsCopy = [...rolls]
+		rollsCopy.shift()
+		const attribute = rollsCopy.reduce(sumReduce, 0)
+		const modifier = modifierCalculator.calculate(attribute)
 		return { attribute, modifier, rolls }
 	},
-	generateMany: () => {
+	generateMany: (Dice) => {
 		const attributes = []
-		for (let i = 0; i < 6; i++) {
-			const attribute = roll.generate()
+		for (let i = 0; i < config.maxAttArr; i++) {
+			const attribute = rollCalculator.generate(Dice)
 			attributes.push(attribute)
 		}
 		return attributes
 	},
-	generateValid: (expectSum = 6) => {
-		let attributes = roll.generateMany()
-		const attSorter = (a, b) => a.result - b.result
-		const modifierSum = (prev, cur) => prev.modifier + cur.modifier
+	generateValid: (Dice, expectSum = config.expectSum) => {
+		numberCheck(expectSum)
+		if (expectSum > 24) {
+			throw new Error('expectSum cannot be greater than 24')
+		}
+		let attributes = rollCalculator.generateMany(Dice)
 		for (let i = 0; i < config.rollsLimit; i++) {
-			attributes.sort(attSorter)
-			const sum = attributes.reduce(modifierSum, 0)
-			if (sum >= expectSum) {
+			attributes.sort((a, b) => a.attribute - b.attribute)
+			let attributeIsolated = [...attributes]
+			attributeIsolated = attributeIsolated.reduce((prev, cur) => {
+				prev.push(cur.attribute)
+				return prev
+			}, [])
+			if (rollCalculator.validate(attributeIsolated, expectSum)) {
 				return attributes
 			}
 			attributes.shift()
-			attributes.push(roll.generate())
+			attributes.push(rollCalculator.generate(Dice))
 		}
 		throw new Error('rollsLimit break')
 	},
 }
-export const point = {
-	difference: (attributes, prices = config.pointPrices) => {
+export const pointCalculator = {
+	difference: (attributes, prices = {}) => {
+		prices = pricesParser(prices)
+		attributeArrCheck(attributes)
 		let sum = attributes.reduce((prev, cur) => prev + prices[cur], 0)
-		return sum
+		return prices.wallet - sum
 	},
 }
