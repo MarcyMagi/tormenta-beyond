@@ -3,7 +3,6 @@ import {
 	rollCalculator,
 	pointCalculator,
 } from './attribute-calculator.js'
-import Dice from 'dice-notation-js'
 import _ from 'lodash'
 
 const extractModifier = (attributes) => {
@@ -17,15 +16,19 @@ const extractModifier = (attributes) => {
 		car: modifiers[5],
 	}
 }
+const filter = (values) => {
+	return _.pick(values, ['for', 'des', 'con', 'int', 'sab', 'car'])
+}
 
 const toArray = (values) => {
 	return () => {
-		const filter = _.pick(values, ['for', 'des', 'con', 'int', 'sab', 'car'])
-		return Object.values(filter)
+		values = filter(values)
+		return Object.values(values)
 	}
 }
 
 const factory = (attributes) => {
+	attributes = filter(attributes)
 	attributes.toArray = toArray(attributes)
 	attributes.validateRoll = (expectSum) => {
 		return rollCalculator.validate(attributes.toArray(), expectSum)
