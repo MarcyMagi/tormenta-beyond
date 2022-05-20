@@ -168,7 +168,6 @@ describe('attributeCalculator', () => {
 				]
 
 				const res = rollCalculator.generateValid(fakeDice(values))
-				console.log(res)
 				expect(res[0].attribute).toBe(10)
 				expect(res[0].modifier).toBe(0)
 				expect(res[0].rolls).toStrictEqual([2, 3, 3, 4])
@@ -206,7 +205,6 @@ describe('attributeCalculator', () => {
 				]
 
 				const res = rollCalculator.generateValid(fakeDice(values))
-				console.log(res)
 				expect(res[0].attribute).toBe(10)
 				expect(res[0].modifier).toBe(0)
 				expect(res[0].rolls).toStrictEqual([1, 3, 3, 4])
