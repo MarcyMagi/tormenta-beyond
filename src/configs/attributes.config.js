@@ -18,3 +18,4 @@ export const minAttValue = 3
 export const maxAttValue = 38
 export const maxAttArr = 6
 export const expectSum = 6
+export const defaultAttributes = ['for', 'des', 'con', 'int', 'sab', 'car']

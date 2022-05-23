@@ -1,5 +1,10 @@
 import * as calculator from '../services/attributes-calculator.js'
-const { modifierCalculator, rollCalculator, pointCalculator } = calculator
+const {
+	modifierCalculator,
+	rollCalculator,
+	pointCalculator,
+	attributeValidators,
+} = calculator
 
 let diceIndex = 0
 const fakeDice = (values) => ({
@@ -272,6 +277,26 @@ describe('attributeCalculator', () => {
 					wallet: 75,
 				})
 				expect(res).toBe(0)
+			})
+		})
+	})
+	describe('attributeValidators', () => {
+		describe('validateKeys', () => {
+			it('should return true given valid attribute', () => {
+				const res = attributeValidators.validateKeys({ for: 1 })
+				expect(res).toBe(true)
+			})
+			it('should return false given invalid attribute', () => {
+				const res = attributeValidators.validateKeys({ wei: 1 })
+				expect(res).toBe(false)
+			})
+			it('should return true given invalid attribute and keys arg', () => {
+				const res = attributeValidators.validateKeys({ wei: 1 }, ['wei'])
+				expect(res).toBe(true)
+			})
+			it('should return false given valid attribute and keys arg', () => {
+				const res = attributeValidators.validateKeys({ for: 1 }, ['wei'])
+				expect(res).toBe(false)
 			})
 		})
 	})

@@ -1,4 +1,3 @@
-export const defaultAttributes = ['for', 'des', 'con', 'int', 'sab', 'car']
 export const defaultSkills = [
 	'acrobacia',
 	'adestramento',

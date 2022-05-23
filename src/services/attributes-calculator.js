@@ -121,3 +121,14 @@ export const pointCalculator = {
 		return prices.wallet - sum
 	},
 }
+
+export const attributeValidators = {
+	validateKeys: (obj, keys = config.defaultAttributes) => {
+		for (const objKey of Object.keys(obj)) {
+			if (!keys.includes(objKey)) {
+				return false
+			}
+		}
+		return true
+	},
+}
