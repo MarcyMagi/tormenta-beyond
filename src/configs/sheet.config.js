@@ -1,3 +1,12 @@
+export const defaultAttributes = ['for', 'des', 'con', 'int', 'sab', 'car']
+export const defaultSizes = [
+	'minúsculo',
+	'pequeno',
+	'médio',
+	'grande',
+	'enorme',
+	'colossal',
+]
 export const defaultSkills = [
 	'acrobacia',
 	'adestramento',
