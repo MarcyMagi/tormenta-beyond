@@ -2,8 +2,9 @@ import {
 	modifierCalculator,
 	rollCalculator,
 	pointCalculator,
+	attributeValidators,
 } from './attributes-calculator.js'
-import { defaultAttributes } from '../configs/sheet.config.js'
+import { defaultAttributes as configDefaults } from '../configs/attributes.config.js'
 import _ from 'lodash'
 
 const calculateModifier = (attributes) => {
@@ -16,20 +17,25 @@ const calculateModifier = (attributes) => {
 	}
 	return modifiersObj
 }
-const filter = (values) => {
-	return _.pick(values, defaultAttributes)
+const filter = (values, defaultAttributes = configDefaults) => {
+	const filteredValues = _.pick(values, defaultAttributes)
+	console.log(Object.keys(filteredValues).length, defaultAttributes.length)
+	if (Object.keys(filteredValues).length !== defaultAttributes.length) {
+		throw new Error('attributes error: fail to filter attributes')
+	}
+	return filteredValues
 }
 
-const toArray = (values) => {
+const toArray = (values, defaultAttributes = configDefaults) => {
 	return () => {
-		values = filter(values)
+		values = filter(values, defaultAttributes)
 		return Object.values(values)
 	}
 }
 
-export default (attributes) => {
-	attributes = filter(attributes)
-	attributes.toArray = toArray(attributes)
+export default (attributes, defaultAttributes = configDefaults) => {
+	attributes = filter(attributes, defaultAttributes)
+	attributes.toArray = toArray(attributes, defaultAttributes)
 	attributes.validateRoll = (expectSum) => {
 		return rollCalculator.validate(attributes.toArray(), expectSum)
 	}
@@ -38,7 +44,7 @@ export default (attributes) => {
 	}
 
 	let modifiers = calculateModifier(attributes)
-	modifiers.toArray = toArray(modifiers)
+	modifiers.toArray = toArray(modifiers, defaultAttributes)
 	modifiers.validate = () => {
 		return modifierCalculator.validateMany(
 			attributes.toArray(),

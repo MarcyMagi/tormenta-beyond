@@ -38,6 +38,19 @@ describe('attributes', () => {
 
 		expect(attributeInstance.wei).toBeUndefined()
 	})
+
+	it('should fail if given less attribute values', () => {
+		expect(() => {
+			attributes({ for: 10, des: 12 })
+		}).toThrow()
+	})
+
+	it('should work if given less attribute values and custom attributes', () => {
+		expect(() => {
+			attributes({ for: 10, des: 12 }, ['for', 'des'])
+		}).not.toThrow()
+	})
+
 	it('should convert attributes to array', () => {
 		const attributeInstance = attributes({
 			for: 10,
