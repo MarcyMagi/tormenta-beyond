@@ -57,7 +57,7 @@ export const modifierCalculator = {
 			)
 		}
 		const shouldModifiers = modifierCalculator.calculateMany(attributes)
-		for (let i = 0; i < modifiers.length; i++) {
+		for (let i in modifiers) {
 			if (shouldModifiers[i] !== modifiers[i]) {
 				return false
 			}
