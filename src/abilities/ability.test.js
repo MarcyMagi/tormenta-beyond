@@ -33,20 +33,25 @@ describe('abilities factory', () => {
 	it('should throw with no name', () => {
 		expect(() => {
 			ability()
-		}).toThrow()
+		}).toThrowError('ability error: name must be a string')
+	})
+	it('should throw with empty string name', () => {
+		expect(() => {
+			ability('')
+		}).toThrowError('ability error: name cannot be empty string')
 	})
 	it('should throw with function with no args', () => {
 		expect(() => {
 			ability('no args!', {
 				applyOnSkill: () => {},
 			})
-		}).toThrow()
+		}).toThrowError('ability error: functions must recieve only one argument')
 	})
 	it('should throw with function with more than one arg', () => {
 		expect(() => {
 			ability('to much args!', {
 				applyOnSkill: (sheet, something) => {},
 			})
-		}).toThrow()
+		}).toThrowError('ability error: functions must recieve only one argument')
 	})
 })

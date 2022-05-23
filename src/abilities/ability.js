@@ -1,20 +1,28 @@
 import _ from 'lodash'
-
 const validateFunc = (func) => {
 	if (func.length !== 1) {
-		throw new Error('ability functions must recieve only one argument')
+		throw new Error('ability error: functions must recieve only one argument')
 	}
 }
-
-const validateFuncs = (obj) => {
-	for (const value of Object.values(obj)) {
-		if (typeof value === 'function') {
-			validateFunc(value)
+const validateFuncs = (funcs) => {
+	for (const func of Object.values(funcs)) {
+		if (typeof func === 'function') {
+			validateFunc(func)
 		}
 	}
 }
 
+const validateName = (name) => {
+	if (typeof name !== 'string') {
+		throw new Error('ability error: name must be a string')
+	}
+	if (name.length === 0) {
+		throw new Error('ability error: name cannot be empty string')
+	}
+}
+
 export default (name, funcs = {}, meta) => {
+	validateName(name)
 	let abilityObj = {
 		meta,
 		name: name.toLowerCase(),
