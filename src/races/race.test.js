@@ -1,4 +1,4 @@
-import race from '../../services/races/race.js'
+import race from './race.js'
 describe('race factory', () => {
 	it('should return a valid race', () => {
 		const res = race({ for: 2 }, [], 'medio', 9)

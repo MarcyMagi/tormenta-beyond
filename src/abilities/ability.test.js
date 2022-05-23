@@ -1,4 +1,4 @@
-import ability from '../../services/abilities/ability.js'
+import ability from './ability.js'
 describe('abilities factory', () => {
 	it('should return a valid ability', () => {
 		const funcs = {
