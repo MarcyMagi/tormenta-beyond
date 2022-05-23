@@ -26,8 +26,8 @@ export default (name, funcs = {}, meta) => {
 	let abilityObj = {
 		meta,
 		name: name.toLowerCase(),
-		applyOnSkill: funcs.applyOnSkill,
-		applyOnPower: funcs.applyOnPower,
+		applyInSkill: funcs.applyInSkill,
+		applyInPower: funcs.applyInPower,
 	}
 
 	validateFuncs(abilityObj)
