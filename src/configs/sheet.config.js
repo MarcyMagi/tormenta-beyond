@@ -1,4 +1,5 @@
 export const defaultAttributes = ['for', 'des', 'con', 'int', 'sab', 'car']
+export const defaultPower = ['acuidade com arma']
 export const defaultSizes = [
 	'minúsculo',
 	'pequeno',
