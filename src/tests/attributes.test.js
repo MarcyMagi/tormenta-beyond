@@ -25,6 +25,19 @@ describe('attributes', () => {
 		expect(attributeInstance.modifiers.sab).toBe(2)
 		expect(attributeInstance.modifiers.car).toBe(1)
 	})
+	it('should set attributes ignoring wei attribute', () => {
+		const attributeInstance = attributes({
+			for: 10,
+			des: 12,
+			con: 9,
+			int: 10,
+			sab: 14,
+			car: 13,
+			wei: 300,
+		})
+
+		expect(attributeInstance.wei).toBeUndefined()
+	})
 	it('should convert attributes to array', () => {
 		const attributeInstance = attributes({
 			for: 10,
@@ -35,7 +48,7 @@ describe('attributes', () => {
 			car: 13,
 		})
 		const toArray = attributeInstance.attributes.toArray()
-		expect(toArray).toStrictEqual([10, 12, 9, 10, 14, 13])
+		expect(toArray).toEqual([10, 12, 9, 10, 14, 13])
 	})
 	it('should convert modifier to array', () => {
 		const attributeInstance = attributes({
@@ -47,7 +60,7 @@ describe('attributes', () => {
 			car: 13,
 		})
 		const toArray = attributeInstance.modifiers.toArray()
-		expect(toArray).toStrictEqual([0, 1, -1, 0, 2, 1])
+		expect(toArray).toEqual([0, 1, -1, 0, 2, 1])
 	})
 	it('should return true validate roll', () => {
 		const attributeInstance = attributes({
