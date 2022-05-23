@@ -1,8 +1,8 @@
-import attribute from '../../services/attribute.js'
+import attributes from '../../services/attributes.js'
 
-describe('attribute', () => {
-	it('should set attribute', () => {
-		const attributeInstance = attribute({
+describe('attributes', () => {
+	it('should set attributes', () => {
+		const attributeInstance = attributes({
 			for: 10,
 			des: 12,
 			con: 9,
@@ -25,8 +25,8 @@ describe('attribute', () => {
 		expect(attributeInstance.modifiers.sab).toBe(2)
 		expect(attributeInstance.modifiers.car).toBe(1)
 	})
-	it('should convert attribute to array', () => {
-		const attributeInstance = attribute({
+	it('should convert attributes to array', () => {
+		const attributeInstance = attributes({
 			for: 10,
 			des: 12,
 			con: 9,
@@ -38,7 +38,7 @@ describe('attribute', () => {
 		expect(toArray).toStrictEqual([10, 12, 9, 10, 14, 13])
 	})
 	it('should convert modifier to array', () => {
-		const attributeInstance = attribute({
+		const attributeInstance = attributes({
 			for: 10,
 			des: 12,
 			con: 9,
@@ -50,7 +50,7 @@ describe('attribute', () => {
 		expect(toArray).toStrictEqual([0, 1, -1, 0, 2, 1])
 	})
 	it('should return true validate roll', () => {
-		const attributeInstance = attribute({
+		const attributeInstance = attributes({
 			for: 16,
 			des: 12,
 			con: 9,
@@ -62,7 +62,7 @@ describe('attribute', () => {
 		expect(valid).toBe(true)
 	})
 	it('should return false validate roll', () => {
-		const attributeInstance = attribute({
+		const attributeInstance = attributes({
 			for: 10,
 			des: 12,
 			con: 9,
@@ -74,7 +74,7 @@ describe('attribute', () => {
 		expect(valid).toBe(false)
 	})
 	it('should return 0 validate point', () => {
-		const attributeInstance = attribute({
+		const attributeInstance = attributes({
 			for: 17,
 			des: 15,
 			con: 13,
@@ -86,7 +86,7 @@ describe('attribute', () => {
 		expect(value).toBe(0)
 	})
 	it('should return 2 validate point', () => {
-		const attributeInstance = attribute({
+		const attributeInstance = attributes({
 			for: 17,
 			des: 15,
 			con: 13,
@@ -98,7 +98,7 @@ describe('attribute', () => {
 		expect(value).toBe(2)
 	})
 	it('should return -3 validate point', () => {
-		const attributeInstance = attribute({
+		const attributeInstance = attributes({
 			for: 17,
 			des: 15,
 			con: 13,
@@ -110,7 +110,7 @@ describe('attribute', () => {
 		expect(value).toBe(-3)
 	})
 	it('should return true validate modifier', () => {
-		const attributeInstance = attribute({
+		const attributeInstance = attributes({
 			for: 10,
 			des: 12,
 			con: 9,
@@ -122,7 +122,7 @@ describe('attribute', () => {
 		expect(valid).toBe(true)
 	})
 	it('should return false validate modifier', () => {
-		const attributeInstance = attribute({
+		const attributeInstance = attributes({
 			for: 10,
 			des: 12,
 			con: 9,

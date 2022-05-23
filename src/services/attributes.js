@@ -2,7 +2,7 @@ import {
 	modifierCalculator,
 	rollCalculator,
 	pointCalculator,
-} from './attribute-calculator.js'
+} from './attributes-calculator.js'
 import _ from 'lodash'
 
 const extractModifier = (attributes) => {
