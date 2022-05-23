@@ -1,4 +1,4 @@
-import * as calculator from '../../services/attributes-calculator.js'
+import * as calculator from '../services/attributes-calculator.js'
 const { modifierCalculator, rollCalculator, pointCalculator } = calculator
 
 let diceIndex = 0

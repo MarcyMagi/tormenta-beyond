@@ -1,4 +1,4 @@
-import attributes from '../../services/attributes.js'
+import attributes from '../services/attributes.js'
 
 describe('attributes', () => {
 	it('should set attributes', () => {
