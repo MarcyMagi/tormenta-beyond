@@ -6,16 +6,15 @@ import {
 import { defaultAttributes } from '../configs/sheet.config.js'
 import _ from 'lodash'
 
-const extractModifier = (attributes) => {
-	let modifiers = modifierCalculator.calculateMany(attributes.toArray())
-	return {
-		for: modifiers[0],
-		des: modifiers[1],
-		con: modifiers[2],
-		int: modifiers[3],
-		sab: modifiers[4],
-		car: modifiers[5],
+const calculateModifier = (attributes) => {
+	let modifiersArr = modifierCalculator.calculateMany(attributes.toArray())
+	let modifiersObj = {}
+	let i = 0
+	for (const key of Object.keys(attributes)) {
+		modifiersObj[key] = modifiersArr[i]
+		i++
 	}
+	return modifiersObj
 }
 const filter = (values) => {
 	return _.pick(values, defaultAttributes)
@@ -38,7 +37,7 @@ export default (attributes) => {
 		return pointCalculator.difference(attributes.toArray(), prices)
 	}
 
-	let modifiers = extractModifier(attributes)
+	let modifiers = calculateModifier(attributes)
 	modifiers.toArray = toArray(modifiers)
 	modifiers.validate = () => {
 		return modifierCalculator.validateMany(
