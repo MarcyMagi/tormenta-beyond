@@ -1,24 +1,20 @@
-const config = {
-	rollsLimit: 1000,
-	pointMax: 20,
-	pointPrices: {
-		8: -2,
-		9: -1,
-		10: 0,
-		11: 1,
-		12: 2,
-		13: 3,
-		14: 4,
-		15: 6,
-		16: 8,
-		17: 11,
-		18: 14,
-		wallet: 20,
-	},
-	minAttValue: 3,
-	maxAttValue: 38,
-	maxAttArr: 6,
-	expectSum: 6,
+export const rollsLimit = 1000
+export const pointMax = 20
+export const pointPrices = {
+	8: -2,
+	9: -1,
+	10: 0,
+	11: 1,
+	12: 2,
+	13: 3,
+	14: 4,
+	15: 6,
+	16: 8,
+	17: 11,
+	18: 14,
+	wallet: 20,
 }
-
-export default config
+export const minAttValue = 3
+export const maxAttValue = 38
+export const maxAttArr = 6
+export const expectSum = 6
