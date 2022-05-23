@@ -1,49 +1,50 @@
 import ability from '../../services/abilities/ability.js'
 describe('abilities factory', () => {
 	it('should return a valid ability', () => {
-		const newAbility = {
-			name: 'i am a ability',
+		const funcs = {
 			applyOnSkill: (sheet) => {},
 		}
-		const res = ability(newAbility)
-		expect(res).toEqual(newAbility)
+
+		const compareAbility = Object.assign({ name: 'i am a ability' }, funcs)
+
+		const res = ability('i am a ability', funcs)
+		expect(res).toEqual(compareAbility)
 	})
 	it('should return a valid ability ignoring not used functions', () => {
-		const newAbility = {
-			name: 'i am a ability',
+		const funcs = {
 			applyOnSkill: (sheet) => {},
 			applyOnHugsAndKisses: (sheet) => {},
 		}
-		let compareAbility = Object.assign({}, newAbility)
-		compareAbility.applyOnHugsAndKisses = undefined
+		let compareFuncs = Object.assign({}, funcs)
+		compareFuncs.applyOnHugsAndKisses = undefined
 
-		const res = ability(newAbility)
+		const compareAbility = Object.assign(
+			{ name: 'i am a ability' },
+			compareFuncs
+		)
+
+		const res = ability('i am a ability', funcs)
 		expect(res).toEqual(compareAbility)
 	})
 	it('should return with name lowercase', () => {
-		const newAbility = {
-			name: 'HOW DO I STOP SCREAMING',
-		}
-		const res = ability(newAbility)
+		const res = ability('HOW DO I STOP SCREAMING')
 		expect(res.name).toBe('how do i stop screaming')
 	})
 	it('should throw with no name', () => {
 		expect(() => {
-			ability({})
+			ability()
 		}).toThrow()
 	})
 	it('should throw with function with no args', () => {
 		expect(() => {
-			ability({
-				name: 'no args!',
+			ability('no args!', {
 				applyOnSkill: () => {},
 			})
 		}).toThrow()
 	})
 	it('should throw with function with more than one arg', () => {
 		expect(() => {
-			ability({
-				name: 'to much args!',
+			ability('to much args!', {
 				applyOnSkill: (sheet, something) => {},
 			})
 		}).toThrow()
