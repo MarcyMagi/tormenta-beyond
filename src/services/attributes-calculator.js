@@ -1,6 +1,5 @@
 import config from '../configs/attributes.config.js'
 import _ from 'lodash'
-import { numberCheck, arrayCheck } from '../helpers/common-checks.js'
 
 const sumReduce = (prev, cur) => prev + cur
 const sorter = (a, b) => a - b
@@ -12,7 +11,6 @@ const pricesParser = (prices) => {
 }
 
 const attributeCheck = (value) => {
-	numberCheck(value)
 	if (value < config.minAttValue) {
 		throw new Error(`attribute must be greater than ${config.minAttValue}`)
 	}
@@ -22,9 +20,11 @@ const attributeCheck = (value) => {
 }
 
 const attributeArrCheck = (values) => {
-	arrayCheck(values)
 	if (values.length > config.maxAttArr) {
 		throw new Error(`attribute array cannot have more than ${config.maxAttArr}`)
+	}
+	if (values.length === 0) {
+		throw new Error('attribute cannot be empty')
 	}
 	for (const value of values) {
 		attributeCheck(value)
@@ -46,7 +46,6 @@ export const modifierCalculator = {
 	},
 	validate: (attribute, modifier) => {
 		attributeCheck(attribute)
-		numberCheck(modifier)
 		const shouldModifier = modifierCalculator.calculate(attribute)
 		return shouldModifier === modifier
 	},
@@ -57,7 +56,6 @@ export const modifierCalculator = {
 				'modifiers array must have same length as attributes array'
 			)
 		}
-		arrayCheck(modifiers)
 		const shouldModifiers = modifierCalculator.calculateMany(attributes)
 		for (let i = 0; i < modifiers.length; i++) {
 			if (shouldModifiers[i] !== modifiers[i]) {
@@ -70,7 +68,6 @@ export const modifierCalculator = {
 export const rollCalculator = {
 	validate: (attributes, expectSum = config.expectSum) => {
 		attributeArrCheck(attributes)
-		numberCheck(expectSum)
 		const modifiers = modifierCalculator.calculateMany(attributes)
 		const sum = modifiers.reduce(sumReduce, 0)
 		if (sum < expectSum) {
@@ -96,7 +93,6 @@ export const rollCalculator = {
 		return attributes
 	},
 	generateValid: (Dice, expectSum = config.expectSum) => {
-		numberCheck(expectSum)
 		if (expectSum > 24) {
 			throw new Error('expectSum cannot be greater than 24')
 		}
