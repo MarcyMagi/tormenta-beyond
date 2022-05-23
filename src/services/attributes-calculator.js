@@ -1,4 +1,4 @@
-import config from '../configs/attributes.config.js'
+import * as config from '../configs/attributes.config.js'
 import _ from 'lodash'
 
 const sumReduce = (prev, cur) => prev + cur
