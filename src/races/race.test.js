@@ -1,29 +1,21 @@
 import race from './race.js'
 describe('race factory', () => {
 	it('should return a valid race', () => {
-		const res = race({ for: 2 }, [], 'grande', 9)
+		const res = race({ for: 2 }, [], 'grande', 6)
 
-		expect(res).toEqual({
-			modifiers: {
-				for: 2,
-			},
-			abilities: [],
-			size: 'grande',
-			speed: 9,
-		})
+		expect(res.modifiers).toEqual({ for: 2 })
+		expect(res.abilities).toEqual([])
+		expect(res.size).toBe('grande')
+		expect(res.speed).toBe(6)
 	})
 
 	it('should return a valid race with less attributes', () => {
 		const res = race({ for: 2 }, [])
 
-		expect(res).toEqual({
-			modifiers: {
-				for: 2,
-			},
-			abilities: [],
-			size: 'médio',
-			speed: 9,
-		})
+		expect(res.modifiers).toEqual({ for: 2 })
+		expect(res.abilities).toEqual([])
+		expect(res.size).toBe('médio')
+		expect(res.speed).toBe(9)
 	})
 
 	it('should throw if given invalid attribute', () => {
