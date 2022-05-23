@@ -33,7 +33,7 @@ describe('attributeCalculator', () => {
 		describe('calculateMany', () => {
 			it('should return correctly', () => {
 				const res = modifierCalculator.calculateMany([10, 9, 10, 9, 10, 9])
-				expect(res).toStrictEqual([0, -1, 0, -1, 0, -1])
+				expect(res).toEqual([0, -1, 0, -1, 0, -1])
 			})
 			it('should throw if given not array', () => {
 				expect(() => {
@@ -115,7 +115,7 @@ describe('attributeCalculator', () => {
 				const res = rollCalculator.generate(fakeDice(values))
 				expect(res.attribute).toBe(18)
 				expect(res.modifier).toBe(4)
-				expect(res.rolls).toStrictEqual([5, 6, 6, 6])
+				expect(res.rolls).toEqual([5, 6, 6, 6])
 			})
 		})
 		describe('generateMany', () => {
@@ -132,27 +132,27 @@ describe('attributeCalculator', () => {
 				const res = rollCalculator.generateMany(fakeDice(values))
 				expect(res[0].attribute).toBe(18)
 				expect(res[0].modifier).toBe(4)
-				expect(res[0].rolls).toStrictEqual([5, 6, 6, 6])
+				expect(res[0].rolls).toEqual([5, 6, 6, 6])
 
 				expect(res[1].attribute).toBe(15)
 				expect(res[1].modifier).toBe(2)
-				expect(res[1].rolls).toStrictEqual([4, 5, 5, 5])
+				expect(res[1].rolls).toEqual([4, 5, 5, 5])
 
 				expect(res[2].attribute).toBe(12)
 				expect(res[2].modifier).toBe(1)
-				expect(res[2].rolls).toStrictEqual([3, 4, 4, 4])
+				expect(res[2].rolls).toEqual([3, 4, 4, 4])
 
 				expect(res[3].attribute).toBe(9)
 				expect(res[3].modifier).toBe(-1)
-				expect(res[3].rolls).toStrictEqual([2, 3, 3, 3])
+				expect(res[3].rolls).toEqual([2, 3, 3, 3])
 
 				expect(res[4].attribute).toBe(7)
 				expect(res[4].modifier).toBe(-2)
-				expect(res[4].rolls).toStrictEqual([1, 2, 2, 3])
+				expect(res[4].rolls).toEqual([1, 2, 2, 3])
 
 				expect(res[5].attribute).toBe(9)
 				expect(res[5].modifier).toBe(-1)
-				expect(res[5].rolls).toStrictEqual([1, 2, 2, 5])
+				expect(res[5].rolls).toEqual([1, 2, 2, 5])
 			})
 		})
 		describe('generateValid', () => {
@@ -170,27 +170,27 @@ describe('attributeCalculator', () => {
 				const res = rollCalculator.generateValid(fakeDice(values))
 				expect(res[0].attribute).toBe(10)
 				expect(res[0].modifier).toBe(0)
-				expect(res[0].rolls).toStrictEqual([2, 3, 3, 4])
+				expect(res[0].rolls).toEqual([2, 3, 3, 4])
 
 				expect(res[1].attribute).toBe(10)
 				expect(res[1].modifier).toBe(0)
-				expect(res[1].rolls).toStrictEqual([1, 3, 3, 4])
+				expect(res[1].rolls).toEqual([1, 3, 3, 4])
 
 				expect(res[2].attribute).toBe(10)
 				expect(res[2].modifier).toBe(0)
-				expect(res[2].rolls).toStrictEqual([1, 2, 3, 5])
+				expect(res[2].rolls).toEqual([1, 2, 3, 5])
 
 				expect(res[3].attribute).toBe(11)
 				expect(res[3].modifier).toBe(0)
-				expect(res[3].rolls).toStrictEqual([3, 3, 4, 4])
+				expect(res[3].rolls).toEqual([3, 3, 4, 4])
 
 				expect(res[4].attribute).toBe(15)
 				expect(res[4].modifier).toBe(2)
-				expect(res[4].rolls).toStrictEqual([4, 5, 5, 5])
+				expect(res[4].rolls).toEqual([4, 5, 5, 5])
 
 				expect(res[5].attribute).toBe(18)
 				expect(res[5].modifier).toBe(4)
-				expect(res[5].rolls).toStrictEqual([5, 6, 6, 6])
+				expect(res[5].rolls).toEqual([5, 6, 6, 6])
 			})
 			it('should return correctly needing a extra roll', () => {
 				diceIndex = 0
@@ -207,27 +207,27 @@ describe('attributeCalculator', () => {
 				const res = rollCalculator.generateValid(fakeDice(values))
 				expect(res[0].attribute).toBe(10)
 				expect(res[0].modifier).toBe(0)
-				expect(res[0].rolls).toStrictEqual([1, 3, 3, 4])
+				expect(res[0].rolls).toEqual([1, 3, 3, 4])
 
 				expect(res[1].attribute).toBe(10)
 				expect(res[1].modifier).toBe(0)
-				expect(res[1].rolls).toStrictEqual([1, 2, 3, 5])
+				expect(res[1].rolls).toEqual([1, 2, 3, 5])
 
 				expect(res[2].attribute).toBe(11)
 				expect(res[2].modifier).toBe(0)
-				expect(res[2].rolls).toStrictEqual([3, 3, 4, 4])
+				expect(res[2].rolls).toEqual([3, 3, 4, 4])
 
 				expect(res[3].attribute).toBe(12)
 				expect(res[3].modifier).toBe(1)
-				expect(res[3].rolls).toStrictEqual([1, 2, 5, 5])
+				expect(res[3].rolls).toEqual([1, 2, 5, 5])
 
 				expect(res[4].attribute).toBe(15)
 				expect(res[4].modifier).toBe(2)
-				expect(res[4].rolls).toStrictEqual([4, 5, 5, 5])
+				expect(res[4].rolls).toEqual([4, 5, 5, 5])
 
 				expect(res[5].attribute).toBe(17)
 				expect(res[5].modifier).toBe(3)
-				expect(res[5].rolls).toStrictEqual([5, 5, 6, 6])
+				expect(res[5].rolls).toEqual([5, 5, 6, 6])
 			})
 			it('should throw if given 25 as expectSum', () => {
 				diceIndex = 0
