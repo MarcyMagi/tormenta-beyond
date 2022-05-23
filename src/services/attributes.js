@@ -3,6 +3,7 @@ import {
 	rollCalculator,
 	pointCalculator,
 } from './attributes-calculator.js'
+import { defaultAttributes } from '../configs/sheet.config.js'
 import _ from 'lodash'
 
 const extractModifier = (attributes) => {
@@ -17,7 +18,7 @@ const extractModifier = (attributes) => {
 	}
 }
 const filter = (values) => {
-	return _.pick(values, ['for', 'des', 'con', 'int', 'sab', 'car'])
+	return _.pick(values, defaultAttributes)
 }
 
 const toArray = (values) => {
@@ -27,7 +28,7 @@ const toArray = (values) => {
 	}
 }
 
-const factory = (attributes) => {
+export default (attributes) => {
 	attributes = filter(attributes)
 	attributes.toArray = toArray(attributes)
 	attributes.validateRoll = (expectSum) => {
@@ -48,5 +49,3 @@ const factory = (attributes) => {
 
 	return Object.assign({}, { attributes, modifiers })
 }
-
-export default factory
