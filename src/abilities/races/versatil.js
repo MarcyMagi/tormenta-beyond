@@ -1,5 +1,5 @@
-import { defaultSkills, defaultPower } from '../configs/sheet.config.js'
-import abilityFactory from './ability.factory.js'
+import { defaultSkills, defaultPower } from '../../configs/sheet.config.js'
+import abilityFactory from '../ability.factory.js'
 
 const name = 'versátil'
 

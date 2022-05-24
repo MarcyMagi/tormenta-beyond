@@ -1,5 +1,5 @@
 import raceFactory from './race.js'
-import versatil from '../abilities/versatil.js'
+import versatil from '../abilities/races/versatil.js'
 
 const validateAttributes = (attributes) => {
 	if (attributes.length !== 3) {
