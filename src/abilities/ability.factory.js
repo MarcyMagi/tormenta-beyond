@@ -26,8 +26,7 @@ export default (name, funcs = {}, meta) => {
 	let abilityObj = {
 		meta,
 		name: name.toLowerCase(),
-		applyInSkill: funcs.applyInSkill,
-		applyInPower: funcs.applyInPower,
+		setOnSheet: funcs.setOnSheet,
 	}
 
 	validateFuncs(abilityObj)
