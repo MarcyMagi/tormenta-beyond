@@ -1,5 +1,5 @@
 import { defaultSkills, defaultPower } from '../configs/sheet.config.js'
-import ability from './ability.js'
+import abilityFactory from './ability.factory.js'
 
 const name = 'versátil'
 
@@ -29,21 +29,26 @@ export default (skill1th, type2th, value2th) => {
 			throw new Error('ability versatil error: invalid second argument')
 	}
 
+	let meta = {}
+
 	for (let skill of skills) {
 		validateSkill(skill)
 	}
-	const applyInSkill = (sheet) => {}
 
-	let applyInPower
+	meta.skills = skills
+
 	if (power) {
 		validatePower(power)
-		applyInPower = (sheet) => {}
+		meta.power = power
+	}
+	const setOnSheet = (sheet) => {
+		for (let skill of skills) {
+			sheet.skills[skill].trained = true
+		}
+		if (power) {
+			sheet.powers.push(power)
+		}
 	}
 
-	const meta = {
-		skills,
-		power,
-	}
-
-	return Object.assign({}, ability(name, { applyInSkill, applyInPower }, meta))
+	return Object.assign({}, abilityFactory(name, { setOnSheet }, meta))
 }
