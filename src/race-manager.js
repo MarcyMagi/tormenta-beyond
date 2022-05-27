@@ -1,5 +1,5 @@
-import humano from './humano'
-import factory from './race.factory'
+import humano from './data/races/humano'
+import factory from './factory/race'
 
 export default (race, values) => {
 	if (race === 'humano') {

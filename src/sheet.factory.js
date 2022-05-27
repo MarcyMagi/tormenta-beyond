@@ -1,4 +1,4 @@
-import raceManager from './races/manager'
+import raceManager from './race-manager'
 export default (config) => {
 	const baseAttributes = config.attributes
 	const baseRace = config.race

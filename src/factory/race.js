@@ -1,5 +1,5 @@
-import basic from './composition/basic.js'
-import customModifiers from './composition/custom-modifiers.js'
+import basic from './races/basic'
+import customModifiers from './races/custom-modifiers'
 export default (state, values) => {
 	return Object.assign(
 		{},
