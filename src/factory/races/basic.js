@@ -1,7 +1,6 @@
 export default (state) => {
 	const name = state.name
 	const description = state.description
-
 	if (!state.modifiers) {
 		state.modifiers = {}
 	}
@@ -13,6 +12,7 @@ export default (state) => {
 		sab: state.modifiers.sab ? state.modifiers.sab : 0,
 		car: state.modifiers.car ? state.modifiers.car : 0,
 	}
-	const type = 'ability'
-	return Object.assign({}, { name, description, modifiers, type })
+	const abilities = state.abilities
+	const type = 'race'
+	return Object.assign({}, { name, description, modifiers, abilities, type })
 }
