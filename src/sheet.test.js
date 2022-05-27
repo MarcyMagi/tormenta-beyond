@@ -12,8 +12,14 @@ describe('sheet', () => {
 			},
 			race: {
 				name: 'humano',
-				config: {
+				meta: {
 					customModifiers: ['for', 'des', 'con'],
+				},
+			},
+			abilities: {
+				versátil: {
+					skills: ['acrobacia'],
+					power: 'esquiva',
 				},
 			},
 		}
@@ -40,7 +46,6 @@ describe('sheet', () => {
 		expect(tSkills['acrobacia'].trained).toBe(true)
 
 		const tPowers = newSheet.powers
-		expect(tPowers[0].name).toBe('esquiva')
-		expect(tPowers[0].description).toBe('existo')
+		expect(tPowers[0]).toBe('esquiva')
 	})
 })
