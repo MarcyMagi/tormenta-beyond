@@ -4,6 +4,7 @@ export default (state) => {
 	if (!state.modifiers) {
 		state.modifiers = {}
 	}
+	const type = 'race'
 	const modifiers = {
 		for: state.modifiers.for ? state.modifiers.for : 0,
 		des: state.modifiers.des ? state.modifiers.des : 0,
@@ -12,7 +13,17 @@ export default (state) => {
 		sab: state.modifiers.sab ? state.modifiers.sab : 0,
 		car: state.modifiers.car ? state.modifiers.car : 0,
 	}
-	const abilities = state.abilities
-	const type = 'race'
+
+	let abilities = state.abilities
+
+	for (let i in abilities) {
+		const abilityName = abilities[i]
+		abilities[i] = {}
+		abilities[i].name = abilityName
+		abilities[i].origin = {
+			type: type,
+			value: name,
+		}
+	}
 	return Object.assign({}, { name, description, modifiers, abilities, type })
 }
