@@ -1,9 +1,9 @@
 import basic from './races/basic'
 import customModifiers from './races/custom-modifiers'
-export default (state, values) => {
+export default (state, meta) => {
 	return Object.assign(
 		{},
 		basic(state),
-		customModifiers(state, values.customModifiers)
+		customModifiers(state, meta.customModifiers)
 	)
 }
