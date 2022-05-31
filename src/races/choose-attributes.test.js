@@ -62,7 +62,7 @@ describe('race choose attributes', () => {
 					value: 4,
 				},
 			})
-			console.log(attributesFunc('wei'))
-		}).toThrow('choose attributes error: invalid attribute')
+			attributesFunc('wei')
+		}).toThrow("attribute error: invalid 'wei' attribute")
 	})
 })

@@ -16,26 +16,29 @@ describe('attributes test', () => {
 		expect(attributes.sab).toBe(14)
 		expect(attributes.car).toBe(15)
 	})
-	it('should ignore fake attribute', () => {
-		const attributes = attributesFactory({
-			for: 10,
-			des: 11,
-			con: 12,
-			int: 13,
-			sab: 14,
-			car: 15,
-			wei: 16,
-		})
-		expect(attributes.wei).toBeUndefined()
-	})
-	it('should throw without the car and for attribute', () => {
+	it('should to throw given fake attribute', () => {
 		expect(() => {
 			attributesFactory({
+				for: 10,
 				des: 11,
 				con: 12,
 				int: 13,
 				sab: 14,
+				car: 15,
+				wei: 16,
 			})
-		}).toThrow(`attribute validate error: attribute [for, car] must be integer`)
+		}).toThrow("attribute error: invalid 'wei' attribute")
+	})
+	it('should throw given NaN as attribute', () => {
+		expect(() => {
+			attributesFactory({
+				for: '10',
+				des: 11,
+				con: 12,
+				int: 13,
+				sab: 14,
+				car: '15',
+			})
+		}).toThrow("attribute error: attribute 'for' must be integer")
 	})
 })

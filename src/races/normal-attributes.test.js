@@ -15,26 +15,27 @@ describe('race normal attributes test', () => {
 		expect(raceAttributes.attributes.sab).toBe(0)
 		expect(raceAttributes.attributes.car).toBe(0)
 	})
-	it('should ignore weird value', () => {
-		const raceAttributes = normalAttribtes({
-			attributes: {
-				for: 4,
-				des: 2,
-				con: -2,
-				wei: 12,
-			},
-		})
-		expect(raceAttributes.wei).toBeUndefined()
-	})
-	it('should throw if given NaN', () => {
+	it('should to throw given fake attribute', () => {
 		expect(() => {
-			const raceAttributes = normalAttribtes({
+			normalAttribtes({
+				attributes: {
+					for: 4,
+					des: 2,
+					con: -2,
+					wei: 16,
+				},
+			})
+		}).toThrow("attribute error: invalid 'wei' attribute")
+	})
+	it('should throw given NaN as attribute', () => {
+		expect(() => {
+			normalAttribtes({
 				attributes: {
 					for: 4,
 					des: 2,
 					con: 'c',
 				},
 			})
-		}).toThrow('attribute validate error: attribute [con] must be integer')
+		}).toThrow("attribute error: attribute 'con' must be integer")
 	})
 })
