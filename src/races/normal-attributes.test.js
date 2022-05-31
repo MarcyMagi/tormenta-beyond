@@ -8,12 +8,12 @@ describe('race normal attributes test', () => {
 				con: -2,
 			},
 		})
-		expect(raceAttributes.attributes.for).toBe(4)
-		expect(raceAttributes.attributes.des).toBe(2)
-		expect(raceAttributes.attributes.con).toBe(-2)
-		expect(raceAttributes.attributes.int).toBe(0)
-		expect(raceAttributes.attributes.sab).toBe(0)
-		expect(raceAttributes.attributes.car).toBe(0)
+		expect(raceAttributes.for).toBe(4)
+		expect(raceAttributes.des).toBe(2)
+		expect(raceAttributes.con).toBe(-2)
+		expect(raceAttributes.int).toBe(0)
+		expect(raceAttributes.sab).toBe(0)
+		expect(raceAttributes.car).toBe(0)
 	})
 	it('should to throw given fake attribute', () => {
 		expect(() => {
