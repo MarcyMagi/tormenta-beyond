@@ -1,6 +1,6 @@
 import modifiersFactory from './modifiers.factory.js'
 describe('modifiers test', () => {
-	it('should create valid modifiers', () => {
+	it('should create valid', () => {
 		const modifiers = modifiersFactory({
 			for: 10,
 			des: 9,

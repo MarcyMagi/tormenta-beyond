@@ -1,20 +1,20 @@
 import skillFactory from './skill.factory'
 describe('skill test', () => {
-	it('should create valid skill with armor penalty', () => {
+	it('should create valid with armor penalty', () => {
 		const skill = skillFactory('acrobacia', 'des', { armorPenalty: true })
 		expect(skill.name).toBe('acrobacia')
 		expect(skill.attribute).toBe('des')
 		expect(skill.armorPenalty).toBe(true)
 		expect(skill.onlyTrained).toBe(false)
 	})
-	it('should create valid skill with armor penalty', () => {
+	it('should create valid with armor penalty', () => {
 		const skill = skillFactory('adestramento', 'car', { onlyTrained: true })
 		expect(skill.name).toBe('adestramento')
 		expect(skill.attribute).toBe('car')
 		expect(skill.armorPenalty).toBe(false)
 		expect(skill.onlyTrained).toBe(true)
 	})
-	it('should create valid skill without restrictions', () => {
+	it('should create valid without restrictions', () => {
 		const skill = skillFactory('atletismo', 'for')
 		expect(skill.name).toBe('atletismo')
 		expect(skill.attribute).toBe('for')
