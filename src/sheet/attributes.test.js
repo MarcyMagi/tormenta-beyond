@@ -1,6 +1,6 @@
 import attributesFactory from './attributes.factory'
 describe('attributes test', () => {
-	it('should create valid attributes', () => {
+	it('should create valid', () => {
 		const attributes = attributesFactory({
 			for: 10,
 			des: 11,
