@@ -1,4 +1,4 @@
-import { defaultAttributes } from '../config/sheet-defaults'
+import attributesFactory from '../sheet/attributes.factory'
 export default (state) => {
 	const attributesConfig = state.attributes
 	const func = (...args) => {
@@ -7,20 +7,11 @@ export default (state) => {
 				`choose attributes error: function must recieve exactly ${attributesConfig.quantity} args`
 			)
 		}
-		let attributes = {
-			for: 0,
-			des: 0,
-			con: 0,
-			int: 0,
-			sab: 0,
-			car: 0,
-		}
+		let attributes = {}
 		for (const arg of args) {
-			if (!defaultAttributes.includes(arg)) {
-				throw new Error('choose attributes error: invalid attribute')
-			}
 			attributes[arg] = attributesConfig.value
 		}
+		attributes = attributesFactory(attributes)
 
 		return Object.assign({}, attributes)
 	}
