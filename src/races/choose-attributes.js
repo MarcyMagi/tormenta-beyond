@@ -1,6 +1,6 @@
 import attributesFactory from '../sheet/attributes.factory'
 export default (state) => {
-	const attributesConfig = state.attributes
+	const attributesConfig = state.attributesConfig
 	const func = (...args) => {
 		if (attributesConfig.quantity !== args.length) {
 			throw new Error(

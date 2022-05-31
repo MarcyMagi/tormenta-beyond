@@ -2,7 +2,7 @@ import chooseAttributes from './choose-attributes'
 describe('race choose attributes', () => {
 	it('should create valid given for, des and con', () => {
 		const attributesFunc = chooseAttributes({
-			attributes: {
+			attributesConfig: {
 				quantity: 3,
 				value: 2,
 			},
@@ -18,7 +18,7 @@ describe('race choose attributes', () => {
 	})
 	it('should create valid given des and car', () => {
 		const attributesFunc = chooseAttributes({
-			attributes: {
+			attributesConfig: {
 				quantity: 2,
 				value: 4,
 			},
@@ -35,7 +35,7 @@ describe('race choose attributes', () => {
 	it('should throw if given more args then needed', () => {
 		expect(() => {
 			const attributesFunc = chooseAttributes({
-				attributes: {
+				attributesConfig: {
 					quantity: 2,
 					value: 4,
 				},
@@ -46,7 +46,7 @@ describe('race choose attributes', () => {
 	it('shour throw if given less args then needed', () => {
 		expect(() => {
 			const attributesFunc = chooseAttributes({
-				attributes: {
+				attributesConfig: {
 					quantity: 3,
 					value: 4,
 				},
@@ -57,7 +57,7 @@ describe('race choose attributes', () => {
 	it('should throw if given weird attribute', () => {
 		expect(() => {
 			const attributesFunc = chooseAttributes({
-				attributes: {
+				attributesConfig: {
 					quantity: 1,
 					value: 4,
 				},
