@@ -32,6 +32,51 @@ describe('race choose attributes', () => {
 		expect(attributes.sab).toBe(0)
 		expect(attributes.car).toBe(4)
 	})
+	it('should create valid given fix attribute', () => {
+		const attributeFunc = chooseAttributes({
+			attributesConfig: {
+				quantity: 3,
+				value: 2,
+				fix: {
+					car: -2,
+				},
+			},
+		})
+		const attributes = attributeFunc('for', 'des', 'con')
+		expect(attributes.for).toBe(2)
+		expect(attributes.des).toBe(2)
+		expect(attributes.con).toBe(2)
+		expect(attributes.int).toBe(0)
+		expect(attributes.sab).toBe(0)
+		expect(attributes.car).toBe(-2)
+	})
+	it('should throw if given weird attribute on fix', () => {
+		expect(() => {
+			chooseAttributes({
+				attributesConfig: {
+					quantity: 3,
+					value: 2,
+					fix: {
+						wei: -2,
+					},
+				},
+			})
+		}).toThrow("attribute error: invalid 'wei' attribute")
+	})
+	it('should throw when given fix attribute as arg', () => {
+		const attributeFunc = chooseAttributes({
+			attributesConfig: {
+				quantity: 3,
+				value: 2,
+				fix: {
+					car: -2,
+				},
+			},
+		})
+		expect(() => {
+			attributeFunc('for', 'des', 'car')
+		}).toThrow("choose attributes error: attribute 'car' is fixed")
+	})
 	it('should throw if given more args then needed', () => {
 		expect(() => {
 			const attributesFunc = chooseAttributes({
@@ -41,7 +86,9 @@ describe('race choose attributes', () => {
 				},
 			})
 			attributesFunc('for', 'des', 'con')
-		}).toThrow('choose attributes error: function must recieve exactly 2 args')
+		}).toThrow(
+			"choose attributes error: function must recieve exactly '2' args"
+		)
 	})
 	it('shour throw if given less args then needed', () => {
 		expect(() => {
@@ -52,7 +99,9 @@ describe('race choose attributes', () => {
 				},
 			})
 			attributesFunc('for')
-		}).toThrow('choose attributes error: function must recieve exactly 3 args')
+		}).toThrow(
+			"choose attributes error: function must recieve exactly '3' args"
+		)
 	})
 	it('should throw if given weird attribute', () => {
 		expect(() => {
