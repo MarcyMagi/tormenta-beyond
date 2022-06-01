@@ -12,4 +12,4 @@ for await (const file of racesFiles) {
 	races[raw.name] = factory(raw)
 }
 
-export default { races }
+export default races
