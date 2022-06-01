@@ -36,6 +36,6 @@ describe('race normal attributes test', () => {
 					con: 'c',
 				},
 			})
-		}).toThrow("attribute error: attribute 'con' must be integer")
+		}).toThrow("attribute error: 'con' should be number")
 	})
 })

@@ -39,6 +39,6 @@ describe('attributes test', () => {
 				sab: 14,
 				car: '15',
 			})
-		}).toThrow("attribute error: attribute 'for' must be integer")
+		}).toThrow("attribute error: 'for' should be number")
 	})
 })

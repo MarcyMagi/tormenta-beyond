@@ -38,6 +38,6 @@ describe('modifiers test', () => {
 				int: 13,
 				sab: 14,
 			})
-		}).toThrow("attribute error: attribute 'for' must be integer")
+		}).toThrow("attribute error: 'for' should be number")
 	})
 })
