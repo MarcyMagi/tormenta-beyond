@@ -1,9 +1,9 @@
 export default {
 	name: 'humano',
-	description: "hi, i'm a human",
+	description: "hi, i'm a humano",
 	abilities: ['versátil'],
 	attributesConfig: {
-		max: 3,
+		quantity: 3,
 		value: 2,
 	},
 }

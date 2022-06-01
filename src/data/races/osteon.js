@@ -8,7 +8,7 @@ export default {
 		'preço da não vida',
 	],
 	attributesConfig: {
-		max: 3,
+		quantity: 3,
 		value: 2,
 		fix: {
 			con: -2,

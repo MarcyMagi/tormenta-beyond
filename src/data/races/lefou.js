@@ -3,7 +3,7 @@ export default {
 	description: "hi, i'm a lefou",
 	abilities: ['cria da tormenta', 'deformidade'],
 	attributesConfig: {
-		max: 3,
+		quantity: 3,
 		value: 2,
 		fix: {
 			car: -2,

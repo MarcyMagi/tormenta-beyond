@@ -7,7 +7,7 @@ export default {
 		'transformação anfíbia',
 	],
 	attributesConfig: {
-		max: 3,
+		quantity: 3,
 		value: 2,
 	},
 }

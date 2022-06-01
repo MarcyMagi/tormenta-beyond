@@ -5,7 +5,7 @@ export default {
 		'conhecimento das rochas',
 		'devagar e sempre',
 		'duro como pedra',
-		'tradição de heradrimm',
+		'tradição de heredrimm',
 	],
 	attributes: {
 		des: -2,

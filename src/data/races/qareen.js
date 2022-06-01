@@ -1,6 +1,6 @@
 export default {
-	name: 'quareen',
-	description: "hi, i'm a quareen",
+	name: 'qareen',
+	description: "hi, i'm a qareen",
 	abilities: ['desejos', 'resistência elemental', 'tatuagem mística'],
 	attributes: {
 		int: 2,
