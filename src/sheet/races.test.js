@@ -1,5 +1,5 @@
-import manager from './manager'
-describe('race manager', () => {
+import manager from './races'
+describe('race manager test', () => {
 	const races = manager
 	it('should get valid humano race', () => {
 		const race = races['humano']

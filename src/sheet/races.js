@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import factory from './factory'
+import factory from '../races/factory'
 
 let races = {}
 
