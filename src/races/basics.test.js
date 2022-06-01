@@ -10,8 +10,8 @@ describe('race basics', () => {
 		})
 		expect(basics.name).toBe('humano')
 		expect(basics.description).toBe('o povo mais numeroso de arton')
-		expect(basics.size).toBe('médio')
-		expect(basics.speed).toBe(9)
+		expect(basics.size).toBe('grande')
+		expect(basics.speed).toBe(12)
 	})
 	it('should ignore weird value', () => {
 		const basics = raceBasics({
@@ -21,9 +21,45 @@ describe('race basics', () => {
 		})
 		expect(basics.weird).toBeUndefined()
 	})
-	it('should throw given empty name', () => {
+	it('should throw if given not string as name', () => {
 		expect(() => {
-			raceBasics({ name: '' })
-		}).toThrow('race basics error: name cannot be empty string')
+			raceBasics({ name: 1 })
+		}).toThrow()
+	})
+	it('should throw if given not string as description', () => {
+		expect(() => {
+			raceBasics({ name: 'c', description: 3 })
+		}).toThrow()
+	})
+	it('should throw if given not array as abilities', () => {
+		expect(() => {
+			raceBasics({ name: 'name', description: 'description', abilities: 1 })
+		}).toThrow()
+	})
+	it('should throw if given not string as element in abilities', () => {
+		expect(() => {
+			raceBasics({ name: 'name', description: 'description', abilities: [1] })
+		}).toThrow()
+	})
+	it('should throw if given invalid size', () => {
+		expect(() => {
+			raceBasics({
+				name: 'name',
+				description: 'description',
+				abilities: [],
+				size: 'big',
+			})
+		}).toThrow()
+	})
+	it('should throw if given invalid speed', () => {
+		expect(() => {
+			raceBasics({
+				name: 'name',
+				description: 'description',
+				abilities: [],
+				size: 'grande',
+				speed: 'a',
+			})
+		}).toThrow()
 	})
 })
