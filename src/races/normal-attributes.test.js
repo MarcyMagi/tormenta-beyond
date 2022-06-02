@@ -27,7 +27,7 @@ describe('race normal attributes test', () => {
 			})
 		}).toThrow("attribute error: invalid 'wei' attribute")
 	})
-	it('should throw given NaN as attribute', () => {
+	it('should throw given not number attribute', () => {
 		expect(() => {
 			normalAttribtes({
 				attributes: {
