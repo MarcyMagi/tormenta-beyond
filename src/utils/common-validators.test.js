@@ -51,4 +51,11 @@ describe('custom validators test', () => {
 			}).toThrow('test error: value[0] should be string')
 		})
 	})
+	describe('argsLength', () => {
+		it('should throw given wrong values', () => {
+			expect(() => {
+				validator.argsLength(2, ['1'], 'value', 'test error')
+			}).toThrow("test error: value must recieve exactly '2' args")
+		})
+	})
 })

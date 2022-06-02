@@ -29,3 +29,10 @@ export const stringArrayValitador = (arr, key, errPrefix) => {
 		stringValidator(arr[i], `${key}[${i}]`, errPrefix)
 	}
 }
+export const argsLength = (quantity, args, key, errPrefix) => {
+	if (quantity !== args.length) {
+		throw new Error(
+			`${errPrefix}: ${key} must recieve exactly '${quantity}' args`
+		)
+	}
+}
