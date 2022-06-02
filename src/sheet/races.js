@@ -1,15 +1,12 @@
-import fs from 'fs'
-import path from 'path'
+import extractFolder from '../utils/extract-folder'
 import factory from '../races/factory'
 
 let races = {}
+const configs = await extractFolder('./src/data/races')
 
-const racesFolder = path.resolve('./src/data/races')
-const racesFiles = fs.readdirSync(racesFolder)
-for await (const file of racesFiles) {
-	const mod = await import(racesFolder + '/' + file)
-	const raw = mod.default
-	races[raw.name] = factory(raw)
+for (const key of Object.keys(configs)) {
+	const obj = factory(configs[key])
+	races[obj.name] = obj
 }
 
 export default races
