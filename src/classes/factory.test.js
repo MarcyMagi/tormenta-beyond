@@ -1,0 +1,29 @@
+import raceFactory from './factory'
+describe('race factory test', () => {
+	it('should create valid', () => {
+		const race = raceFactory({
+			name: 'arcanista',
+			description: "hi, i'm a arcanista",
+			pv: {
+				lvl1: 8,
+				lvlup: 2,
+			},
+			pm: 6,
+			skills: {
+				fix: ['misticismo', 'vontade'],
+				quantity: 1,
+				choose: ['conhecimento', 'iniciativa', 'ofício', 'percepção'],
+			},
+			proficiencies: [],
+		})
+		expect(race.name).toBe('arcanista')
+		expect(race.description).toBe("hi, i'm a arcanista")
+		expect(race.pv.lvl1).toBe(8)
+		expect(race.pv.lvlup).toBe(2)
+		expect(race.pm).toBe(6)
+		expect(typeof race.skills).toBe('function')
+		expect(race.proficiencies).toEqual([])
+		race.skills = race.skills('conhecimento')
+		expect(race.skills).toEqual(['misticismo', 'vontade', 'conhecimento'])
+	})
+})
