@@ -1,0 +1,36 @@
+export default {
+	name: 'lutador',
+	description: "hi, i'm a lutador",
+	pv: {
+		lvl1: 20,
+		lvlup: 5,
+	},
+	pm: 3,
+	skills: {
+		fix: ['fortitude', 'luta'],
+		quantity: 4,
+		choose: [
+			'acrobacia',
+			'adestramento',
+			'atletismo',
+			'enganação',
+			'furtividade',
+			'iniciativa',
+			'intimidação',
+			'ofício',
+			'percepção',
+			'pontaria',
+			'reflexos',
+		],
+	},
+	proficiencies: [],
+	abilities: [
+		'briga',
+		'golpe relâmpago',
+		'poder de lutador',
+		'casca grossa',
+		'golpe cruel',
+		'golpe violento',
+		'dono da rua',
+	],
+}

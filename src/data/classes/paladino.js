@@ -1,0 +1,38 @@
+export default {
+	name: 'paladino',
+	description: "hi, i'm a paladino",
+	pv: {
+		lvl1: 20,
+		lvlup: 5,
+	},
+	pm: 3,
+	skills: {
+		fix: ['luta', 'vontade'],
+		quantity: 2,
+		choose: [
+			'adestramento',
+			'atletismo',
+			'cavalgar',
+			'cura',
+			'diplomacia',
+			'fortitude',
+			'guerra',
+			'iniciativa',
+			'intimidação',
+			'nobreza',
+			'percepção',
+			'religião',
+		],
+	},
+	proficiencies: ['armas marciais', 'armaduras pesadas', 'escudos'],
+	abilities: [
+		'abençoado',
+		'código do herói',
+		'golpe divino',
+		'cura pelas mãos',
+		'poder de paladino',
+		'aura sagrada',
+		'benção da justiça',
+		'vingador sagrado',
+	],
+}

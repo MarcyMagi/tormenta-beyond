@@ -1,0 +1,43 @@
+export default {
+	name: 'bucaneiro',
+	description: "hi, i'm a bucaneiro",
+	pv: {
+		lvl1: 16,
+		lvlup: 4,
+	},
+	pm: 3,
+	skills: {
+		fixConfig: {
+			between: ['luta', 'pontaria'],
+			fix: ['reflexos'],
+		},
+		quantity: 4,
+		choose: [
+			'acrobacia',
+			'atletismo',
+			'atuação',
+			'enganação',
+			'fortitude',
+			'furtividade',
+			'iniciativa',
+			'intimidação',
+			'jogatina',
+			'luta',
+			'ofício',
+			'percepção',
+			'pilotagem',
+			'pontaria',
+		],
+	},
+	proficiencies: ['armas marciais'],
+	abilities: [
+		'audácia',
+		'insolência',
+		'evasão',
+		'poder de bucaneiro',
+		'esquiva sagaz',
+		'panache',
+		'evasão aprimorada',
+		'sorte de nimb',
+	],
+}
