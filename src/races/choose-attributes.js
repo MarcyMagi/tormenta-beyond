@@ -1,24 +1,27 @@
 import attributesFactory from '../sheet/attributes.factory'
+import * as validator from '../utils/common-validators'
+const errPrefix = 'choose attributes error'
 export default (state) => {
-	const attributesConfig = state.attributesConfig
-	const fix = attributesFactory(attributesConfig.fix)
+	const quantity = state.attributesConfig.quantity
+	const value = state.attributesConfig.value
+	const fix = attributesFactory(state.attributesConfig.fix)
+
+	validator.intValidator(quantity, 'quantity', errPrefix)
+	validator.intValidator(value, 'value', errPrefix)
+
 	for (const key of Object.keys(fix)) {
 		if (fix[key] === 0) {
 			delete fix[key]
 		}
 	}
 	const func = (...args) => {
-		if (attributesConfig.quantity !== args.length) {
-			throw new Error(
-				`choose attributes error: function must recieve exactly '${attributesConfig.quantity}' args`
-			)
-		}
+		validator.argsLength(quantity, args, 'function', errPrefix)
 		let attributes = {}
 		for (const arg of args) {
 			if (fix[arg]) {
-				throw new Error(`choose attributes error: attribute '${arg}' is fixed`)
+				throw new Error(`${errPrefix}: attribute '${arg}' is fixed`)
 			}
-			attributes[arg] = attributesConfig.value
+			attributes[arg] = value
 		}
 		attributes = Object.assign(attributes, fix)
 		attributes = attributesFactory(attributes)

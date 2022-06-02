@@ -114,4 +114,44 @@ describe('race choose attributes', () => {
 			attributesFunc('wei')
 		}).toThrow("attribute error: invalid 'wei' attribute")
 	})
+	it('should throw if given not number quantity', () => {
+		expect(() => {
+			chooseAttributes({
+				attributesConfig: {
+					quantity: 'c',
+					value: 4,
+				},
+			})
+		}).toThrow()
+	})
+	it('should throw if given not int quantity', () => {
+		expect(() => {
+			chooseAttributes({
+				attributesConfig: {
+					quantity: 1.2,
+					value: 4,
+				},
+			})
+		}).toThrow()
+	})
+	it('should throw if given not number value', () => {
+		expect(() => {
+			chooseAttributes({
+				attributesConfig: {
+					quantity: 1,
+					value: 'c',
+				},
+			})
+		}).toThrow()
+	})
+	it('should throw if given not int value', () => {
+		expect(() => {
+			chooseAttributes({
+				attributesConfig: {
+					quantity: 1,
+					value: 4.2,
+				},
+			})
+		}).toThrow()
+	})
 })
