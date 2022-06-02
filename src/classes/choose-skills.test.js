@@ -30,6 +30,35 @@ describe('class choose skills test', () => {
 			'ofício',
 		])
 	})
+	it('should create valid with between fix values', () => {
+		const skillsFunc = chooseSkills({
+			skills: {
+				fixConfig: {
+					between: ['luta', 'pontaria'],
+					fix: ['vontade'],
+				},
+				quantity: 1,
+				choose: ['conhecimento'],
+			},
+		})
+		const skills = skillsFunc('luta', 'conhecimento')
+		expect(skills).toEqual(['luta', 'vontade', 'conhecimento'])
+	})
+	it('should create valid with between fix values', () => {
+		const skillsFunc = chooseSkills({
+			skills: {
+				fixConfig: {
+					between: ['luta', 'pontaria'],
+					fix: ['vontade'],
+				},
+				quantity: 1,
+				choose: ['luta', 'pontaria'],
+			},
+		})
+		expect(() => {
+			skillsFunc('luta', 'luta')
+		}).toThrow('choose skills error: duplicate skill')
+	})
 	it('should throw choosen less skills', () => {
 		expect(() => {
 			const skillsFunc = chooseSkills({
@@ -40,7 +69,7 @@ describe('class choose skills test', () => {
 				},
 			})
 			skillsFunc('conhecimento')
-		}).toThrow()
+		}).toThrow("choose skills error: function must recieve exactly '3' args")
 	})
 	it('should throw choosen more skills', () => {
 		expect(() => {
@@ -52,7 +81,7 @@ describe('class choose skills test', () => {
 				},
 			})
 			skillsFunc('conhecimento', 'iniciativa')
-		}).toThrow()
+		}).toThrow("choose skills error: function must recieve exactly '1' args")
 	})
 	it('should throw choosen invalid skill', () => {
 		expect(() => {
@@ -64,7 +93,7 @@ describe('class choose skills test', () => {
 				},
 			})
 			skillsFunc('misticismo')
-		}).toThrow()
+		}).toThrow('choose skills error: invalid choose skill')
 	})
 	it('should throw choosen same skill', () => {
 		expect(() => {
@@ -76,7 +105,7 @@ describe('class choose skills test', () => {
 				},
 			})
 			skillsFunc('conhecimento', 'conhecimento')
-		}).toThrow()
+		}).toThrow('choose skills error: duplicate skill')
 	})
 	it('should throw given invalid fix', () => {
 		expect(() => {
@@ -87,7 +116,7 @@ describe('class choose skills test', () => {
 					choose: ['conhecimento', 'inciativa', 'ofício', 'percepção'],
 				},
 			})
-		}).toThrow()
+		}).toThrow('choose skills error: fix[0] should be string')
 	})
 	it('should throw given invalid quantity', () => {
 		expect(() => {
@@ -98,7 +127,7 @@ describe('class choose skills test', () => {
 					choose: ['conhecimento', 'inciativa', 'ofício', 'percepção'],
 				},
 			})
-		}).toThrow()
+		}).toThrow('choose skills error: quantity should be number')
 	})
 	it('should throw given invalid choose', () => {
 		expect(() => {
@@ -109,6 +138,6 @@ describe('class choose skills test', () => {
 					choose: [1, 'inciativa', 'ofício', 'percepção'],
 				},
 			})
-		}).toThrow()
+		}).toThrow('choose skills error: choose[0] should be string')
 	})
 })
