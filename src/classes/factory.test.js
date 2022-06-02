@@ -15,6 +15,12 @@ describe('race factory test', () => {
 				choose: ['conhecimento', 'iniciativa', 'ofício', 'percepção'],
 			},
 			proficiencies: [],
+			abilities: [
+				'caminho do arcanista',
+				'magias',
+				'poder de arcanista',
+				'alto arcana',
+			],
 		})
 		expect(race.name).toBe('arcanista')
 		expect(race.description).toBe("hi, i'm a arcanista")
@@ -23,6 +29,12 @@ describe('race factory test', () => {
 		expect(race.pm).toBe(6)
 		expect(typeof race.skills).toBe('function')
 		expect(race.proficiencies).toEqual([])
+		expect(race.abilities).toEqual([
+			'caminho do arcanista',
+			'magias',
+			'poder de arcanista',
+			'alto arcana',
+		])
 		race.skills = race.skills('conhecimento')
 		expect(race.skills).toEqual(['misticismo', 'vontade', 'conhecimento'])
 	})
