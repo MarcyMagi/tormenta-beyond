@@ -1,6 +1,6 @@
 export default {
-	name: 'hyenne',
-	description: "hi, i'm a hyenne",
+	name: 'hynne',
+	description: "hi, i'm a hynne",
 	abilities: ['arremessador', 'pequeno e rechonchudo', 'sorte salvadora'],
 	attributes: {
 		for: -2,
