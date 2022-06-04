@@ -1,42 +1,35 @@
 import * as validator from '../utils/common-validators'
-import betweenSkills from './between-skills'
+import chooseFix from './choose-fix'
+import chooseSetup from '../utils/choose-setup'
 const errPrefix = 'choose skills error'
-export default (state) => {
-	const quantity = state.skills.quantity
-	const choose = state.skills.choose
+export default (skills) => {
+	const quantity = skills.quantity
+	const choose = skills.choose
 
 	validator.intValidator(quantity, 'quantity', errPrefix)
 	validator.stringArrayValitador(choose, 'choose', errPrefix)
 
 	let fix
 
-	if (state.skills.fixConfig) {
-		console.log(state.name)
-		const fixConfig = state.skills.fixConfig
-		fix = betweenSkills(fixConfig)
+	if (skills.fixConfig) {
+		fix = chooseFix(skills.fixConfig)
 	} else {
-		fix = state.skills.fix
+		fix = skills.fix
 		validator.stringArrayValitador(fix, 'fix', errPrefix)
 	}
 
-	const func = (...args) => {
+	return (...args) => {
 		if (typeof fix === 'function') {
-			fix = fix(args[0])
-			args.shift()
+			const fixArg = args.shift()
+			fix = fix(fixArg)
 		}
-
-		validator.argsLength(quantity, args, 'function', errPrefix)
-		let skills = [...fix]
-		for (const arg of args) {
-			if (!choose.includes(arg)) {
-				throw new Error(`${errPrefix}: invalid choose skill`)
-			}
-			if (skills.includes(arg)) {
-				throw new Error(`${errPrefix}: duplicate skill`)
-			}
-			skills.push(arg)
+		const chooseConfig = {
+			quantity,
+			choose,
+			fix,
 		}
-		return skills
+		const chooseFunc = chooseSetup(chooseConfig, errPrefix)
+		const chosen = chooseFunc(...args)
+		return chosen
 	}
-	return func
 }

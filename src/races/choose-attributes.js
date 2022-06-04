@@ -1,29 +1,36 @@
 import attributesFactory from '../sheet/attributes.factory'
 import * as validator from '../utils/common-validators'
+import chooseSetup from '../utils/choose-setup'
+
 const errPrefix = 'choose attributes error'
-export default (state) => {
-	const quantity = state.attributesConfig.quantity
-	const value = state.attributesConfig.value
-	const fix = attributesFactory(state.attributesConfig.fix)
+const attributeKeys = Object.keys(attributesFactory())
+
+export default (attributesConfig) => {
+	const quantity = attributesConfig.quantity
+	const value = attributesConfig.value
+	const fix = attributesFactory(attributesConfig.fix, true)
 
 	validator.intValidator(quantity, 'quantity', errPrefix)
 	validator.intValidator(value, 'value', errPrefix)
 
-	for (const key of Object.keys(fix)) {
-		if (fix[key] === 0) {
-			delete fix[key]
-		}
+	const fixKeys = Object.keys(fix)
+	const chooseKeys = attributeKeys.filter((key) => !fixKeys.includes(key))
+
+	const chooseConfig = {
+		choose: chooseKeys,
+		fix: [],
+		quantity,
 	}
+
+	const choose = chooseSetup(chooseConfig, errPrefix)
+
 	const func = (...args) => {
-		validator.argsLength(quantity, args, 'function', errPrefix)
-		let attributes = {}
-		for (const arg of args) {
-			if (fix[arg]) {
-				throw new Error(`${errPrefix}: attribute '${arg}' is fixed`)
-			}
-			attributes[arg] = value
+		let attributes = fix
+		let chosenAttributes
+		chosenAttributes = choose(...args)
+		for (const chosenAttribute of chosenAttributes) {
+			attributes[chosenAttribute] = value
 		}
-		attributes = Object.assign(attributes, fix)
 		attributes = attributesFactory(attributes)
 
 		return Object.assign({}, attributes)
