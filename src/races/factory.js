@@ -4,7 +4,7 @@ import chooseAttributes from './choose-attributes'
 export default (state) => {
 	let attributes
 	if (state.attributesConfig) {
-		attributes = chooseAttributes(state)
+		attributes = chooseAttributes(state.attributesConfig)
 	} else {
 		attributes = normalAttributes(state)
 	}
