@@ -8,7 +8,7 @@ export default {
 	pm: 4,
 	skills: {
 		fixConfig: {
-			between: ['diplomacia', 'intimidação'],
+			choose: ['diplomacia', 'intimidação'],
 			fix: ['vontade'],
 		},
 		quantity: 4,

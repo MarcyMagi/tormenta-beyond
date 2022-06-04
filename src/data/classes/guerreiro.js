@@ -8,7 +8,7 @@ export default {
 	pm: 3,
 	skills: {
 		fixConfig: {
-			between: ['luta', 'pontaria'],
+			choose: ['luta', 'pontaria'],
 			fix: ['fortitude'],
 		},
 		quantity: 4,
