@@ -16,6 +16,21 @@ describe('attributes test', () => {
 		expect(attributes.sab).toBe(14)
 		expect(attributes.car).toBe(15)
 	})
+	it('should create valid without all values', () => {
+		const attributes = attributesFactory(
+			{
+				int: 0,
+				sab: 14,
+			},
+			true
+		)
+		expect(attributes.for).toBeUndefined()
+		expect(attributes.des).toBeUndefined()
+		expect(attributes.con).toBeUndefined()
+		expect(attributes.int).toBe(0)
+		expect(attributes.sab).toBe(14)
+		expect(attributes.car).toBeUndefined()
+	})
 	it('should to throw given fake attribute', () => {
 		expect(() => {
 			attributesFactory({
