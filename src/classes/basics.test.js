@@ -1,5 +1,5 @@
 import classBasics from './basics'
-describe('classes basics test', () => {
+describe('classes basics', () => {
 	it('should create valid', () => {
 		const tClass = classBasics({
 			name: 'arcanista',

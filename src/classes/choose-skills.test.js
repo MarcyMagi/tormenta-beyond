@@ -1,5 +1,5 @@
 import chooseSkills from './choose-skills'
-describe('class choose skills test', () => {
+describe('class choose skills', () => {
 	it('should create valid', () => {
 		const skillsFunc = chooseSkills({
 			fix: ['misticismo', 'vontade'],
@@ -49,7 +49,7 @@ describe('class choose skills test', () => {
 		})
 		expect(() => {
 			skillsFunc('luta', 'luta')
-		}).toThrow('choose error: duplicate values on choose/fix combine')
+		}).toThrow('choose skills error: duplicate values on choose/fix combine')
 	})
 	it('should throw choosen less skills', () => {
 		expect(() => {

@@ -1,5 +1,5 @@
 import factory from './factory'
-describe('race factory test', () => {
+describe('race factory', () => {
 	it('should create valid with normal attributes', () => {
 		const state = {
 			name: 'shrek',

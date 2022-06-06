@@ -1,5 +1,5 @@
 import normalAttribtes from './normal-attributes'
-describe('race normal attributes test', () => {
+describe('race normal attributes', () => {
 	it('should create valid', () => {
 		const raceAttributes = normalAttribtes({
 			attributes: {

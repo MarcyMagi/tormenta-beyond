@@ -1,5 +1,5 @@
 import chooseFix from './choose-fix'
-describe('class choose fix skills test', () => {
+describe('class choose fix skills', () => {
 	it('should create valid', () => {
 		const fixFunc = chooseFix({
 			choose: ['luta', 'pontaria'],

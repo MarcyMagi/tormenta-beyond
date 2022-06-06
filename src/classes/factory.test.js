@@ -1,5 +1,5 @@
 import raceFactory from './factory'
-describe('race factory test', () => {
+describe('race factory', () => {
 	it('should create valid', () => {
 		const race = raceFactory({
 			name: 'arcanista',
