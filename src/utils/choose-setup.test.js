@@ -10,16 +10,16 @@ describe('choose test', () => {
 		const chosen = chooseFunc('a', 'b')
 		expect(chosen).toEqual(['a', 'b', 'z'])
 	})
-	it('should throw if same value in choose and fix', () => {
+	it('should throw same value in choose and fix', () => {
 		expect(() => {
 			chooseSetup({
 				choose: ['a', 'b', 'z'],
 				quantity: 2,
 				fix: ['z'],
 			})
-		}).toThrow('choose error: dup choose')
+		}).toThrow('choose error: duplicate values on choose/fix combine')
 	})
-	it('should throw if given more args', () => {
+	it('should throw given more args', () => {
 		const chooseFunc = chooseSetup({
 			choose: ['a', 'b', 'c'],
 			quantity: 2,
@@ -29,7 +29,7 @@ describe('choose test', () => {
 			chooseFunc('a', 'b', 'c')
 		}).toThrow("choose error: function should recieve '2' args")
 	})
-	it('should throw if given less args', () => {
+	it('should throw given less args', () => {
 		const chooseFunc = chooseSetup({
 			choose: ['a', 'b', 'c'],
 			quantity: 2,
@@ -39,7 +39,8 @@ describe('choose test', () => {
 			chooseFunc('a')
 		}).toThrow("choose error: function should recieve '2' args")
 	})
-	it('should throw if given fix value as arg', () => {
+
+	it('should throw given fix value as arg', () => {
 		const chooseFunc = chooseSetup({
 			choose: ['a', 'b', 'c'],
 			quantity: 2,
@@ -49,7 +50,34 @@ describe('choose test', () => {
 			chooseFunc('a', 'z')
 		}).toThrow("choose error: argument 'z' not valid")
 	})
-	it('should throw if given same arg 2 times', () => {
+	it('should throw given equal elements on choose', () => {
+		expect(() => {
+			chooseSetup({
+				choose: ['a', 'a', 'c'],
+				quantity: 2,
+				fix: ['z'],
+			})
+		}).toThrow('choose error: duplicate values on choose')
+	})
+	it('should throw given equal elements on choose', () => {
+		expect(() => {
+			chooseSetup({
+				choose: ['a', 'b', 'c'],
+				quantity: 2,
+				fix: ['z', 'z'],
+			})
+		}).toThrow('choose error: duplicate values on fix')
+	})
+	it('should throw given < 1 on quantity', () => {
+		expect(() => {
+			chooseSetup({
+				choose: ['a', 'b', 'c'],
+				quantity: 0,
+				fix: ['z'],
+			})
+		}).toThrow('choose error: quantity cannot be less than 1')
+	})
+	it('should throw given same arg 2 times', () => {
 		const chooseFunc = chooseSetup({
 			choose: ['a', 'b', 'c'],
 			quantity: 2,

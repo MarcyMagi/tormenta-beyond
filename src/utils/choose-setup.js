@@ -4,15 +4,18 @@ export default (config, errMessage = 'choose error') => {
 	const quantity = config.quantity
 	const fix = config.fix
 
-	validator.arrayValidator(choose)
+	validator.arrayValidator(choose, 'choose', errMessage)
+	validator.arrayDup(choose, 'choose', errMessage)
+	validator.arrayValidator(fix, 'fix', errMessage)
+	validator.arrayDup(fix, 'fix', errMessage)
 	validator.intValidator(quantity)
-	validator.arrayValidator(fix)
-
-	const crossDup = choose.some((r) => fix.includes(r))
-
-	if (crossDup) {
-		throw new Error(errMessage + ': dup choose')
+	if (quantity < 1) {
+		throw new Error(errMessage + ': quantity cannot be less than 1')
 	}
+
+	const all = [...choose, ...fix]
+	validator.arrayDup(all, 'choose/fix combine', errMessage)
+
 	return (...args) => {
 		if (args.length !== quantity) {
 			throw new Error(
