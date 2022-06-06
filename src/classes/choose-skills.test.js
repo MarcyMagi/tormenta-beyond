@@ -49,7 +49,7 @@ describe('class choose skills test', () => {
 		})
 		expect(() => {
 			skillsFunc('luta', 'luta')
-		}).toThrow('choose skills error: dup choose')
+		}).toThrow('choose error: duplicate values on choose/fix combine')
 	})
 	it('should throw choosen less skills', () => {
 		expect(() => {
