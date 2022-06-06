@@ -51,6 +51,13 @@ describe('custom validators test', () => {
 			}).toThrow('test error: value[0] should be string')
 		})
 	})
+	describe('arrayDup', () => {
+		it('should throw given dups', () => {
+			expect(() => {
+				validator.arrayDup([1, 1, 1], 'value', 'test error')
+			}).toThrow('test error: duplicate values on value')
+		})
+	})
 	describe('argsLength', () => {
 		it('should throw given wrong values', () => {
 			expect(() => {
