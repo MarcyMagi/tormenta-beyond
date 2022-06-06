@@ -10,6 +10,15 @@ describe('choose test', () => {
 		const chosen = chooseFunc('a', 'b')
 		expect(chosen).toEqual(['a', 'b', 'z'])
 	})
+	it('should create valid without fix', () => {
+		const chooseFunc = chooseSetup({
+			choose: ['a', 'b', 'c'],
+			quantity: 2,
+		})
+		expect(typeof chooseFunc).toBe('function')
+		const chosen = chooseFunc('a', 'b')
+		expect(chosen).toEqual(['a', 'b'])
+	})
 	it('should throw same value in choose and fix', () => {
 		expect(() => {
 			chooseSetup({

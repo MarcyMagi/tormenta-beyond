@@ -2,8 +2,7 @@ import * as validator from './common-validators'
 export default (config, errMessage = 'choose error') => {
 	const choose = config.choose
 	const quantity = config.quantity
-	const fix = config.fix
-
+	const fix = config.fix ? config.fix : []
 	validator.arrayValidator(choose, 'choose', errMessage)
 	validator.arrayDup(choose, 'choose', errMessage)
 	validator.arrayValidator(fix, 'fix', errMessage)
