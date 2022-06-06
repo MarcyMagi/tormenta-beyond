@@ -19,4 +19,29 @@ describe('origin factory', () => {
 		expect(benefit.skills).toEqual(['cura'])
 		expect(benefit.powers).toEqual(['medicina'])
 	})
+	it('should create valid using chooseItems', () => {
+		const origin = factory({
+			name: 'amigo dos animais',
+			description: "hi, i'm a amigo dos animais",
+			benefit: {
+				skills: ['adestramento', 'cavalgar'],
+				powers: ['amigo especial'],
+			},
+			itemsConfig: {
+				choose: ['cão de guarda', 'cavalo', 'pônei', 'trobo'],
+				quantity: 1,
+			},
+		})
+		expect(origin.name).toBe('amigo dos animais')
+		expect(origin.description).toBe("hi, i'm a amigo dos animais")
+
+		expect(typeof origin.benefit).toBe('function')
+		const benefit = origin.benefit('adestramento', 'cavalgar')
+		expect(benefit.skills).toEqual(['adestramento', 'cavalgar'])
+		expect(benefit.powers).toEqual([])
+
+		expect(typeof origin.items).toBe('function')
+		const items = origin.items('pônei')
+		expect(items).toEqual(['pônei'])
+	})
 })
