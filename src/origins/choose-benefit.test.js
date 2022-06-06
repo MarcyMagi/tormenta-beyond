@@ -2,10 +2,8 @@ import chooseBenefit from './choose-benefit'
 describe('origin choose benefit', () => {
 	it('should create valid given 1 skill 1 power', () => {
 		const choose = chooseBenefit({
-			benefit: {
-				skills: ['acrobacia', 'adestramento'],
-				powers: ['acuidade com arma', 'esquiva'],
-			},
+			skills: ['acrobacia', 'adestramento'],
+			powers: ['acuidade com arma', 'esquiva'],
 		})
 		expect(typeof choose).toBe('function')
 		const benefits = choose('acrobacia', 'acuidade com arma')
@@ -15,21 +13,15 @@ describe('origin choose benefit', () => {
 	it('should throw given skill and power with same name', () => {
 		expect(() => {
 			chooseBenefit({
-				benefit: {
-					skills: ['acrobacia', 'adestramento'],
-					powers: ['acuidade com arma', 'acrobacia'],
-				},
+				skills: ['acrobacia', 'adestramento'],
+				powers: ['acuidade com arma', 'acrobacia'],
 			})
-		}).toThrow(
-			'origin choose benefit error: skills and powers has element with same value'
-		)
+		}).toThrow('origin benefit error: duplicate values on choose')
 	})
 	it('should create valid given 2 skills', () => {
 		const choose = chooseBenefit({
-			benefit: {
-				skills: ['acrobacia', 'adestramento'],
-				powers: ['acuidade com arma', 'esquiva'],
-			},
+			skills: ['acrobacia', 'adestramento'],
+			powers: ['acuidade com arma', 'esquiva'],
 		})
 		const benefits = choose('acrobacia', 'adestramento')
 		expect(benefits.skills).toEqual(['acrobacia', 'adestramento'])
@@ -37,10 +29,8 @@ describe('origin choose benefit', () => {
 	})
 	it('should create valid given 2 powers', () => {
 		const choose = chooseBenefit({
-			benefit: {
-				skills: ['acrobacia', 'adestramento'],
-				powers: ['acuidade com arma', 'esquiva'],
-			},
+			skills: ['acrobacia', 'adestramento'],
+			powers: ['acuidade com arma', 'esquiva'],
 		})
 		const benefits = choose('acuidade com arma', 'esquiva')
 		expect(benefits.skills).toEqual([])
@@ -48,24 +38,20 @@ describe('origin choose benefit', () => {
 	})
 	it('should throw given 1 arg', () => {
 		const choose = chooseBenefit({
-			benefit: {
-				skills: ['acrobacia', 'adestramento'],
-				powers: ['acuidade com arma', 'esquiva'],
-			},
+			skills: ['acrobacia', 'adestramento'],
+			powers: ['acuidade com arma', 'esquiva'],
 		})
 		expect(() => {
 			choose('acrobacia')
-		}).toThrow('origin choose benefit error: arg2 should be string')
+		}).toThrow('origin benefit error: arg2 should be string')
 	})
 	it('should throw given not benefit', () => {
 		const choose = chooseBenefit({
-			benefit: {
-				skills: ['acrobacia', 'adestramento'],
-				powers: ['acuidade com arma', 'esquiva'],
-			},
+			skills: ['acrobacia', 'adestramento'],
+			powers: ['acuidade com arma', 'esquiva'],
 		})
 		expect(() => {
 			choose('reflexos', 'acrobacia')
-		}).toThrow('origin choose benefit error: arg is not benefit')
+		}).toThrow("origin benefit error: argument 'reflexos' not valid")
 	})
 })

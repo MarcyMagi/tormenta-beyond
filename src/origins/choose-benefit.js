@@ -1,35 +1,39 @@
 import * as validator from '../utils/common-validators'
-const errPrefix = 'origin choose benefit error'
-export default (state) => {
-	const chooseSkills = state.benefit.skills
-	const choosePowers = state.benefit.powers
-
-	const dup = chooseSkills.some((r) => choosePowers.includes(r))
-	if (dup) {
-		throw new Error(
-			errPrefix + ': skills and powers has element with same value'
-		)
-	}
-
+import chooseSetup from '../utils/choose-setup'
+const errPrefix = 'origin benefit error'
+export default (benefit) => {
+	const chooseSkills = benefit.skills
+	const choosePowers = benefit.powers
 	validator.stringArrayValitador(chooseSkills, 'skills', errPrefix)
 	validator.stringArrayValitador(choosePowers, 'powers', errPrefix)
+
+	const chooseFunc = chooseSetup(
+		{
+			choose: [...chooseSkills, ...choosePowers],
+			quantity: 2,
+			fix: [],
+		},
+		errPrefix
+	)
 
 	const func = (arg1, arg2) => {
 		validator.stringValidator(arg1, 'arg1', errPrefix)
 		validator.stringValidator(arg2, 'arg2', errPrefix)
-		const skills = []
-		const powers = []
-		const add = (arg) => {
-			if (chooseSkills.includes(arg)) {
-				skills.push(arg)
-			} else if (choosePowers.includes(arg)) {
-				powers.push(arg)
-			} else {
-				throw new Error(errPrefix + ': arg is not benefit')
-			}
+		const chosen = chooseFunc(...[arg1, arg2])
+		const shareRecude = (type) => {
+			return [
+				(prev, cur) => {
+					if (type.includes(cur)) {
+						prev.push(cur)
+					}
+					return prev
+				},
+				[],
+			]
 		}
-		add(arg1)
-		add(arg2)
+		const skills = chosen.reduce(...shareRecude(chooseSkills))
+		const powers = chosen.reduce(...shareRecude(choosePowers))
+
 		return Object.assign({}, { skills, powers })
 	}
 	return func
