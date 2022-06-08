@@ -12,6 +12,9 @@ export const stringValidator = (value, key, errPrefix) => {
 export const numberValidator = (value, key, errPrefix) => {
 	typeValidator('number', value, key, errPrefix)
 }
+export const boolValidator = (value, key, errPrefix) => {
+	typeValidator('boolean', value, key, errPrefix)
+}
 export const intValidator = (value, key, errPrefix) => {
 	numberValidator(value, key, errPrefix)
 	if (!Number.isInteger(value)) {

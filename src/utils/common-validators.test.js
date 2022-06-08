@@ -32,6 +32,13 @@ describe('custom validators test', () => {
 			}).toThrow('test error: value should be integer')
 		})
 	})
+	describe('boolValidator', () => {
+		it('should throw given not boolean', () => {
+			expect(() => {
+				validator.boolValidator('', 'value', 'test error')
+			}).toThrow('test error: value should be boolean')
+		})
+	})
 	describe('arrayValidator', () => {
 		it('should throw given not array', () => {
 			expect(() => {
