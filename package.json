@@ -28,6 +28,7 @@
 	},
 	"dependencies": {
 		"dice-notation-js": "^1.0.3",
-		"lodash": "^4.17.21"
+		"lodash": "^4.17.21",
+		"validator": "^13.7.0"
 	}
 }
