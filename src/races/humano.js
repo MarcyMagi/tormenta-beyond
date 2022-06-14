@@ -15,16 +15,12 @@ export default (utils) => {
 				name: 'versátil',
 				description: 'você se torna treinado ...',
 				magic: false,
-				actions: [
-					{
-						action: 'passive',
-						condition: false,
-						mp: false,
-						level: false,
-						resistance: false,
-						execute: choose('1ª skill', skillsList, 1, () => {}),
-					},
-				],
+				action: 'passive',
+				condition: false,
+				mp: false,
+				level: false,
+				resistance: false,
+				actions: [choose('1ª skill', skillsList, 1, () => {})],
 			},
 		],
 	}
