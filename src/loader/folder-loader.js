@@ -12,5 +12,5 @@ export default async (folderName, utils) => {
 		const raw = func(utils)
 		data[raw.name] = raw
 	}
-	return data
+	return Object.freeze(data)
 }
