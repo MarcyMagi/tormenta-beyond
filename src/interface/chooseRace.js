@@ -15,7 +15,6 @@ export default async (prompt, races, maxTry) => {
 			if (!interaction) {
 				continue
 			} else if (interaction === 'choose') {
-				console.log(value)
 				for (let i = 0; i < maxTry; i++) {
 					const args = []
 					for (let count = 1; count <= value.quantity; count++) {
@@ -23,7 +22,6 @@ export default async (prompt, races, maxTry) => {
 						args.push(Object.values(res)[0])
 					}
 					try {
-						console.log(...args)
 						const newValue = value.choose(...args)
 						chosenRace[key] = newValue
 						break
