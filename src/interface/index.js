@@ -1,14 +1,16 @@
 import loader from '../loader/index.js'
 import prompt from 'prompt'
+import chooseRace from './choose-race.js'
 
-import chooseRace from './chooseRace.js'
-const maxTry = 5
+const start = async (customPrompt) => {
+	const data = await loader()
 
-const data = await loader()
+	customPrompt.start()
+	const race = await chooseRace(prompt, data.races)
 
-prompt.start()
-const race = await chooseRace(prompt, data.races, maxTry)
+	console.log({
+		race,
+	})
+}
 
-console.log({
-	race,
-})
+start(prompt)
