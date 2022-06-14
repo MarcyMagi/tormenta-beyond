@@ -1,8 +1,8 @@
 export default (utils) => {
 	const choose = utils.choose
 	const skillsList = utils.skills.list()
-	const attributesList = utils.attributesUtils.list()
-	const attributesSet = utils.attributesUtils.set
+	const attributesList = utils.attributes.list()
+	const attributesSet = utils.attributes.set
 	return {
 		name: 'humano',
 		description: 'O povo mais numeroso em Arton',
@@ -22,7 +22,7 @@ export default (utils) => {
 						mp: false,
 						level: false,
 						resistance: false,
-						execute: choose('1ª skill', skillsList),
+						execute: choose('1ª skill', skillsList, 1, () => {}),
 					},
 				],
 			},
