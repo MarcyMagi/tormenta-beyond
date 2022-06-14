@@ -6,9 +6,12 @@ export default (attributeNames) => {
 	const set = (attributes, values) => {
 		const attributesObj = {}
 		for (const i in attributes) {
-			if (attributesArr.includes(attributes[i])) {
-				attributesObj[attributes[i]] = values[i]
+			if (!attributesArr.includes(attributes[i])) {
+				throw new Error(
+					`attributes utils error: invalid attribute "${attributes[i]}"`
+				)
 			}
+			attributesObj[attributes[i]] = values[i]
 		}
 		return attributesObj
 	}
