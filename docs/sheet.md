@@ -1,0 +1,20 @@
+the final sheet should have this elements:
+	name [String]
+	player [String]
+	race [Object Race]
+	origin [Object Origin]
+	classes [Dict[Object Class]]
+	divinity [Object Divinity]
+	attributes [Object Attributes]
+	hp [Object HP]
+	mp [Object MP]
+	attacks [Dict[Object Attack]]
+	defense [Object Defense]
+	proficiencies [Dict[Object Proficiency]]
+	xp [Object Xp]
+	size [Object Size]
+	speed [Object speed]
+	skills [Dict[Object Skill]]
+	inventory [Object Inventory] //with items
+	spells [Object SpellCollection] //with spells
+	abilities [Dict[Object Ability]]
