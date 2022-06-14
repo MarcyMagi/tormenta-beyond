@@ -1,5 +1,6 @@
 export default (utils) => {
 	const choose = utils.choose
+	const skillsList = utils.skills.list()
 	const attributesList = utils.attributesUtils.list()
 	const attributesSet = utils.attributesUtils.set
 	return {
@@ -9,6 +10,22 @@ export default (utils) => {
 		modifiers: choose('+2 em três atributos', attributesList, 3, (chosen) =>
 			attributesSet(chosen, [2, 2, 2])
 		),
-		abilities: ['versátil'],
+		abilities: [
+			{
+				name: 'versátil',
+				description: 'você se torna treinado ...',
+				magic: false,
+				actions: [
+					{
+						action: 'passive',
+						condition: false,
+						mp: false,
+						level: false,
+						resistance: false,
+						execute: choose('1ª skill', skillsList),
+					},
+				],
+			},
+		],
 	}
 }
