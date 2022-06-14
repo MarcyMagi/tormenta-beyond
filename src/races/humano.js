@@ -7,7 +7,7 @@ export default (utils) => {
 		description: 'O povo mais numeroso em Arton',
 		tale: 'Humanos são como uma praga',
 		modifiers: choose('+2 em três atributos', attributesList, 3, (chosen) =>
-			attributesSet(chosen, 2)
+			attributesSet(chosen, [2, 2, 2])
 		),
 		abilities: ['versátil'],
 	}
