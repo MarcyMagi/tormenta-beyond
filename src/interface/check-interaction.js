@@ -1,5 +1,6 @@
 import askUser from './ask-user.js'
 export default async (obj, prompt) => {
+	console.log(obj)
 	for (const [key, value] of Object.entries(obj)) {
 		const interaction = value.userInteraction
 		if (!interaction) {

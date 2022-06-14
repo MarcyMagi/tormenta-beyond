@@ -5,6 +5,7 @@ export default async (prompt, races) => {
 	let chosenRace
 	await askUser(async () => {
 		const { race } = await prompt.get(['race'])
+		console.log(race)
 		if (!races[race]) {
 			return 'no races with this name. try again'
 		}

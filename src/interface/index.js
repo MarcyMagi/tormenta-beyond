@@ -1,16 +1,13 @@
 import loader from '../loader/index.js'
-import prompt from 'prompt'
 import chooseRace from './choose-race.js'
 
-const start = async (customPrompt) => {
+export default async (prompt) => {
 	const data = await loader()
 
-	customPrompt.start()
+	prompt.start()
 	const race = await chooseRace(prompt, data.races)
 
-	console.log({
+	return Object.freeze({
 		race,
 	})
 }
-
-start(prompt)

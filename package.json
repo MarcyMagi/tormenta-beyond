@@ -5,6 +5,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
+		"interface": "node src/scripts/interface.js",
 		"test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
 		"test-watch": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --watchAll",
 		"lint": "npx eslint *.js --fix",
