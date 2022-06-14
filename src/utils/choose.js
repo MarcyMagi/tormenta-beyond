@@ -13,8 +13,9 @@ export default (label, options, quantity, callback) => {
 		}
 		return callback(chosen)
 	}
-	return Object.assign(
-		{},
-		{ userInteraction, label, options, quantity, choose }
-	)
+	const specs = () => {
+		return Object.freeze({ label, options, quantity })
+	}
+
+	return Object.freeze({ userInteraction, specs, choose })
 }

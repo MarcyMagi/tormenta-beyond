@@ -9,15 +9,13 @@ describe('utils choose', () => {
 				value: chosen,
 			})
 		)
-		const basics = Object.assign({}, chooseObj)
-		delete basics.choose
-		expect(basics).toEqual({
-			userInteraction: 'choose',
+		expect(chooseObj.userInteraction).toBe('choose')
+		const specs = chooseObj.specs()
+		expect(specs).toEqual({
 			label: '+2 em três atributos',
 			options: ['for', 'des', 'con', 'int', 'sab', 'car'],
 			quantity: 3,
 		})
-		expect(typeof chooseObj.choose).toBe('function')
 		const chosen = chooseObj.choose('for', 'des', 'con')
 		expect(chosen).toEqual({ value: ['for', 'des', 'con'] })
 	})
