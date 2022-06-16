@@ -15,21 +15,16 @@ export default (name, description, tale, modifiersConfig) => {
 	}
 	const questions = []
 
-	const modifiersArr = []
-	const valuesArr = []
-	for (const [key, value] of Object.entries(fixModifiers)) {
-		modifiersArr.push(key)
-		valuesArr.push(value)
-	}
-	valuesArr.push(...Array(chooseQuantity).fill(chooseValue))
-
 	const chooseObj = choose(
 		name + '[attributes]',
 		attributes.list(),
 		chooseQuantity,
 		(chosen) => {
-			modifiersArr.push(...chosen)
-			return attributes.new(modifiersArr, valuesArr)
+			const toFilter = chosen.reduce((prev, cur) => {
+				prev[cur] = chooseValue
+				return prev
+			}, fixModifiers)
+			return attributes.filter(toFilter)
 		}
 	)
 	questions.push(chooseObj.specs())

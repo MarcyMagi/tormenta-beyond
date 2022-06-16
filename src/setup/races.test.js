@@ -10,6 +10,7 @@ describe('factory race', () => {
 				chooseValue: 2,
 			}
 		)
+
 		expect(humano.name).toEqual('humano')
 		expect(humano.book()).toEqual({
 			description: 'O povo mais numeroso em Arton',

@@ -1,15 +1,16 @@
 export default (attributeNames) => {
-	const attributesArr = attributeNames
 	const list = () => {
-		return attributesArr
+		return attributeNames
 	}
-	const set = (attributes, values) => {
-		const attributesObj = {}
-		for (const attributeName of attributesArr) {
-			const index = attributes.indexOf(attributeName)
-			attributesObj[attributeName] = index !== -1 ? values[index] : 0
+	const filter = (toFilter) => {
+		const filtered = {}
+		const keysToFilter = Object.keys(toFilter)
+		for (const attributeName of attributeNames) {
+			filtered[attributeName] = keysToFilter.includes(attributeName)
+				? toFilter[attributeName]
+				: 0
 		}
-		return attributesObj
+		return filtered
 	}
-	return Object.freeze({ list, new: set })
+	return Object.freeze({ list, filter })
 }
