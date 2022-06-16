@@ -27,7 +27,9 @@ export default (name, description, tale, modifiersConfig) => {
 			return attributes.filter(toFilter)
 		}
 	)
-	questions.push(chooseObj.specs())
+	if (chooseObj.specs().quantity > 0) {
+		questions.push(chooseObj.specs())
+	}
 	const getModifiers = (...args) => chooseObj.choose(...args)
 
 	return Object.freeze({ name, book, getModifiers, questions })

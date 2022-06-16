@@ -16,6 +16,13 @@ describe('factory race', () => {
 			description: 'O povo mais numeroso em Arton',
 			tale: 'Humano são como uma praga',
 		})
+		expect(humano.questions).toEqual([
+			{
+				label: 'humano[attributes]',
+				options: ['for', 'des', 'con', 'int', 'sab', 'car'],
+				quantity: 3,
+			},
+		])
 		const modifiers = humano.getModifiers('for', 'des', 'sab')
 		expect(modifiers).toEqual({
 			for: 2,
@@ -44,6 +51,7 @@ describe('factory race', () => {
 			description: 'Anões são o mais resiliente dos povos',
 			tale: 'Não exista nada mais confiável em Arton que um anão',
 		})
+		expect(anao.questions).toEqual([])
 		const modifiers = anao.getModifiers()
 		expect(modifiers).toEqual({
 			for: 0,
