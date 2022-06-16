@@ -1,1 +1,1 @@
-export const defaultAttributes = ['for', 'des', 'con', 'int', 'sab', 'car']
+export const attributes = ['for', 'des', 'con', 'int', 'sab', 'car']
