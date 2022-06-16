@@ -5,7 +5,7 @@ export default (utils) => {
 	const attributesSet = utils.attributes.set
 	return {
 		name: 'humano',
-		description: 'O povo mais numeroso em Arton',
+		description: 'O povo mais numeroso de Arton',
 		tale: 'Humanos são como uma praga',
 		modifiers: choose('+2 em três atributos', attributesList, 3, (chosen) =>
 			attributesSet(chosen, [2, 2, 2])

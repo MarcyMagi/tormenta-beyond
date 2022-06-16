@@ -1,5 +1,3 @@
-const userInteraction = 'choose'
-
 export default (label, options, quantity, callback) => {
 	const choose = (...values) => {
 		if (values.length !== quantity) {
@@ -20,5 +18,5 @@ export default (label, options, quantity, callback) => {
 		return Object.freeze({ label, options, quantity })
 	}
 
-	return Object.freeze({ userInteraction, specs, choose })
+	return Object.freeze({ specs, choose })
 }

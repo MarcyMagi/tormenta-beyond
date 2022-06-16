@@ -9,7 +9,6 @@ describe('utils choose', () => {
 				value: chosen,
 			})
 		)
-		expect(chooseObj.userInteraction).toBe('choose')
 		const specs = chooseObj.specs()
 		expect(specs).toEqual({
 			label: '+2 em três atributos',
