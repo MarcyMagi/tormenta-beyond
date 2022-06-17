@@ -10,6 +10,9 @@ export default (label, options, quantity, callback) => {
 			if (!options.includes(value)) {
 				throw new Error(`choose error: "${label}" invalid arg "${value}"`)
 			}
+			if (chosen.includes(value)) {
+				throw new Error(`choose error: "${label}" dup value "${value}"`)
+			}
 			chosen.push(value)
 		}
 		return callback(chosen)

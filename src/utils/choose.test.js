@@ -26,6 +26,11 @@ describe('utils choose', () => {
 			failTest.choose('sab', 'int')
 		}).toThrow('choose error: "test" invalid arg "sab"')
 	})
+	it('should throw choosing dups arguments', () => {
+		expect(() => {
+			failTest.choose('con', 'con')
+		}).toThrow('choose error: "test" dup value "con"')
+	})
 	it('should throw choosing less values', () => {
 		expect(() => {
 			failTest.choose('for')
