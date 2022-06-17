@@ -12,5 +12,12 @@ export default (attributeNames) => {
 		}
 		return filtered
 	}
-	return Object.freeze({ list, filter })
+	const set = (keys, values) => {
+		const attributes = keys.reduce((prev, cur) => {
+			prev[cur] = values[keys.indexOf(cur)]
+			return prev
+		}, {})
+		return filter(attributes)
+	}
+	return Object.freeze({ list, filter, set })
 }
