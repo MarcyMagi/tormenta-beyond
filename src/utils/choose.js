@@ -14,9 +14,7 @@ export default (label, options, quantity, callback) => {
 		}
 		return callback(chosen)
 	}
-	const specs = () => {
-		return Object.freeze({ label, options, quantity })
-	}
+	const specs = Object.freeze({ label, options, quantity })
 
 	return Object.freeze({ specs, choose })
 }

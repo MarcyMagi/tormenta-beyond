@@ -9,7 +9,7 @@ describe('utils choose', () => {
 				value: chosen,
 			})
 		)
-		const specs = chooseObj.specs()
+		const specs = chooseObj.specs
 		expect(specs).toEqual({
 			label: '+2 em três atributos',
 			options: ['for', 'des', 'con', 'int', 'sab', 'car'],
