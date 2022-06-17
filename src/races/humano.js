@@ -1,10 +1,11 @@
 export default (utils) => {
 	const choose = utils.choose
-	const skillsList = utils.skills.list()
+	const skillsList = ['acrobacia']
 	const attributesList = utils.attributes.list()
 	const attributesSet = utils.attributes.set
 	return {
-		name: 'humano',
+		id: 'humano',
+		display: 'Humano',
 		description: 'O povo mais numeroso de Arton',
 		tale: 'Humanos são como uma praga',
 		modifiers: choose('+2 em três atributos', attributesList, 3, (chosen) =>
