@@ -1,5 +1,5 @@
 import { races } from '../cache/index.js'
-//import ask from './ask-details.js'
+import ask from './ask.js'
 
 const list = (obj) => {
 	return Object.values(obj).reduce((prev, cur) => {
@@ -17,6 +17,7 @@ export default async (prompt) => {
 			choices: list(races),
 		},
 	])
-	const chosenRace = races[racePrompt.race]
-	console.log(chosenRace.modifiers)
+	const chosenRace = Object.assign({}, races[race])
+	const raceConfig = await ask(chosenRace, prompt)
+	console.log(raceConfig)
 }
