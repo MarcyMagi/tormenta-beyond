@@ -15,12 +15,12 @@ const ask = async (obj, prompt) => {
 					const resObj = await prompt(askArr)
 					const resArr = Object.values(resObj)
 					try {
-						console.log(resArr)
 						const chosen = value.choose(...resArr)
 						obj[key] = chosen
 						break
 					} catch (e) {
-						console.log(e)
+						console.error(e.message)
+						console.log('try again')
 						continue
 					}
 				}
