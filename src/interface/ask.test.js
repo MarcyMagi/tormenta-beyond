@@ -6,10 +6,15 @@ describe('interface ask details', () => {
 		const config = {
 			id: 'id',
 			display: 'Something',
-			anotherThing: choose('question!', ['a', 1, false], 2, (chosen) => ({
-				first: chosen[0],
-				second: chosen[1],
-			})),
+			anotherThing: choose(
+				'question!',
+				['a', 1, false],
+				2,
+				(chosen1, chosen2) => ({
+					first: chosen1,
+					second: chosen2,
+				})
+			),
 		}
 		const fakePrompt = jest
 			.fn()
@@ -40,10 +45,15 @@ describe('interface ask details', () => {
 		const config = {
 			id: 'id',
 			display: 'Something',
-			anotherThing: choose('question!', ['a', 1, false], 2, (chosen) => ({
-				first: chosen[0],
-				second: chosen[1],
-			})),
+			anotherThing: choose(
+				'question!',
+				['a', 1, false],
+				2,
+				(chosen1, chosen2) => ({
+					first: chosen1,
+					second: chosen2,
+				})
+			),
 		}
 		const fakePrompt = jest
 			.fn()
@@ -76,9 +86,9 @@ describe('interface ask details', () => {
 			.mockReturnValueOnce({ 1: 'b' })
 			.mockReturnValueOnce({ 1: 'c' })
 		const configured = await ask(config, fakePrompt)
-		expect(configured.choose1).toEqual(['a'])
-		expect(configured.thing.choose2).toEqual(['b'])
-		expect(configured.thing.anotherThing.choose3).toEqual(['c'])
+		expect(configured.choose1).toEqual('a')
+		expect(configured.thing.choose2).toEqual('b')
+		expect(configured.thing.anotherThing.choose3).toEqual('c')
 	})
 	it('should work in array', async () => {
 		const config = {
@@ -96,9 +106,9 @@ describe('interface ask details', () => {
 			.mockReturnValueOnce({ 1: 'b' })
 			.mockReturnValueOnce({ 1: 'c' })
 		const configured = await ask(config, fakePrompt)
-		expect(configured.arr[0]).toEqual(['a'])
-		expect(configured.arr[1]).toEqual(['b'])
-		expect(configured.arr[2]).toEqual(['c'])
+		expect(configured.arr[0]).toEqual('a')
+		expect(configured.arr[1]).toEqual('b')
+		expect(configured.arr[2]).toEqual('c')
 	})
 	it('should work with recursive choose', async () => {
 		const config = {
@@ -111,7 +121,7 @@ describe('interface ask details', () => {
 						['option5', 'option6'],
 						1,
 						(chosen3) => {
-							return [...chosen1, ...chosen2, ...chosen3]
+							return [chosen1, chosen2, chosen3]
 						}
 					)
 				})
