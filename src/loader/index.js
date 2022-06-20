@@ -1,12 +1,13 @@
-import attributesFactory from './attributes.factory.js'
+import attributesLoader from './attributes.js'
+import skillsLoader from './skills.js'
 import choose from '../utils/choose.js'
 import * as config from '../config.js'
 import loadFolder from './load-folder.js'
 
 const utils = { choose }
-export const attributes = attributesFactory(config.attributes)
+export const attributes = attributesLoader(config.attributes)
 utils.attributes = attributes
-export const skills = loadFolder('skills', utils)
-utils.skills = skills
+export const skills = await loadFolder('skills', utils)
+utils.skills = skillsLoader(skills)
 
 export const races = await loadFolder('races', utils)
