@@ -1,6 +1,6 @@
 export default (utils) => {
 	const choose = utils.choose
-	const skillsList = ['acrobacia']
+	const skillsList = utils.skills.list()
 	const attributesList = utils.attributes.list()
 	const attributesFill = utils.attributes.fill
 	return {
@@ -11,8 +11,8 @@ export default (utils) => {
 		modifiers: choose('+2 em três atributos', attributesList, 3, (chosen) =>
 			attributesFill(chosen, [2, 2, 2])
 		),
-		abilities: [
-			{
+		abilities: {
+			versatil: {
 				name: 'versátil',
 				description: 'você se torna treinado ...',
 				magic: false,
@@ -23,6 +23,6 @@ export default (utils) => {
 				resistance: false,
 				actions: [choose('1ª skill', skillsList, 1, () => {})],
 			},
-		],
+		},
 	}
 }
