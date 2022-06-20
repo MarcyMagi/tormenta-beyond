@@ -20,13 +20,13 @@ describe('interface ask details', () => {
 		expect(fakePrompt.mock.calls[0][0]).toEqual({
 			type: 'list',
 			name: 'arg_0',
-			message: 'question! [1]',
+			message: '(anotherThing) question! [1]',
 			choices: ['a', 1, false],
 		})
 		expect(fakePrompt.mock.calls[1][0]).toEqual({
 			type: 'list',
 			name: 'arg_1',
-			message: 'question! [2]',
+			message: '(anotherThing) question! [2]',
 			choices: [1, false],
 		})
 		expect(configured.id).toBe('id')
