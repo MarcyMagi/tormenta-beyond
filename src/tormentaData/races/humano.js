@@ -3,7 +3,7 @@ export default (utils) => {
 	const attributeList = utils.attributes.list()
 	const attributesFill = utils.attributes.fill
 	const skillList = utils.skills.list()
-	const powerList = ['acuidade com arma', 'esquiva']
+	const powerList = utils.powers.list()
 	return {
 		id: 'humano',
 		display: 'Humano',
