@@ -9,8 +9,11 @@ export default (utils) => {
 		display: 'Humano',
 		description: 'O povo mais numeroso de Arton',
 		tale: 'Humanos são como uma praga',
-		modifiers: choose('+2 em três atributos', attributeList, 3, (chosen) =>
-			attributesFill(chosen, [2, 2, 2])
+		modifiers: choose(
+			'+2 em três atributos',
+			attributeList,
+			3,
+			(...attributes) => attributesFill(attributes, [2, 2, 2])
 		),
 		abilities: {
 			versatil: {
@@ -23,19 +26,24 @@ export default (utils) => {
 				level: false,
 				resistance: false,
 				actions: [
-					choose('1ª perícia', skillList, 1, () => {
-						return () => {}
+					choose('1ª perícia', skillList, 1, (skill) => {
+						return (sheet) => {
+							sheet.skills[skill].train()
+						}
 					}),
-					choose('2ª vantagem', ['perícia', 'poder'], 1, (chosen) => {
-						chosen = chosen[0]
-						if (chosen === 'perícia') {
-							return choose('2ª perícia', skillList, 1, () => {
-								return () => {}
+					choose('2ª vantagem', ['perícia', 'poder'], 1, (vantagem) => {
+						if (vantagem === 'perícia') {
+							return choose('2ª perícia', skillList, 1, (skill) => {
+								return (sheet) => {
+									sheet.skills[skill].train()
+								}
 							})
 						}
-						if (chosen === 'poder') {
-							return choose('poder', powerList, 1, () => {
-								return () => {}
+						if (vantagem === 'poder') {
+							return choose('poder', powerList, 1, (power) => {
+								return (sheet) => {
+									sheet.powers.add(power)
+								}
 							})
 						}
 					}),
