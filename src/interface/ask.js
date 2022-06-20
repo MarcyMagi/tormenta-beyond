@@ -22,7 +22,12 @@ const ask = async (obj, prompt, prefix = '') => {
 						resArr.push(Object.values(resObj)[0])
 					}
 					try {
-						const chosen = value.choose(...resArr)
+						let chosen = value.choose(...resArr)
+						if (chosen.choose) {
+							chosen = (
+								await ask({ choose: chosen }, prompt, `${prefix}${key}_`)
+							).choose
+						}
 						obj[key] = chosen
 						break
 					} catch (e) {

@@ -100,4 +100,29 @@ describe('interface ask details', () => {
 		expect(configured.arr[1]).toEqual(['b'])
 		expect(configured.arr[2]).toEqual(['c'])
 	})
+	it('should work with recursive choose', async () => {
+		const config = {
+			id: 'id',
+			display: 'hello',
+			thing: choose('something', ['option1', 'option2'], 1, (chosen1) => {
+				return choose('anotherThing', ['option3', 'option4'], 1, (chosen2) => {
+					return choose(
+						'anotherOtherThing',
+						['option5', 'option6'],
+						1,
+						(chosen3) => {
+							return [...chosen1, ...chosen2, ...chosen3]
+						}
+					)
+				})
+			}),
+		}
+		const fakePrompt = jest
+			.fn()
+			.mockReturnValueOnce({ 1: 'option1' })
+			.mockReturnValueOnce({ 1: 'option4' })
+			.mockReturnValueOnce({ 1: 'option5' })
+		const configured = await ask(config, fakePrompt)
+		expect(configured.thing).toEqual(['option1', 'option4', 'option5'])
+	})
 })
