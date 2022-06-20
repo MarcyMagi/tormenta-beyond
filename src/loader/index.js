@@ -6,5 +6,7 @@ import loadFolder from './load-folder.js'
 const utils = { choose }
 export const attributes = attributesFactory(config.attributes)
 utils.attributes = attributes
+export const skills = loadFolder('skills', utils)
+utils.skills = skills
 
 export const races = await loadFolder('races', utils)
