@@ -1,14 +1,15 @@
 export default (utils) => {
 	const choose = utils.choose
-	const skillsList = utils.skills.list()
-	const attributesList = utils.attributes.list()
+	const attributeList = utils.attributes.list()
 	const attributesFill = utils.attributes.fill
+	const skillList = utils.skills.list()
+	const powerList = ['acuidade com arma', 'esquiva']
 	return {
 		id: 'humano',
 		display: 'Humano',
 		description: 'O povo mais numeroso de Arton',
 		tale: 'Humanos são como uma praga',
-		modifiers: choose('+2 em três atributos', attributesList, 3, (chosen) =>
+		modifiers: choose('+2 em três atributos', attributeList, 3, (chosen) =>
 			attributesFill(chosen, [2, 2, 2])
 		),
 		abilities: {
@@ -21,7 +22,24 @@ export default (utils) => {
 				mp: false,
 				level: false,
 				resistance: false,
-				actions: [choose('1ª skill', skillsList, 1, () => {})],
+				actions: [
+					choose('1ª perícia', skillList, 1, () => {
+						return () => {}
+					}),
+					choose('2ª vantagem', ['perícia', 'poder'], 1, (chosen) => {
+						chosen = chosen[0]
+						if (chosen === 'perícia') {
+							return choose('2ª perícia', skillList, 1, () => {
+								return () => {}
+							})
+						}
+						if (chosen === 'poder') {
+							return choose('poder', powerList, 1, () => {
+								return () => {}
+							})
+						}
+					}),
+				],
 			},
 		},
 	}
