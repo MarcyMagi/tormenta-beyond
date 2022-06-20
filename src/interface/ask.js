@@ -1,4 +1,4 @@
-const ask = async (obj, prompt) => {
+const ask = async (obj, prompt, prefix = '') => {
 	for (const [key, value] of Object.entries(obj)) {
 		if (typeof value === 'object') {
 			if (value.choose) {
@@ -16,7 +16,7 @@ const ask = async (obj, prompt) => {
 						const resObj = await prompt({
 							type: 'list',
 							name: 'arg_' + i,
-							message: value.specs.label + ` [${i + 1}]`,
+							message: `(${prefix}${key}) ${value.specs.label} [${i + 1}]`,
 							choices: promptOptions,
 						})
 						resArr.push(Object.values(resObj)[0])
@@ -35,7 +35,7 @@ const ask = async (obj, prompt) => {
 					}
 				}
 			} else {
-				obj[key] = await ask(value, prompt)
+				obj[key] = await ask(value, prompt, `${prefix}${key}_`)
 			}
 		}
 	}
