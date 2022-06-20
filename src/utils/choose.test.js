@@ -5,8 +5,8 @@ describe('utils choose', () => {
 			'+2 em três atributos',
 			['for', 'des', 'con', 'int', 'sab', 'car'],
 			3,
-			(chosen) => ({
-				value: chosen,
+			(chosen1, chosen2, chosen3) => ({
+				value: [chosen1, chosen2, chosen3],
 			})
 		)
 		const specs = chooseObj.specs
