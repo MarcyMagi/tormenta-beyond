@@ -11,23 +11,24 @@ describe('interface ask details', () => {
 				second: chosen[1],
 			})),
 		}
-		const fakePrompt = jest.fn().mockReturnValueOnce({ 1: 'a', 2: false })
+		const fakePrompt = jest
+			.fn()
+			.mockReturnValueOnce({ 1: 'a' })
+			.mockReturnValue({ 2: false })
 		const configured = await ask(config, fakePrompt)
-		expect(fakePrompt.mock.calls.length).toBe(1)
-		expect(fakePrompt.mock.calls[0][0]).toEqual([
-			{
-				type: 'list',
-				name: 'arg_0',
-				message: 'question! [1]',
-				choices: ['a', 1, false],
-			},
-			{
-				type: 'list',
-				name: 'arg_1',
-				message: 'question! [2]',
-				choices: ['a', 1, false],
-			},
-		])
+		expect(fakePrompt.mock.calls.length).toBe(2)
+		expect(fakePrompt.mock.calls[0][0]).toEqual({
+			type: 'list',
+			name: 'arg_0',
+			message: 'question! [1]',
+			choices: ['a', 1, false],
+		})
+		expect(fakePrompt.mock.calls[1][0]).toEqual({
+			type: 'list',
+			name: 'arg_1',
+			message: 'question! [2]',
+			choices: [1, false],
+		})
 		expect(configured.id).toBe('id')
 		expect(configured.display).toBe('Something')
 		expect(configured.anotherThing).toEqual({
@@ -46,10 +47,12 @@ describe('interface ask details', () => {
 		}
 		const fakePrompt = jest
 			.fn()
-			.mockReturnValueOnce({ 1: 'a', 2: true })
-			.mockReturnValueOnce({ 1: 'a', 2: 1 })
+			.mockReturnValueOnce({ 1: 'a' })
+			.mockReturnValueOnce({ 2: true })
+			.mockReturnValueOnce({ 1: 'a' })
+			.mockReturnValueOnce({ 2: 1 })
 		const configured = await ask(config, fakePrompt)
-		expect(fakePrompt.mock.calls.length).toBe(2)
+		expect(fakePrompt.mock.calls.length).toBe(4)
 		expect(configured.anotherThing).toEqual({
 			first: 'a',
 			second: 1,
