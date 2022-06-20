@@ -1,6 +1,6 @@
 import skillsFactory from './skills.factory.js'
 
-describe('sheet skills', () => {
+describe('sheet skills factory', () => {
 	const modifiers = { for: -1, des: 4 }
 	const level = 15
 
