@@ -19,8 +19,6 @@ const ask = async (obj, prompt) => {
 						obj[key] = chosen
 						break
 					} catch (e) {
-						console.error(e.message)
-						console.log('try again')
 						continue
 					}
 				}

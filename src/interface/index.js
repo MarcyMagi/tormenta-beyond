@@ -1,4 +1,5 @@
 import { races } from '../cache/index.js'
+import racesFactory from '../factories/races.js'
 import ask from './ask.js'
 
 const list = (obj) => {
@@ -18,6 +19,10 @@ export default async (prompt) => {
 		},
 	])
 	const chosenRace = Object.assign({}, races[race])
-	const raceConfig = await ask(chosenRace, prompt)
-	console.log(raceConfig)
+	const raceAnwser = await ask(chosenRace, prompt)
+	const raceConfig = racesFactory(
+		raceAnwser.display,
+		raceAnwser.modifiers,
+		raceAnwser.abilities
+	)
 }
