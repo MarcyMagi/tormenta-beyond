@@ -1,4 +1,4 @@
-import cacheAttributes from './attributes.factory'
+import cacheAttributes from './attributes'
 describe('utils attributes', () => {
 	const attributes = cacheAttributes(['for', 'des', 'int', 'sab'])
 	it('should list correct', () => {
