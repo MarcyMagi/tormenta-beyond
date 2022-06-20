@@ -1,4 +1,4 @@
-import { races } from '../cache/index.js'
+import { races } from '../loader/index.js'
 import racesFactory from '../factories/races.js'
 import ask from './ask.js'
 

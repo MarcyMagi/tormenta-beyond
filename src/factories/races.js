@@ -1,4 +1,4 @@
-import { attributes } from '../cache/index.js'
+import { attributes } from '../loader/index.js'
 
 export default (name, modifiers, abilities) => {
 	name = name.toLowerCase()
