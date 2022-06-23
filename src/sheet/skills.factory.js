@@ -1,12 +1,15 @@
-export default (name, attribute, onlyTrained = false, armorPenalty = false) => {
+// Add actions
+export default (id, attribute, sheet) => {
 	let attributeOrigin = 'default'
+	let trainOrigin = false
 	let trained = false
 	const others = {}
 
-	const train = () => {
+	const train = (label) => {
 		if (trained) {
-			throw new Error(`skill [${name}] error: can only train once`)
+			throw new Error(`skill [${id}] error: can only train once`)
 		}
+		trainOrigin = label
 		trained = true
 	}
 	const changeAttribute = (label, newAttribute) => {
@@ -19,14 +22,14 @@ export default (name, attribute, onlyTrained = false, armorPenalty = false) => {
 	const deleteOthers = (label) => {
 		delete others[label]
 	}
-	const calculate = (modifers, level) => {
-		const attributeValue = modifers[attribute]
-		const levelValue = Math.floor(level / 2)
+	const calculate = () => {
+		const attributeValue = sheet.modifiers[attribute]
+		const levelValue = Math.floor(sheet.level / 2)
 		let trainedValue
 		if (trained) {
-			if (level >= 15) {
+			if (sheet.level >= 15) {
 				trainedValue = 6
-			} else if (level >= 7) {
+			} else if (sheet.level >= 7) {
 				trainedValue = 4
 			} else {
 				trainedValue = 2
@@ -51,12 +54,11 @@ export default (name, attribute, onlyTrained = false, armorPenalty = false) => {
 	}
 	const data = () => {
 		return {
-			name,
+			id,
 			attribute,
 			attributeOrigin,
 			trained,
-			onlyTrained,
-			armorPenalty,
+			trainOrigin,
 			others,
 		}
 	}
