@@ -17,7 +17,7 @@ describe('sheet skills factory', () => {
 				attribute: -1,
 			},
 		})
-		const data = atletismo.data()
+		const data = atletismo.getData()
 		expect(data).toEqual({
 			id: 'atletismo',
 			attribute: 'for',
@@ -32,7 +32,7 @@ describe('sheet skills factory', () => {
 		const calculate = atletismo.calculate()
 		expect(calculate.meta.trained).toBe(6)
 		expect(calculate.total).toBe(12)
-		const data = atletismo.data()
+		const data = atletismo.getData()
 		expect(data.trained).toBe(true)
 		expect(data.trainOrigin).toBe('gym')
 	})
@@ -46,7 +46,7 @@ describe('sheet skills factory', () => {
 		const calculate = atletismo.calculate()
 		expect(calculate.meta.attribute).toBe(4)
 		expect(calculate.total).toBe(17)
-		const data = atletismo.data()
+		const data = atletismo.getData()
 		expect(data.attribute).toBe('des')
 		expect(data.attributeOrigin).toBe('changer')
 	})
@@ -57,7 +57,7 @@ describe('sheet skills factory', () => {
 		expect(calculate.meta.adder).toBe(2)
 		expect(calculate.meta.lesser).toBe(-1)
 		expect(calculate.total).toBe(18)
-		const data = atletismo.data()
+		const data = atletismo.getData()
 		expect(data.others.adder).toBe(2)
 		expect(data.others.lesser).toBe(-1)
 	})
@@ -66,7 +66,7 @@ describe('sheet skills factory', () => {
 		const calculate = atletismo.calculate()
 		expect(calculate.meta.lesser).toBeUndefined()
 		expect(calculate.total).toBe(19)
-		const data = atletismo.data()
+		const data = atletismo.getData()
 		expect(data.others.lesser).toBeUndefined()
 	})
 })

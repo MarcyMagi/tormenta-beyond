@@ -1,4 +1,5 @@
 // Add actions
+// chage Origin to From
 export default (id, attribute, sheet) => {
 	let attributeOrigin = 'default'
 	let trainOrigin = false
@@ -52,7 +53,7 @@ export default (id, attribute, sheet) => {
 			meta,
 		}
 	}
-	const data = () => {
+	const getData = () => {
 		return {
 			id,
 			attribute,
@@ -68,6 +69,6 @@ export default (id, attribute, sheet) => {
 		setOthers,
 		deleteOthers,
 		calculate,
-		data,
+		getData,
 	})
 }
