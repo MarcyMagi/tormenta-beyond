@@ -1,3 +1,5 @@
+import { choose, attributeList, skillList } from '../utils.js'
+
 export default () => {
 	return {
 		id: 'humano',
