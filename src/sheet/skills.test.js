@@ -21,9 +21,9 @@ describe('sheet skills factory', () => {
 		expect(data).toEqual({
 			id: 'atletismo',
 			attribute: 'for',
-			attributeOrigin: 'default',
+			attributeFrom: 'default',
 			trained: false,
-			trainOrigin: false,
+			trainFrom: false,
 			others: {},
 		})
 	})
@@ -34,7 +34,7 @@ describe('sheet skills factory', () => {
 		expect(calculate.total).toBe(12)
 		const data = atletismo.getData()
 		expect(data.trained).toBe(true)
-		expect(data.trainOrigin).toBe('gym')
+		expect(data.trainFrom).toBe('gym')
 	})
 	it('should trough training again', () => {
 		expect(() => {
@@ -48,7 +48,7 @@ describe('sheet skills factory', () => {
 		expect(calculate.total).toBe(17)
 		const data = atletismo.getData()
 		expect(data.attribute).toBe('des')
-		expect(data.attributeOrigin).toBe('changer')
+		expect(data.attributeFrom).toBe('changer')
 	})
 	it('should set other modifiers', () => {
 		atletismo.setOthers('adder', 2)

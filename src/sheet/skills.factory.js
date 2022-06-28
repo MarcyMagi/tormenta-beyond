@@ -1,8 +1,7 @@
 // Add actions
-// chage Origin to From
 export default (id, attribute, sheet) => {
-	let attributeOrigin = 'default'
-	let trainOrigin = false
+	let attributeFrom = 'default'
+	let trainFrom = false
 	let trained = false
 	const others = {}
 
@@ -10,11 +9,11 @@ export default (id, attribute, sheet) => {
 		if (trained) {
 			throw new Error(`skill [${id}] error: can only train once`)
 		}
-		trainOrigin = label
+		trainFrom = label
 		trained = true
 	}
 	const changeAttribute = (label, newAttribute) => {
-		attributeOrigin = label
+		attributeFrom = label
 		attribute = newAttribute
 	}
 	const setOthers = (label, value) => {
@@ -57,9 +56,9 @@ export default (id, attribute, sheet) => {
 		return {
 			id,
 			attribute,
-			attributeOrigin,
+			attributeFrom,
 			trained,
-			trainOrigin,
+			trainFrom,
 			others,
 		}
 	}
