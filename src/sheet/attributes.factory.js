@@ -9,14 +9,14 @@ export default (base) => {
 	for (const [key, value] of Object.entries(filterBase)) {
 		data[key] = {}
 		data[key].base = value
-		data[key].others = []
+		data[key].others = {}
 	}
 	const values = () => {
 		const attributes = {}
 		for (const [key, value] of Object.entries(data)) {
 			let sum = value.base
-			for (const other of value.others) {
-				sum += other.value
+			for (const otherValue of Object.values(value.others)) {
+				sum += otherValue
 			}
 			attributes[key] = sum
 		}
@@ -38,19 +38,14 @@ export default (base) => {
 		otherAttributes = attributesUtils.filter(otherAttributes)
 		for (const [key, value] of Object.entries(otherAttributes)) {
 			if (value !== 0) {
-				data[key].others.push({
-					from: label,
-					value,
-				})
+				data[key].others[label] = value
 			}
 		}
 	}
 	const removeOther = (label) => {
 		for (const key of Object.keys(data)) {
-			const index = data[key].others.findIndex((ele) => ele.from === label)
-			console.log(data[key].others)
-			if (index > -1) {
-				data[key].others.splice(index)
+			if (data[key].others[label]) {
+				delete data[key].others[label]
 			}
 		}
 	}

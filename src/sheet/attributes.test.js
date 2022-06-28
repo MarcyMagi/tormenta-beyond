@@ -28,27 +28,27 @@ describe('sheet attributes factory', () => {
 		expect(attributes.getData()).toEqual({
 			for: {
 				base: 10,
-				others: [],
+				others: {},
 			},
 			des: {
 				base: 12,
-				others: [],
+				others: {},
 			},
 			con: {
 				base: 14,
-				others: [],
+				others: {},
 			},
 			int: {
 				base: 16,
-				others: [],
+				others: {},
 			},
 			sab: {
 				base: 17,
-				others: [],
+				others: {},
 			},
 			car: {
 				base: 18,
-				others: [],
+				others: {},
 			},
 		})
 	})
@@ -57,24 +57,14 @@ describe('sheet attributes factory', () => {
 		expect(attributes.modifiers().for).toBe(1)
 		expect(attributes.modifiers().con).toBe(1)
 		expect(attributes.modifiers().wei).toBeUndefined()
-		expect(attributes.getData().for.others).toEqual([
-			{
-				from: 'something',
-				value: 3,
-			},
-		])
-		expect(attributes.getData().des.others).toEqual([])
-		expect(attributes.getData().con.others).toEqual([
-			{
-				from: 'something',
-				value: -2,
-			},
-		])
+		expect(attributes.getData().for.others.something).toBe(3)
+		expect(attributes.getData().des.others).toEqual({})
+		expect(attributes.getData().con.others.something).toBe(-2)
 		expect(attributes.getData().wei).toBeUndefined()
 	})
 	it('should remove other', () => {
 		attributes.removeOther('something')
-		expect(attributes.getData().for.others).toEqual([])
-		expect(attributes.getData().des.others).toEqual([])
+		expect(attributes.getData().for.others).toEqual({})
+		expect(attributes.getData().des.others).toEqual({})
 	})
 })
