@@ -1,21 +1,34 @@
 import loadFolder from '../loader/load-folder.js'
 import skillFactory from './skills.factory.js'
+import attributeFactory from './attributes.factory.js'
 
 export default async (config) => {
 	const skillsData = await loadFolder('skills')
+	const raceData = await loadFolder('races')
 
-	const sheet = {}
+	const race = raceData.filter((v) => v.id === config.race.id)[0].display
+
+	const sheet = {
+		character: config.character,
+		player: config.player,
+		race,
+	}
 
 	const onConfig = () => {
 		for (let i in config.effects) {
 			if (config.effects[i].on === 'config') {
-				config.effects[i].callback(config)
+				config.effects[i].do(config)
 				config.effects.splice(i, 1)
 			}
 		}
 	}
 
-	const loadSkills = () => {
+	const buildAttributes = () => {
+		sheet.attributes = attributeFactory(config.baseAttributes)
+		sheet.attributes.addOther('race', config.race.modifiers)
+	}
+
+	const buildSkills = () => {
 		const skills = {}
 		for (const skillData of skillsData) {
 			const id = skillData.id
@@ -26,12 +39,13 @@ export default async (config) => {
 
 	const applyEffects = () => {
 		for (const effect of config.effects) {
-			effect.callback(sheet)
+			effect.do(sheet)
 		}
 	}
 
 	onConfig()
-	loadSkills()
+	buildAttributes()
+	buildSkills()
 	applyEffects()
 	return sheet
 }
