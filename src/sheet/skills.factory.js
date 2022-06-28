@@ -62,5 +62,12 @@ export default (id, attribute, sheet) => {
 			others,
 		}
 	}
-	return { train, changeAttribute, setOthers, deleteOthers, calculate, data }
+	return Object.freeze({
+		train,
+		changeAttribute,
+		setOthers,
+		deleteOthers,
+		calculate,
+		data,
+	})
 }
