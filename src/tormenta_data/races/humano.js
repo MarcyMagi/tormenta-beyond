@@ -1,9 +1,4 @@
-export default (utils) => {
-	const choose = utils.choose
-	const attributeList = utils.attributes.list()
-	const attributesFill = utils.attributes.fill
-	const skillList = utils.skills.list()
-	const powerList = utils.powers.list()
+export default () => {
 	return {
 		id: 'humano',
 		display: 'Humano',
@@ -17,32 +12,33 @@ export default (utils) => {
 		),
 		abilities: {
 			versatil: {
-				name: 'versátil',
+				name: 'Versátil',
 				description: 'você se torna treinado ...',
-				magic: false,
-				action: 'passive',
-				condition: false,
-				mp: false,
-				level: false,
-				resistance: false,
-				actions: [
+				effects: [
 					choose('1ª perícia', skillList, 1, (skill) => {
-						return (sheet) => {
-							sheet.skills[skill].train()
+						return {
+							on: 'load',
+							callback: (sheet) => {
+								sheet.skills[skill].train()
+							},
 						}
 					}),
-					choose('2ª vantagem', ['perícia', 'poder'], 1, (vantagem) => {
-						if (vantagem === 'perícia') {
-							return choose('2ª perícia', skillList, 1, (skill) => {
-								return (sheet) => {
+					choose('2ª vantagem', ['perícia', 'poder'], 1, (advantage) => {
+						if (advantage === 'perícia') {
+							return {
+								on: 'load',
+								callback: (sheet) => {
 									sheet.skills[skill].train()
-								}
-							})
+								},
+							}
 						}
-						if (vantagem === 'poder') {
+						if (advantage === 'poder') {
 							return choose('poder', powerList, 1, (power) => {
-								return (sheet) => {
-									sheet.powers.add(power)
+								return {
+									on: 'config',
+									callback: (config) => {
+										config.effects.push(power)
+									},
 								}
 							})
 						}
