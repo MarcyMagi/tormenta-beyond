@@ -61,8 +61,8 @@ describe('sheet attributes factory', () => {
 			},
 		})
 	})
-	it('should add other', () => {
-		attributes.addOther('something', { for: 3, con: -2, wei: 2 })
+	it('should set other', () => {
+		attributes.setOther('something', { for: 3, con: -2, wei: 2 })
 		expect(attributes.modifiers().for).toBe(1)
 		expect(attributes.modifiers().con).toBe(1)
 		expect(attributes.modifiers().wei).toBeUndefined()

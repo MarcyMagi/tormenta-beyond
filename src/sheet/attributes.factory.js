@@ -35,7 +35,7 @@ export default (base, sheet) => {
 		return Object.assign({}, data)
 	}
 
-	const addOther = (label, otherAttributes) => {
+	const setOther = (label, otherAttributes) => {
 		otherAttributes = attributesUtils.filter(otherAttributes)
 		for (const [key, value] of Object.entries(otherAttributes)) {
 			if (value !== 0) {
@@ -57,7 +57,7 @@ export default (base, sheet) => {
 		values,
 		modifiers,
 		getData,
-		addOther,
+		setOther,
 		removeOther,
 	})
 }
