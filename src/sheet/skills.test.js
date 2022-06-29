@@ -1,20 +1,26 @@
 import skillsFactory from './skills.factory.js'
 import attributesFactory from './attributes.factory.js'
+import eventEmitter from 'events'
 
 describe('sheet skills factory', () => {
-	const attributes = attributesFactory({
-		for: 9,
-		des: 18,
-		con: 10,
-		int: 10,
-		sab: 10,
-		car: 10,
-	})
-
-	const level = 15
+	const sheet = {
+		emitter: new eventEmitter(),
+		level: 15,
+	}
+	sheet.attributes = attributesFactory(
+		{
+			for: 9,
+			des: 18,
+			con: 10,
+			int: 10,
+			sab: 10,
+			car: 10,
+		},
+		sheet
+	)
 	let atletismo
 	beforeEach(() => {
-		atletismo = skillsFactory('atletismo', 'for', attributes, level)
+		atletismo = skillsFactory('atletismo', 'for', sheet)
 	})
 	it('should get correct values', () => {
 		const calculate = atletismo.calculate()
@@ -71,8 +77,8 @@ describe('sheet skills factory', () => {
 		const data = atletismo.getData()
 		expect(data.others.lesser).toBeUndefined()
 	})
-	it.only('should change values when updating attribute', () => {
-		attributes.addOther('plusses', { for: 2 })
+	it('should change values when updating attribute', () => {
+		sheet.attributes.addOther('plusses', { for: 2 })
 		expect(atletismo.calculate()).toEqual(7)
 	})
 })

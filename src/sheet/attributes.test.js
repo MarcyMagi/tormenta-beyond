@@ -1,12 +1,21 @@
+import { jest } from '@jest/globals'
 import attributesFactory from './attributes.factory.js'
 describe('sheet attributes factory', () => {
-	const attributes = attributesFactory({
-		for: 10,
-		des: 12,
-		con: 14,
-		int: 16,
-		sab: 17,
-		car: 18,
+	const emitter = {}
+	let attributes
+	beforeEach(() => {
+		emitter.emit = jest.fn()
+		attributes = attributesFactory(
+			{
+				for: 10,
+				des: 12,
+				con: 14,
+				int: 16,
+				sab: 17,
+				car: 18,
+			},
+			{ emitter }
+		)
 	})
 	it('should create valid', () => {
 		expect(attributes.values()).toEqual({
@@ -61,10 +70,12 @@ describe('sheet attributes factory', () => {
 		expect(attributes.getData().des.others).toEqual({})
 		expect(attributes.getData().con.others.something).toBe(-2)
 		expect(attributes.getData().wei).toBeUndefined()
+		expect(emitter.emit.mock.calls[0][0]).toBe('updateAttributes')
 	})
 	it('should remove other', () => {
 		attributes.removeOther('something')
 		expect(attributes.getData().for.others).toEqual({})
 		expect(attributes.getData().des.others).toEqual({})
+		expect(emitter.emit.mock.calls[0][0]).toBe('updateAttributes')
 	})
 })

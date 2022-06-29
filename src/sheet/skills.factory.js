@@ -20,13 +20,20 @@ const changeLevelValues = (level, trained) => {
 	return [levelValue, trainedValue]
 }
 
-export default (id, attribute, attributeObj, level) => {
+export default (id, attribute, sheet) => {
 	let attributeFrom = 'default'
 	let trainFrom = false
 	let trained = false
+	let level = sheet.level
+	const attributeObj = sheet.attributes
+	const emitter = sheet.emitter
 
 	let attributeValue = changeAttributeValue(attribute, attributeObj)
 	let [levelValue, trainedValue] = changeLevelValues(level, trained)
+
+	emitter.on('updateAttributes', () => {
+		attributeValue = changeAttributeValue(attribute, attributeObj)
+	})
 
 	const others = {}
 

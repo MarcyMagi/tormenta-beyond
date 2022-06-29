@@ -3,7 +3,8 @@ import { attributes as attributesList } from '../config.js'
 
 const attributesUtils = AttributesUtils(attributesList)
 
-export default (base) => {
+export default (base, sheet) => {
+	const emitter = sheet.emitter
 	const filterBase = attributesUtils.filter(base)
 	const data = {}
 	for (const [key, value] of Object.entries(filterBase)) {
@@ -41,6 +42,7 @@ export default (base) => {
 				data[key].others[label] = value
 			}
 		}
+		emitter.emit('updateAttributes')
 	}
 	const removeOther = (label) => {
 		for (const key of Object.keys(data)) {
@@ -48,7 +50,14 @@ export default (base) => {
 				delete data[key].others[label]
 			}
 		}
+		emitter.emit('updateAttributes')
 	}
 
-	return Object.freeze({ values, modifiers, getData, addOther, removeOther })
+	return Object.freeze({
+		values,
+		modifiers,
+		getData,
+		addOther,
+		removeOther,
+	})
 }
