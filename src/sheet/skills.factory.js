@@ -34,6 +34,12 @@ export default (id, attribute, sheet) => {
 	emitter.on('updateAttributes', () => {
 		attributeValue = changeAttributeValue(attribute, attributeObj)
 	})
+	emitter.on('levelup', (plusLevel) => {
+		level += plusLevel
+		const newValues = changeLevelValues(level, trained)
+		levelValue = newValues[0]
+		trainedValue = newValues[1]
+	})
 
 	const others = {}
 
@@ -50,16 +56,10 @@ export default (id, attribute, sheet) => {
 		attribute = newAttribute
 		attributeValue = changeAttributeValue(attribute, attributeObj)
 	}
-	const levelUp = (plusLevel = 1) => {
-		level += plusLevel
-		const newValues = changeLevelValues(level, trained)
-		levelValue = newValues[0]
-		trainedValue = newValues[1]
-	}
-	const setOthers = (label, value) => {
+	const setOther = (label, value) => {
 		others[label] = value
 	}
-	const deleteOthers = (label) => {
+	const removeOther = (label) => {
 		delete others[label]
 	}
 	const calculate = () => {
@@ -86,9 +86,8 @@ export default (id, attribute, sheet) => {
 	return Object.freeze({
 		train,
 		changeAttribute,
-		levelUp,
-		setOthers,
-		deleteOthers,
+		setOther,
+		removeOther,
 		calculate,
 		getData,
 	})
