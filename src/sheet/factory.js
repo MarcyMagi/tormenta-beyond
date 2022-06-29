@@ -1,6 +1,7 @@
 import loadFolder from '../loader/load-folder.js'
 import skillFactory from './skills.factory.js'
 import attributeFactory from './attributes.factory.js'
+import EventEmitter from 'events'
 
 export default async (config) => {
 	const skillsData = await loadFolder('skills')
@@ -12,6 +13,7 @@ export default async (config) => {
 		character: config.character,
 		player: config.player,
 		race,
+		emitter: new EventEmitter(),
 	}
 
 	const onConfig = () => {
@@ -24,7 +26,7 @@ export default async (config) => {
 	}
 
 	const buildAttributes = () => {
-		sheet.attributes = attributeFactory(config.baseAttributes)
+		sheet.attributes = attributeFactory(config.baseAttributes, sheet)
 		sheet.attributes.addOther('race', config.race.modifiers)
 	}
 
