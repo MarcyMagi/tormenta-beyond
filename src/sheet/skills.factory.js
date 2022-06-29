@@ -1,8 +1,33 @@
 // Add actions
-export default (id, attribute, sheet) => {
+
+const changeAttributeValue = (attribute, attributesObj) => {
+	return attributesObj.modifiers()[attribute]
+}
+const changeLevelValues = (level, trained) => {
+	const levelValue = Math.floor(level / 2)
+	let trainedValue
+	if (trained) {
+		if (level >= 15) {
+			trainedValue = 6
+		} else if (level >= 7) {
+			trainedValue = 4
+		} else {
+			trainedValue = 2
+		}
+	} else {
+		trainedValue = 0
+	}
+	return [levelValue, trainedValue]
+}
+
+export default (id, attribute, attributeObj, level) => {
 	let attributeFrom = 'default'
 	let trainFrom = false
 	let trained = false
+
+	let attributeValue = changeAttributeValue(attribute, attributeObj)
+	let [levelValue, trainedValue] = changeLevelValues(level, trained)
+
 	const others = {}
 
 	const train = (label) => {
@@ -11,10 +36,18 @@ export default (id, attribute, sheet) => {
 		}
 		trainFrom = label
 		trained = true
+		trainedValue = changeLevelValues(level, trained)[1]
 	}
 	const changeAttribute = (label, newAttribute) => {
 		attributeFrom = label
 		attribute = newAttribute
+		attributeValue = changeAttributeValue(attribute, attributeObj)
+	}
+	const levelUp = (plusLevel = 1) => {
+		level += plusLevel
+		const newValues = changeLevelValues(level, trained)
+		levelValue = newValues[0]
+		trainedValue = newValues[1]
 	}
 	const setOthers = (label, value) => {
 		others[label] = value
@@ -23,48 +56,30 @@ export default (id, attribute, sheet) => {
 		delete others[label]
 	}
 	const calculate = () => {
-		const attributeValue = sheet.modifiers[attribute]
-		const levelValue = Math.floor(sheet.level / 2)
-		let trainedValue
-		if (trained) {
-			if (sheet.level >= 15) {
-				trainedValue = 6
-			} else if (sheet.level >= 7) {
-				trainedValue = 4
-			} else {
-				trainedValue = 2
-			}
-		} else {
-			trainedValue = 0
-		}
-		const meta = {
-			level: levelValue,
-			trained: trainedValue,
-			attribute: attributeValue,
-		}
+		attributeObj.modifiers()
 		let total = attributeValue + levelValue + trainedValue
-		for (const [otherKey, otherValue] of Object.entries(others)) {
-			meta[otherKey] = otherValue
+		for (const otherValue of Object.values(others)) {
 			total += otherValue
 		}
-		return {
-			total,
-			meta,
-		}
+		return total
 	}
 	const getData = () => {
 		return {
 			id,
 			attribute,
+			attributeValue,
 			attributeFrom,
 			trained,
+			trainedValue,
 			trainFrom,
+			levelValue,
 			others,
 		}
 	}
 	return Object.freeze({
 		train,
 		changeAttribute,
+		levelUp,
 		setOthers,
 		deleteOthers,
 		calculate,
