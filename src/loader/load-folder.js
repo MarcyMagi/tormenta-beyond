@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 
-const dataDir = path.resolve('./src/static')
+const dataDir = path.resolve('./data')
 
 export default async (folderName, ignoreKeys = []) => {
 	const folderPath = `${dataDir}/${folderName}`
