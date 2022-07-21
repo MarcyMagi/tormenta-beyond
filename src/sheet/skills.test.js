@@ -1,92 +1,90 @@
 import skillsFactory from './skills.factory.js'
-import attributesFactory from './attributes.factory.js'
-import eventEmitter from 'events'
+import { jest } from '@jest/globals'
 
-describe('sheet skills factory', () => {
-	const sheet = {
-		emitter: new eventEmitter(),
-		level: 15,
-	}
-	sheet.attributes = attributesFactory(
-		{
-			for: 9,
-			des: 18,
-			con: 10,
-			int: 10,
-			sab: 10,
-			car: 10,
+describe('sheet skill factory', () => {
+	const loader = jest.fn().mockResolvedValue({
+		atletismo: {
+			label: 'Atletismo',
+			attribute: 'for',
+			armorPenalty: false,
+			onlyTrained: false,
 		},
-		sheet
-	)
-	let atletismo
-	beforeEach(() => {
-		atletismo = skillsFactory('atletismo', 'for', sheet)
+	})
+	const sheet = {
+		attributes: {
+			modifiers: jest.fn().mockReturnValue({
+				for: -1,
+				des: 4,
+				con: 0,
+				int: 0,
+				sab: 0,
+				car: 0,
+			}),
+		},
+		classes: {
+			totalLevel: jest.fn().mockReturnValue(15),
+		},
+	}
+	let skills
+	beforeEach(async () => {
+		skills = await skillsFactory(loader, sheet)
 	})
 	it('should get correct values', () => {
-		const calculate = atletismo.calculate()
+		const calculate = skills['atletismo'].calculate()
 		expect(calculate).toEqual(6)
-		const data = atletismo.getData()
+	})
+	it('should get metadata correctly', () => {
+		const data = skills['atletismo'].meta()
 		expect(data).toEqual({
 			id: 'atletismo',
+			label: 'Atletismo',
 			attribute: 'for',
-			attributeValue: -1,
+			armorPenalty: false,
+			onlyTrained: false,
 			attributeFrom: 'default',
-			trained: false,
-			trainedValue: 0,
-			trainFrom: false,
-			levelValue: 7,
-			others: {},
+			trainedFrom: false,
+			values: {
+				attribute: -1,
+				level: 7,
+			},
 		})
 	})
 	it('should train the skill', () => {
-		atletismo.train('gym')
-		const calculate = atletismo.calculate()
+		skills['atletismo'].train('gym')
+		const calculate = skills['atletismo'].calculate()
 		expect(calculate).toBe(12)
-		const data = atletismo.getData()
-		expect(data.trained).toBe(true)
-		expect(data.trainFrom).toBe('gym')
+		const data = skills['atletismo'].meta()
+		expect(data.trainedFrom).toBe('gym')
 	})
 	it('should trough training 2 times', () => {
 		expect(() => {
-			atletismo.train()
-			atletismo.train()
+			skills['atletismo'].train('gym')
+			skills['atletismo'].train('academy')
 		}).toThrow('skill [atletismo] error: can only train once')
 	})
 	it('should change default attribute', () => {
-		atletismo.changeAttribute('changer', 'des')
-		const calculate = atletismo.calculate()
+		skills['atletismo'].changeAttribute('changer', 'des')
+		const calculate = skills['atletismo'].calculate()
 		expect(calculate).toBe(11)
-		const data = atletismo.getData()
+		const data = skills['atletismo'].meta()
 		expect(data.attribute).toBe('des')
 		expect(data.attributeFrom).toBe('changer')
 	})
 	it('should set other modifiers', () => {
-		atletismo.setOther('adder', 2)
-		atletismo.setOther('lesser', -1)
-		const calculate = atletismo.calculate()
+		skills['atletismo'].setOther('adder', 2)
+		skills['atletismo'].setOther('lesser', -1)
+		const calculate = skills['atletismo'].calculate()
 		expect(calculate).toBe(7)
-		const data = atletismo.getData()
-		expect(data.others.adder).toBe(2)
-		expect(data.others.lesser).toBe(-1)
+		const data = skills['atletismo'].meta()
+		expect(data.values.adder).toBe(2)
+		expect(data.values.lesser).toBe(-1)
 	})
 	it('should delete other modifiers', () => {
-		atletismo.setOther('lesser', -1)
-		atletismo.removeOther('lesser')
-		const calculate = atletismo.calculate()
+		skills['atletismo'].setOther('lesser', -1)
+		skills['atletismo'].removeOther('lesser')
+		const calculate = skills['atletismo'].calculate()
 		expect(calculate).toBe(6)
-		const data = atletismo.getData()
-		expect(data.others.lesser).toBeUndefined()
-	})
-	it('should change values when updating attribute', () => {
-		sheet.attributes.setOther('plusses', { for: 4 })
-		expect(atletismo.calculate()).toBe(8)
-		expect(atletismo.getData().attributeValue).toBe(1)
-		sheet.attributes.removeOther('plusses')
-	})
-	it('should change values when levelup', () => {
-		sheet.emitter.emit('levelup', 1)
-		console.log(atletismo.getData())
-		expect(atletismo.calculate()).toBe(7)
-		expect(atletismo.getData().levelValue).toBe(8)
+		const data = skills['atletismo'].meta()
+		expect(data.values.lesser).toBeUndefined()
 	})
 })
