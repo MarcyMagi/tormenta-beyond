@@ -1,3 +1,5 @@
+import numericData from './composition/numeric-data.factory.js'
+
 export default async (loader, state) => {
 	const _dataEntries = Object.entries(await loader('skills', ['description']))
 
@@ -25,14 +27,11 @@ export default async (loader, state) => {
 		let _attributeFrom = 'default'
 		let _trainedFrom = false
 
-		const _values = {
+		const _values = numericData(`sheet skills[${_id}]`, {
 			attribute: getAttributeMod(_attribute),
 			level: calculateLevel(),
-		}
-
-		const calculate = () => {
-			return Object.values(_values).reduce((prev, cur) => (prev += cur), 0)
-		}
+			training: 0,
+		})
 		const meta = () => {
 			const metadata = {
 				id: _id,
@@ -42,7 +41,7 @@ export default async (loader, state) => {
 				onlyTrained: _onlyTrained,
 				attributeFrom: _attributeFrom,
 				trainedFrom: _trainedFrom,
-				values: _values,
+				values: _values.dict(),
 			}
 			return Object.freeze(metadata)
 		}
@@ -51,27 +50,25 @@ export default async (loader, state) => {
 				throw new Error('skill [atletismo] error: can only train once')
 			}
 			_trainedFrom = label
-			_values[label] = calculateTrain()
+			_values.set('training', calculateTrain())
 		}
 		const changeAttribute = (label, newAttribute) => {
 			_attributeFrom = label
 			_attribute = newAttribute
-			_values.attribute = getAttributeMod(_attribute)
+			_values.set('attribute', getAttributeMod(_attribute))
 		}
-		const setOther = (label, other) => {
-			_values[label] = other
-		}
-		const removeOther = (label) => {
-			delete _values[label]
-		}
-		prev[_id] = {
-			calculate,
-			meta,
-			train,
-			changeAttribute,
-			setOther,
-			removeOther,
-		}
+		prev[_id] = Object.assign(
+			{
+				meta,
+				train,
+				changeAttribute,
+			},
+			{
+				calculate: _values.calculate,
+				set: _values.set,
+				remove: _values.remove,
+			}
+		)
 		return prev
 	}, {})
 }

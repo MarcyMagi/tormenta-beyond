@@ -46,6 +46,7 @@ describe('sheet skill factory', () => {
 			values: {
 				attribute: -1,
 				level: 7,
+				training: 0,
 			},
 		})
 	})
@@ -55,8 +56,9 @@ describe('sheet skill factory', () => {
 		expect(calculate).toBe(12)
 		const data = skills['atletismo'].meta()
 		expect(data.trainedFrom).toBe('gym')
+		expect(data.values.training).toBe(6)
 	})
-	it('should trough training 2 times', () => {
+	it('should throw training 2 times', () => {
 		expect(() => {
 			skills['atletismo'].train('gym')
 			skills['atletismo'].train('academy')
@@ -71,8 +73,8 @@ describe('sheet skill factory', () => {
 		expect(data.attributeFrom).toBe('changer')
 	})
 	it('should set other modifiers', () => {
-		skills['atletismo'].setOther('adder', 2)
-		skills['atletismo'].setOther('lesser', -1)
+		skills['atletismo'].set('adder', 2)
+		skills['atletismo'].set('lesser', -1)
 		const calculate = skills['atletismo'].calculate()
 		expect(calculate).toBe(7)
 		const data = skills['atletismo'].meta()
@@ -80,8 +82,8 @@ describe('sheet skill factory', () => {
 		expect(data.values.lesser).toBe(-1)
 	})
 	it('should delete other modifiers', () => {
-		skills['atletismo'].setOther('lesser', -1)
-		skills['atletismo'].removeOther('lesser')
+		skills['atletismo'].set('lesser', -1)
+		skills['atletismo'].remove('lesser')
 		const calculate = skills['atletismo'].calculate()
 		expect(calculate).toBe(6)
 		const data = skills['atletismo'].meta()
