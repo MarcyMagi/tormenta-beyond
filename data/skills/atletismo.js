@@ -1,7 +1,7 @@
 export default () => {
 	return {
 		id: 'atletismo',
-		name: 'Atletismo',
+		label: 'Atletismo',
 		description:
 			'Esta perícia é utilizada para realizar façanhas atléticas, como escalar montanhas, cruzar rios e saltar sobre desfiladeiros',
 		attribute: 'for',

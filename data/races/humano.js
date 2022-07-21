@@ -3,7 +3,7 @@ import { choose, attributeList, skillList } from '../utils.js'
 export default () => {
 	return {
 		id: 'humano',
-		display: 'Humano',
+		label: 'Humano',
 		description: 'O povo mais numeroso de Arton',
 		tale: 'Humanos são como uma praga',
 		modifiers: choose(
