@@ -1,8 +1,33 @@
 import { jest } from '@jest/globals'
 import factory from './factory'
 describe('sheet factory', () => {
-	const mockEffectConfig = jest.fn()
-	const mockEffectLoad = jest.fn()
+	const loader = jest
+		.fn()
+		.mockResolvedValueOnce({
+			humano: {
+				label: 'Humano',
+			},
+		})
+		.mockResolvedValueOnce({
+			atletismo: {
+				label: 'Atletismo',
+				attribute: 'for',
+				armorPenalty: false,
+				onlyTrained: false,
+			},
+			adestramento: {
+				label: 'Adestramento',
+				attribute: 'car',
+				armorPenalty: false,
+				onlyTrained: true,
+			},
+			acrobacia: {
+				label: 'Acrobacia',
+				attribute: 'des',
+				armorPenalty: true,
+				onlyTrained: false,
+			},
+		})
 	const config = {
 		character: 'Doka',
 		player: 'Marcy',
@@ -22,33 +47,25 @@ describe('sheet factory', () => {
 			sab: 14,
 			car: 15,
 		},
-		effects: [
-			{
-				on: 'config',
-				do: mockEffectConfig,
-			},
-			{
-				on: 'load',
-				do: mockEffectLoad,
-			},
-		],
 	}
 	it('create valid sheet', async () => {
-		const sheet = await factory(config)
+		const sheet = await factory(loader, config)
 		expect(sheet.character).toBe('Doka')
 		expect(sheet.player).toBe('Marcy')
 		expect(sheet.race).toBe('Humano')
 		expect(sheet.attributes.modifiers()).toEqual({
-			for: 4,
-			des: 1,
-			con: 2,
+			for: 3,
+			des: 0,
+			con: 1,
 			int: 1,
 			sab: 2,
 			car: 2,
 		})
-		expect(mockEffectConfig.mock.calls.length).toBe(1)
-		expect(mockEffectConfig.mock.calls[0][0]).toEqual(config)
-		expect(mockEffectLoad.mock.calls.length).toBe(1)
-		expect(mockEffectLoad.mock.calls[0][0]).toEqual(sheet)
+		expect(Object.keys(sheet.skills)).toEqual([
+			'atletismo',
+			'adestramento',
+			'acrobacia',
+		])
+		expect(sheet.skills['atletismo'].calculate()).toBe(3)
 	})
 })
