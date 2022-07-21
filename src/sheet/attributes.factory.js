@@ -1,63 +1,46 @@
 import AttributesUtils from '../utils/attributes.js'
-import { attributes as attributesList } from '../config.js'
+import { attributes as attributesLabels } from '../config.js'
 
-const attributesUtils = AttributesUtils(attributesList)
+const attributesUtils = AttributesUtils(attributesLabels)
 
-export default (base, sheet) => {
-	const emitter = sheet.emitter
-	const filterBase = attributesUtils.filter(base)
-	const data = {}
-	for (const [key, value] of Object.entries(filterBase)) {
-		data[key] = {}
-		data[key].base = value
-		data[key].others = {}
+export default (baseValues) => {
+	const _attributesDict = attributesLabels.reduce((prev, cur) => {
+		prev[cur] = {}
+		return prev
+	}, {})
+	const _baseData = attributesUtils.filter(baseValues, true)
+	for (const [key, value] of Object.entries(_baseData)) {
+		_attributesDict[key]['base'] = value
 	}
 	const values = () => {
-		const attributes = {}
-		for (const [key, value] of Object.entries(data)) {
-			let sum = value.base
-			for (const otherValue of Object.values(value.others)) {
-				sum += otherValue
-			}
-			attributes[key] = sum
-		}
-		return attributes
+		return attributesLabels.reduce((ret, label) => {
+			const attributeDict = _attributesDict[label]
+			ret[label] = Object.values(attributeDict).reduce((total, value) => {
+				total += value
+				return total
+			}, 0)
+			return ret
+		}, {})
 	}
 	const modifiers = () => {
-		const attributes = values()
-		for (const [key, value] of Object.entries(attributes)) {
-			attributes[key] = Math.floor((value - 10) / 2)
-		}
-		return attributes
+		return Object.entries(values()).reduce((prev, cur) => {
+			prev[cur[0]] = Math.floor((cur[1] - 10) / 2)
+			return prev
+		}, {})
 	}
-
-	const getData = () => {
-		return Object.assign({}, data)
+	const meta = () => {
+		return Object.assign({}, _attributesDict)
 	}
-
-	const setOther = (label, otherAttributes) => {
-		otherAttributes = attributesUtils.filter(otherAttributes)
-		for (const [key, value] of Object.entries(otherAttributes)) {
-			if (value !== 0) {
-				data[key].others[label] = value
-			}
+	const setOther = (label, objAttributes) => {
+		const otherValues = attributesUtils.filter(objAttributes)
+		for (const [key, value] of Object.entries(otherValues)) {
+			_attributesDict[key][label] = value
 		}
-		emitter.emit('updateAttributes')
 	}
 	const removeOther = (label) => {
-		for (const key of Object.keys(data)) {
-			if (data[key].others[label]) {
-				delete data[key].others[label]
-			}
+		for (const attributeLabel of attributesLabels) {
+			delete _attributesDict[attributeLabel][label]
 		}
-		emitter.emit('updateAttributes')
 	}
-
-	return Object.freeze({
-		values,
-		modifiers,
-		getData,
-		setOther,
-		removeOther,
-	})
+	return Object.freeze({ values, modifiers, meta, setOther, removeOther })
 }

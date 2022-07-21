@@ -1,23 +1,18 @@
 import { jest } from '@jest/globals'
-import attributesFactory from './attributes.factory.js'
+import Attributes from './attributes.factory.js'
 describe('sheet attributes factory', () => {
-	const emitter = {}
 	let attributes
 	beforeEach(() => {
-		emitter.emit = jest.fn()
-		attributes = attributesFactory(
-			{
-				for: 10,
-				des: 12,
-				con: 14,
-				int: 16,
-				sab: 17,
-				car: 18,
-			},
-			{ emitter }
-		)
+		attributes = Attributes({
+			for: 10,
+			des: 12,
+			con: 14,
+			int: 16,
+			sab: 17,
+			car: 18,
+		})
 	})
-	it('should create valid', () => {
+	it('should get values correctly', () => {
 		expect(attributes.values()).toEqual({
 			for: 10,
 			des: 12,
@@ -26,6 +21,8 @@ describe('sheet attributes factory', () => {
 			sab: 17,
 			car: 18,
 		})
+	})
+	it('should get modifiers correctly', () => {
 		expect(attributes.modifiers()).toEqual({
 			for: 0,
 			des: 1,
@@ -34,30 +31,26 @@ describe('sheet attributes factory', () => {
 			sab: 3,
 			car: 4,
 		})
-		expect(attributes.getData()).toEqual({
+	})
+	it('should get metadata correctly', () => {
+		expect(attributes.meta()).toEqual({
 			for: {
 				base: 10,
-				others: {},
 			},
 			des: {
 				base: 12,
-				others: {},
 			},
 			con: {
 				base: 14,
-				others: {},
 			},
 			int: {
 				base: 16,
-				others: {},
 			},
 			sab: {
 				base: 17,
-				others: {},
 			},
 			car: {
 				base: 18,
-				others: {},
 			},
 		})
 	})
@@ -66,16 +59,17 @@ describe('sheet attributes factory', () => {
 		expect(attributes.modifiers().for).toBe(1)
 		expect(attributes.modifiers().con).toBe(1)
 		expect(attributes.modifiers().wei).toBeUndefined()
-		expect(attributes.getData().for.others.something).toBe(3)
-		expect(attributes.getData().des.others).toEqual({})
-		expect(attributes.getData().con.others.something).toBe(-2)
-		expect(attributes.getData().wei).toBeUndefined()
-		expect(emitter.emit.mock.calls[0][0]).toBe('updateAttributes')
+		expect(attributes.meta().for.something).toBe(3)
+		expect(attributes.meta().des).toEqual({ base: 12 })
+		expect(attributes.meta().con.something).toBe(-2)
+		expect(attributes.meta().wei).toBeUndefined()
 	})
 	it('should remove other', () => {
+		attributes.setOther('something', { for: 3, con: -2 })
+		expect(attributes.meta().for.something).toBe(3)
+		expect(attributes.meta().con.something).toBe(-2)
 		attributes.removeOther('something')
-		expect(attributes.getData().for.others).toEqual({})
-		expect(attributes.getData().des.others).toEqual({})
-		expect(emitter.emit.mock.calls[0][0]).toBe('updateAttributes')
+		expect(attributes.meta().for).toEqual({ base: 10 })
+		expect(attributes.meta().des).toEqual({ base: 12 })
 	})
 })
