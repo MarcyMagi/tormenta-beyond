@@ -1,11 +1,11 @@
 import path from 'path'
 import fs from 'fs'
 
-const dataDir = path.resolve('./src/tormenta_data')
+const dataDir = path.resolve('./src/static')
 
 export default async (folderName, ignoreKeys = []) => {
 	const folderPath = `${dataDir}/${folderName}`
-	const retArr = []
+	const dict = {}
 	const folderArr = fs.readdirSync(folderPath)
 	for await (const fileName of folderArr) {
 		const defaultData = await import(`${folderPath}/${fileName}`)
@@ -13,7 +13,9 @@ export default async (folderName, ignoreKeys = []) => {
 		for (const ignore of ignoreKeys) {
 			delete data[ignore]
 		}
-		retArr.push(data)
+		const id = data.id
+		delete data.id
+		dict[id] = data
 	}
-	return retArr
+	return dict
 }
