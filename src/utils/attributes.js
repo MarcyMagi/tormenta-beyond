@@ -2,22 +2,20 @@ export default (attributeNames) => {
 	const list = () => {
 		return attributeNames
 	}
-	const filter = (toFilter) => {
-		const filtered = {}
-		const keysToFilter = Object.keys(toFilter)
-		for (const attributeName of attributeNames) {
-			filtered[attributeName] = keysToFilter.includes(attributeName)
-				? toFilter[attributeName]
-				: 0
-		}
-		return filtered
-	}
-	const fill = (keys, values) => {
-		const attributes = keys.reduce((prev, cur) => {
-			prev[cur] = values[keys.indexOf(cur)]
+	const filter = (toFilter, fillZeros = false) => {
+		const filterKeys = Object.keys(toFilter)
+		const filtered = attributeNames.reduce((prev, cur) => {
+			if (!filterKeys.includes(cur)) {
+				if (fillZeros) {
+					prev[cur] = 0
+				}
+				return prev
+			}
+			prev[cur] = toFilter[cur]
 			return prev
 		}, {})
-		return filter(attributes)
+
+		return filtered
 	}
-	return Object.freeze({ list, filter, fill })
+	return Object.freeze({ list, filter })
 }
