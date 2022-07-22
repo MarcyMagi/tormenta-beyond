@@ -1,4 +1,4 @@
-import numericData from './composition/numeric-data.factory.js'
+import AdderData from './composition/adder-data.factory.js'
 
 export default async (loader, state) => {
 	const _dataEntries = Object.entries(await loader('skills', ['description']))
@@ -27,7 +27,7 @@ export default async (loader, state) => {
 		let _attributeFrom = 'default'
 		let _trainedFrom = false
 
-		const _values = numericData(`sheet skills[${_id}]`, {
+		const _values = AdderData(`sheet skills[${_id}]`, {
 			attribute: getAttributeMod(_attribute),
 			level: calculateLevel(),
 			training: 0,

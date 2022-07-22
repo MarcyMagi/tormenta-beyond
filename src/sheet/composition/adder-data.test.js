@@ -1,8 +1,8 @@
-import NumericData from './numeric-data.factory'
+import AdderData from './adder-data.factory'
 describe('sheet composition numeric data', () => {
 	let data
 	beforeEach(() => {
-		data = NumericData('weird data', { level: 10, base: 5 })
+		data = AdderData('weird data', { level: 10, base: 5 })
 	})
 	it('should calculate correctly', () => {
 		const n = data.calculate()

@@ -1,5 +1,5 @@
 import AttributesUtils from '../utils/attributes.js'
-import NumericData from './composition/numeric-data.factory.js'
+import AdderData from './composition/adder-data.factory.js'
 import { attributes as attributesLabels } from '../config.js'
 
 export default (baseValues) => {
@@ -7,7 +7,7 @@ export default (baseValues) => {
 	const _baseData = attributesUtils.filter(baseValues, true)
 	const _dict = {}
 	for (const [key, value] of Object.entries(_baseData)) {
-		_dict[key] = NumericData(`sheet attributes[${key}]`, { base: value })
+		_dict[key] = AdderData(`sheet attributes[${key}]`, { base: value })
 	}
 	const values = (attributesArr = attributesLabels) => {
 		return attributesArr.reduce((prev, cur) => {
