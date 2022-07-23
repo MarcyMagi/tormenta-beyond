@@ -27,11 +27,10 @@ export default async (loader, state) => {
 		let _attributeFrom = 'default'
 		let _trainedFrom = false
 
-		const _values = AdderData(`sheet skills[${_id}]`, {
-			attribute: getAttributeMod(_attribute),
-			level: calculateLevel(),
-			training: 0,
-		})
+		const _values = AdderData()
+		_values.set('attribute', getAttributeMod(_attribute))
+		_values.set('level', calculateLevel())
+		_values.set('training', 0)
 		const meta = () => {
 			const metadata = {
 				id: _id,

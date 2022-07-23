@@ -7,7 +7,9 @@ export default (baseValues) => {
 	const _baseData = attributesUtils.filter(baseValues, true)
 	const _dict = {}
 	for (const [key, value] of Object.entries(_baseData)) {
-		_dict[key] = AdderData(`sheet attributes[${key}]`, { base: value })
+		const newAttribute = AdderData()
+		newAttribute.set('base', value)
+		_dict[key] = newAttribute
 	}
 	const values = (attributesArr = attributesLabels) => {
 		return attributesArr.reduce((prev, cur) => {
