@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals'
-import factory from './factory'
-describe('sheet factory', () => {
+import factory from './index'
+describe('sheet factory integration test', () => {
 	const loader = jest
 		.fn()
 		.mockResolvedValueOnce({
