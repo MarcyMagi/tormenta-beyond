@@ -1,8 +1,8 @@
-export default (errPrefix = 'numeric data', fixValues = {}) => {
-	const _fixValues = fixValues
-	const _dict = Object.assign({}, fixValues)
+export default () => {
+	const _dict = {}
 	const calculate = () => {
-		return Object.values(_dict).reduce((prev, cur) => prev + cur, 0)
+		const calc = Object.values(_dict).reduce((prev, cur) => prev + cur, 0)
+		return calc ? calc : 0
 	}
 	const dict = () => {
 		return Object.assign({}, _dict)
@@ -11,9 +11,6 @@ export default (errPrefix = 'numeric data', fixValues = {}) => {
 		_dict[key] = value
 	}
 	const remove = (key) => {
-		if (_fixValues[key]) {
-			throw new Error(errPrefix + ` error: key '${key}' is fix`)
-		}
 		delete _dict[key]
 	}
 

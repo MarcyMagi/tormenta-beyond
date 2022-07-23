@@ -2,7 +2,9 @@ import AdderData from './adder-data.factory'
 describe('sheet composition numeric data', () => {
 	let data
 	beforeEach(() => {
-		data = AdderData('weird data', { level: 10, base: 5 })
+		data = AdderData()
+		data.set('level', 10)
+		data.set('base', 5)
 	})
 	it('should calculate correctly', () => {
 		const n = data.calculate()
@@ -26,10 +28,5 @@ describe('sheet composition numeric data', () => {
 		expect(n).toBe(15)
 		const meta = data.dict()
 		expect(meta).toEqual({ level: 10, base: 5 })
-	})
-	it('should throw trying to remove fix', () => {
-		expect(() => {
-			data.remove('base')
-		}).toThrow("weird data error: key 'base' is fix")
 	})
 })
