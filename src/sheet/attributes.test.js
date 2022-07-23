@@ -22,9 +22,7 @@ describe('sheet attributes factory', () => {
 			car: 18,
 		})
 	})
-	it('should get for modifier value', () => {
-		expect(attributes.values('for')).toBe(10)
-	})
+
 	it('should get modifiers correctly', () => {
 		expect(attributes.modifiers()).toEqual({
 			for: 0,
@@ -35,9 +33,7 @@ describe('sheet attributes factory', () => {
 			car: 4,
 		})
 	})
-	it('should get for modifier value', () => {
-		expect(attributes.modifiers('for')).toBe(0)
-	})
+
 	it('should get metadata correctly', () => {
 		expect(attributes.meta()).toEqual({
 			for: {

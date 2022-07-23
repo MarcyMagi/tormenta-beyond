@@ -11,20 +11,13 @@ export default (baseValues) => {
 		newAttribute.set('base', value)
 		_dict[key] = newAttribute
 	}
-	const values = (attributeKey) => {
-		if (attributeKey) {
-			return _dict[attributeKey].calculate()
-		}
+	const values = () => {
 		return attributesLabels.reduce((prev, cur) => {
 			prev[cur] = _dict[cur].calculate()
 			return prev
 		}, {})
 	}
-	const modifiers = (attributeKey) => {
-		if (attributeKey) {
-			const value = _dict[attributeKey].calculate()
-			return Math.floor((value - 10) / 2)
-		}
+	const modifiers = () => {
 		const entries = Object.entries(values())
 		return entries.reduce((prev, [key, value]) => {
 			prev[key] = Math.floor((value - 10) / 2)

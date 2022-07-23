@@ -14,7 +14,7 @@ export default async (loader, state) => {
 	}
 
 	const getAttributeMod = (attribute) => {
-		const value = state.attributes.modifiers([attribute])
+		const value = state.attributes.modifiers()[attribute]
 		return value
 	}
 
