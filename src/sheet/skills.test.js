@@ -12,13 +12,12 @@ describe('sheet skill factory', () => {
 	})
 	const sheet = {
 		attributes: {
-			modifiers: jest.fn().mockReturnValue({
-				for: -1,
-				des: 4,
-				con: 0,
-				int: 0,
-				sab: 0,
-				car: 0,
+			modifiers: jest.fn((attribute) => {
+				return attribute[0] === 'for'
+					? -1
+					: attribute[0] === 'des'
+					? 4
+					: undefined
 			}),
 		},
 		classes: {

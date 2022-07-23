@@ -13,8 +13,9 @@ export default async (loader, state) => {
 		return level >= 15 ? 6 : level >= 7 ? 4 : 2
 	}
 
-	const getAttributeMod = (_attribute) => {
-		return state.attributes.modifiers()[_attribute]
+	const getAttributeMod = (attribute) => {
+		const value = state.attributes.modifiers([attribute])
+		return value
 	}
 
 	return _dataEntries.reduce((prev, dict) => {
