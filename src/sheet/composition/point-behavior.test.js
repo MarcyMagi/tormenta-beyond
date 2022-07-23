@@ -2,7 +2,6 @@ import { jest } from '@jest/globals'
 import PointBehavior from './point-behavior.factory'
 describe('sheet composition point behavior', () => {
 	let pointBehavior
-	const belowZeroMock = jest.fn()
 	beforeEach(() => {
 		pointBehavior = PointBehavior(
 			{
