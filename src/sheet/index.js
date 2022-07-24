@@ -1,4 +1,4 @@
-import Skills from './skills.factory.js'
+import SkillsHandler from './skills-handler.js'
 import Attribute from './attributes.factory.js'
 
 export default async (loader, config) => {
@@ -14,6 +14,6 @@ export default async (loader, config) => {
 	}
 
 	state.attributes = Attribute(config.baseAttributes)
-	state.skills = await Skills(loader, state)
+	state.skills = await SkillsHandler(loader, state)
 	return Object.assign({}, state)
 }
