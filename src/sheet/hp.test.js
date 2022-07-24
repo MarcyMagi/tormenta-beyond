@@ -1,14 +1,10 @@
 import Hp from './hp.factory'
+import Attributes from './attributes.factory'
 import { jest } from '@jest/globals'
 describe('sheet hp factory', () => {
 	let hp
 	let sheet = {
-		attributes: {
-			modifiers: jest.fn().mockReturnValue({
-				con: 1,
-				car: 4,
-			}),
-		},
+		attributes: Attributes({ con: 12, car: 18 }),
 		classes: {
 			list: {
 				arcanista: {
@@ -36,7 +32,9 @@ describe('sheet hp factory', () => {
 	})
 
 	it('should get round max negative per level bonus', () => {
-		sheet.attributes.modifiers.mockReturnValueOnce({ con: -6, car: 3 })
+		const testSheet = Object.assign({}, sheet)
+		testSheet.attributes = Attributes({ con: -2 })
+		hp = Hp(testSheet, 'con')
 		const max = hp.max()
 		expect(max).toBe(4)
 	})
