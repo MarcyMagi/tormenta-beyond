@@ -30,12 +30,12 @@ describe('sheet hp factory', () => {
 		hp = Hp(sheet, 'con')
 	})
 
-	it.only('should get max correctly', () => {
+	it('should get max correctly', () => {
 		const max = hp.max()
 		expect(max).toBe(19)
 	})
 
-	it('should get max correctly with negative levelUp', () => {
+	it('should get round max negative per level bonus', () => {
 		sheet.attributes.modifiers.mockReturnValueOnce({ con: -6, car: 3 })
 		const max = hp.max()
 		expect(max).toBe(4)
@@ -63,11 +63,32 @@ describe('sheet hp factory', () => {
 		const max = hp.max()
 		expect(cur < -max).toBe(false)
 	})
-	it.skip('should add fix value to max', () => {
+	it('should add fix value to max', () => {
 		hp.setFix('fix', 3)
 		const max = hp.max()
 		expect(max).toBe(22)
-		const cur = hp.cur()
+		const cur = hp.current()
 		expect(cur).toBe(19)
+	})
+	it('should remove fix value from max', () => {
+		hp.setFix('fix', 3)
+		hp.removeFix('fix')
+		const max = hp.max()
+		expect(max).toBe(19)
+	})
+	it('should update current adding negative fix value', () => {
+		hp.setFix('fix', -3)
+		const max = hp.max()
+		expect(max).toBe(16)
+		const cur = hp.current()
+		expect(cur).toBe(16)
+	})
+	it('should keep current removing negative fix value', () => {
+		hp.setFix('fix', -3)
+		hp.removeFix('fix')
+		const max = hp.max()
+		expect(max).toBe(19)
+		const cur = hp.current()
+		expect(cur).toBe(16)
 	})
 })

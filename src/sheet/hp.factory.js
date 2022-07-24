@@ -1,23 +1,57 @@
 import AdderData from './composition/adder-data.factory'
-export default (sheet, keyAttribute) => {
-	const dict = () => {
-		const modifier = sheet.attributes.modifiers()[keyAttribute]
-		const classList = Object.entries(sheet.classes.list)
-		const adderDict = classList.reduce((dict, [key, obj]) => {
-			for (let i = 1; i <= obj.level(); i++) {
-				const isFirst = obj.isFirst
+export default (state, keyAttribute) => {
+	const modifiers = state.attributes.modifiers
+	const _fixDict = {}
+	const customAdder = () => {
+		const adder = AdderData()
+		const modifier = modifiers()[keyAttribute]
+		const classesEntries = Object.entries(state.classes.list)
+		let levelIndex = 1
+		for (const [key, config] of classesEntries) {
+			let isFirst = config.isFirst
+			for (let i = 1; i <= config.level(); i++) {
+				let sum = 0
 				if (isFirst) {
-					const adderData = AdderData()
-					adderData.set('level', obj.level1)
-					adderData.set('modifier', modifier)
-					dict[`first${key}[${i}]`] = adderData
+					adder.set(`${key}_${i}*`, config.level1)
+					sum += config.level1
 					isFirst = false
+				} else {
+					adder.set(`${key}_${i}`, config.levelup)
+					sum += config.levelup
 				}
+				adder.set(`${keyAttribute}_${levelIndex}`, modifier)
+				sum += modifier
+				if (sum < 1) {
+					adder.set(`${key}_${i}_normalize`, 1 - sum)
+				}
+				levelIndex++
 			}
-			return dict
-		}, {})
-		console.log(adderDict)
+		}
+		for (const [key, value] of Object.entries(_fixDict)) {
+			adder.set(key, value)
+		}
+		return adder
 	}
-	dict()
-	return {}
+	const updateCurrent = () => {
+		_current = _current > max() ? max() : _current < -max() ? -max : _current
+	}
+	const max = () => {
+		return customAdder().calculate()
+	}
+	let _current = max()
+	const current = () => {
+		return _current
+	}
+	const apply = (value) => {
+		_current += value
+		updateCurrent()
+	}
+	const setFix = (label, value) => {
+		_fixDict[label] = value
+		updateCurrent()
+	}
+	const removeFix = (label) => {
+		delete _fixDict[label]
+	}
+	return { max, current, apply, setFix, removeFix }
 }
