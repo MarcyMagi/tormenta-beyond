@@ -1,4 +1,4 @@
-import AdderData from './composition/adder-data.factory.js'
+import AdderData from './utils/adder-data.factory.js'
 
 const updateAttribute = (values, obj, attribute) => {
 	const attributeValue = obj.modifiers()[attribute]
@@ -17,14 +17,8 @@ export default (id, config, state) => {
 	let _attributeFrom = 'default'
 	let _trainedFrom = false
 
-	const init = () => {
-		const levelValue = Math.floor(_classes.totalLevel() / 2)
-		_values.set('level', levelValue)
-		updateAttribute(_values, _attributes, _attribute)
-		_values.set('training', 0)
-	}
-
 	const meta = () => {
+		calculate()
 		return {
 			id: _id,
 			label: _label,
@@ -36,24 +30,31 @@ export default (id, config, state) => {
 			values: _values.dict(),
 		}
 	}
+	const calculate = () => {
+		const level = _classes.totalLevel()
+		const levelValue = Math.floor(level / 2)
+		const trainValue = !_trainedFrom ? 0 : level >= 15 ? 6 : level >= 7 ? 4 : 2
+		_values.set('training', trainValue)
+		_values.set('level', levelValue)
+		updateAttribute(_values, _attributes, _attribute)
+		return _values.calculate()
+	}
 	const train = (key) => {
 		if (_trainedFrom) {
 			throw new Error(`skill "${_id}" error: can only train once"`)
 		}
 		_trainedFrom = key
-		const level = _classes.totalLevel()
-		const trainValue = level >= 15 ? 6 : level >= 7 ? 4 : 2
-		_values.set('training', trainValue)
 	}
 	const changeAttribute = (key, newAttribute) => {
 		_attributeFrom = key
 		_attribute = newAttribute
 		updateAttribute(_values, _attributes, _attribute)
 	}
-	init()
-	return Object.assign(
-		{},
-		{ calculate: _values.calculate, set: _values.set, remove: _values.remove },
-		{ meta, train, changeAttribute }
-	)
+	const set = (key, value) => {
+		_values.set(key, value)
+	}
+	const remove = (key) => {
+		_values.remove(key)
+	}
+	return { meta, calculate, train, changeAttribute, set, remove }
 }

@@ -20,7 +20,6 @@ describe('sheet skill factory', () => {
 		skill = Skill('atletismo', config, sheet)
 	})
 	it('should get correct values', () => {
-		console.log(skill)
 		const calculate = skill.calculate()
 		expect(calculate).toEqual(6)
 	})
@@ -79,5 +78,12 @@ describe('sheet skill factory', () => {
 		expect(calculate).toBe(6)
 		const data = skill.meta()
 		expect(data.values.lesser).toBeUndefined()
+	})
+	it('should update results when updating attribute', () => {
+		sheet.attributes.setOther('new', { for: 2 })
+		const calculate = skill.calculate()
+		expect(calculate).toEqual(7)
+		const meta = skill.meta()
+		expect(meta.values.attribute).toBe(0)
 	})
 })
