@@ -1,4 +1,3 @@
-import { jest } from '@jest/globals'
 import Attributes from './attributes.factory.js'
 describe('sheet attributes factory', () => {
 	let attributes
