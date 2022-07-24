@@ -1,10 +1,9 @@
 import AdderData from './composition/adder-data.factory'
 export default (state, keyAttribute) => {
-	const modifiers = state.attributes.modifiers
-	const _fixDict = {}
-	const customAdder = () => {
-		const adder = AdderData()
-		const modifier = modifiers()[keyAttribute]
+	const _adder = AdderData()
+	let _current = 0
+	const init = () => {
+		const modifier = state.attributes.modifiers()[keyAttribute]
 		const classesEntries = Object.entries(state.classes.list)
 		let levelIndex = 1
 		for (const [key, config] of classesEntries) {
@@ -12,33 +11,29 @@ export default (state, keyAttribute) => {
 			for (let i = 1; i <= config.level(); i++) {
 				let sum = 0
 				if (isFirst) {
-					adder.set(`${key}_${i}*`, config.level1)
+					_adder.set(`${key}_${i}*`, config.level1)
 					sum += config.level1
 					isFirst = false
 				} else {
-					adder.set(`${key}_${i}`, config.levelup)
+					_adder.set(`${key}_${i}`, config.levelup)
 					sum += config.levelup
 				}
-				adder.set(`${keyAttribute}_${levelIndex}`, modifier)
+				_adder.set(`${keyAttribute}_${levelIndex}`, modifier)
 				sum += modifier
 				if (sum < 1) {
-					adder.set(`${key}_${i}_normalize`, 1 - sum)
+					_adder.set(`${key}_${i}_normalize`, 1 - sum)
 				}
 				levelIndex++
 			}
 		}
-		for (const [key, value] of Object.entries(_fixDict)) {
-			adder.set(key, value)
-		}
-		return adder
+		_current = max()
 	}
 	const updateCurrent = () => {
 		_current = _current > max() ? max() : _current < -max() ? -max : _current
 	}
 	const max = () => {
-		return customAdder().calculate()
+		return _adder.calculate()
 	}
-	let _current = max()
 	const current = () => {
 		return _current
 	}
@@ -46,12 +41,13 @@ export default (state, keyAttribute) => {
 		_current += value
 		updateCurrent()
 	}
-	const setFix = (label, value) => {
-		_fixDict[label] = value
+	const setFix = (key, value) => {
+		_adder.set(key, value)
 		updateCurrent()
 	}
-	const removeFix = (label) => {
-		delete _fixDict[label]
+	const removeFix = (key) => {
+		_adder.remove(key)
 	}
+	init()
 	return { max, current, apply, setFix, removeFix }
 }
