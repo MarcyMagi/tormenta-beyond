@@ -1,55 +1,76 @@
-import AdderData from './composition/adder-data.factory'
+import AdderData from './utils/adder-data.factory'
 export default (state, keyAttribute) => {
-	const _adder = AdderData()
+	let _keyAttribute = keyAttribute
+	const _maxAdder = AdderData()
+	const _curAdder = AdderData()
 	const _attributes = state.attributes
 	const _classes = state.classes
-	let _current = 0
-	const init = () => {
-		let levelIndex = 1
+	const max = () => {
 		const classesEntries = Object.entries(_classes.list)
-		const modifier = _attributes.modifiers()[keyAttribute]
-		for (const [key, config] of classesEntries) {
+		let totalLevel = 1
+		for (const [id, config] of classesEntries) {
 			let isFirst = config.isFirst
 			for (let i = 1; i <= config.level(); i++) {
-				let sum = 0
+				const classKey = `${id}_${i}${isFirst ? '*' : ''}`
+				const classValue = isFirst ? config.level1 : config.levelup
 				if (isFirst) {
-					_adder.set(`${key}_${i}*`, config.level1)
-					sum += config.level1
 					isFirst = false
-				} else {
-					_adder.set(`${key}_${i}`, config.levelup)
-					sum += config.levelup
 				}
-				_adder.set(`${keyAttribute}_${levelIndex}`, modifier)
-				sum += modifier
-				if (sum < 1) {
-					_adder.set(`${key}_${i}_normalize`, 1 - sum)
+				_maxAdder.set(classKey, classValue)
+
+				const modKey = `mod_${_keyAttribute}_${totalLevel}`
+				const modValue = _attributes.modifiers()[_keyAttribute]
+				_maxAdder.set(modKey, modValue)
+
+				if (classValue + modValue < 1) {
+					const neutralizeKey = `neutralize_${totalLevel}`
+					const neutralizeValue = 1 - (classValue + modValue)
+					_maxAdder.set(neutralizeKey, neutralizeValue)
 				}
-				levelIndex++
+
+				totalLevel++
 			}
 		}
-		_current = max()
-	}
-	const updateCurrent = () => {
-		_current = _current > max() ? max() : _current < -max() ? -max : _current
-	}
-	const max = () => {
-		return _adder.calculate()
+		return _maxAdder.calculate()
 	}
 	const current = () => {
-		return _current
+		_curAdder.set('max', max())
+		return _curAdder.calculate()
 	}
-	const apply = (value) => {
-		_current += value
-		updateCurrent()
+	const apply = (value, key) => {
+		if (value === 0) {
+			return
+		}
+		const maxResult = max()
+		const curResult = current()
+		const sum = curResult + value
+		if (Math.abs(sum) > Math.abs(maxResult)) {
+			const newValue = sum > 0 ? maxResult - curResult : -maxResult - curResult
+			if (newValue === 0) {
+				return
+			}
+			value = newValue
+		}
+		if (!key) {
+			if (value > 0) {
+				key = 'heal'
+			} else {
+				key = 'damage'
+			}
+		}
+		const dict = _curAdder.dict()
+		for (let i = 1; i < 2003; i++) {
+			if (!dict[key + i]) {
+				_curAdder.set(key, value)
+				continue
+			}
+		}
 	}
 	const setFix = (key, value) => {
-		_adder.set(key, value)
-		updateCurrent()
+		_maxAdder.set(key, value)
 	}
 	const removeFix = (key) => {
-		_adder.remove(key)
+		_maxAdder.remove(key)
 	}
-	init()
 	return { max, current, apply, setFix, removeFix }
 }
