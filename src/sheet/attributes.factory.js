@@ -1,5 +1,5 @@
 import AttributesUtils from '../utils/attributes.js'
-import AdderData from './composition/adder-data.factory.js'
+import AdderData from './utils/adder-data.factory.js'
 import { attributes as attributesLabels } from '../config.js'
 
 export default (baseValues) => {
