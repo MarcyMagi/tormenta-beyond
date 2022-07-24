@@ -1,11 +1,13 @@
 import AdderData from './composition/adder-data.factory'
 export default (state, keyAttribute) => {
 	const _adder = AdderData()
+	const _attributes = state.attributes
+	const _classes = state.classes
 	let _current = 0
 	const init = () => {
-		const modifier = state.attributes.modifiers()[keyAttribute]
-		const classesEntries = Object.entries(state.classes.list)
 		let levelIndex = 1
+		const classesEntries = Object.entries(_classes.list)
+		const modifier = _attributes.modifiers()[keyAttribute]
 		for (const [key, config] of classesEntries) {
 			let isFirst = config.isFirst
 			for (let i = 1; i <= config.level(); i++) {
