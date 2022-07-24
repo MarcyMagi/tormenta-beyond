@@ -4,7 +4,6 @@ import { jest } from '@jest/globals'
 
 describe('sheet skill factory', () => {
 	const config = {
-		id: 'atletismo',
 		label: 'Atletismo',
 		attribute: 'for',
 		armorPenalty: false,
@@ -17,8 +16,8 @@ describe('sheet skill factory', () => {
 		},
 	}
 	let skill
-	beforeEach(async () => {
-		skill = await Skill(config, sheet)
+	beforeEach(() => {
+		skill = Skill('atletismo', config, sheet)
 	})
 	it('should get correct values', () => {
 		console.log(skill)
