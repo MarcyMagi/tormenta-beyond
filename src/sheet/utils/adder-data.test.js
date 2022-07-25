@@ -1,5 +1,5 @@
 import AdderData from './adder-data.factory'
-describe('sheet composition numeric data', () => {
+describe('sheet composition adder data', () => {
 	let data
 	beforeEach(() => {
 		data = AdderData()
