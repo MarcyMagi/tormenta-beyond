@@ -7,35 +7,33 @@ export default (state, keyAttribute) => {
 	const _classes = state.classes
 	const max = () => {
 		const classesEntries = Object.entries(_classes.list)
-		let totalLevel = 1
 		for (const [id, config] of classesEntries) {
 			let isFirst = config.isFirst
 			for (let i = 1; i <= config.level(); i++) {
 				const classKey = `${id}_${i}${isFirst ? '*' : ''}`
 				const classValue = isFirst ? config.level1 : config.levelup
+				const modValue = _attributes.modifiers()[_keyAttribute]
+				let finalValue = classValue + modValue
+				finalValue = finalValue > 0 ? finalValue : 1
+				_maxAdder.set(classKey, finalValue)
 				if (isFirst) {
 					isFirst = false
 				}
-				_maxAdder.set(classKey, classValue)
-
-				const modKey = `mod_${_keyAttribute}_${totalLevel}`
-				const modValue = _attributes.modifiers()[_keyAttribute]
-				_maxAdder.set(modKey, modValue)
-
-				if (classValue + modValue < 1) {
-					const neutralizeKey = `neutralize_${totalLevel}`
-					const neutralizeValue = 1 - (classValue + modValue)
-					_maxAdder.set(neutralizeKey, neutralizeValue)
-				}
-
-				totalLevel++
 			}
 		}
 		return _maxAdder.calculate()
 	}
+	const metaMax = () => {
+		max()
+		return _maxAdder.dict()
+	}
 	const current = () => {
 		_curAdder.set('max', max())
 		return _curAdder.calculate()
+	}
+	const metaCurrent = () => {
+		current()
+		return _curAdder.dict()
 	}
 	const apply = (value, key) => {
 		if (value === 0) {
@@ -61,8 +59,8 @@ export default (state, keyAttribute) => {
 		const dict = _curAdder.dict()
 		for (let i = 1; i < 2003; i++) {
 			if (!dict[key + i]) {
-				_curAdder.set(key, value)
-				continue
+				_curAdder.set(key + i, value)
+				break
 			}
 		}
 	}
@@ -72,5 +70,5 @@ export default (state, keyAttribute) => {
 	const removeFix = (key) => {
 		_maxAdder.remove(key)
 	}
-	return { max, current, apply, setFix, removeFix }
+	return { max, current, apply, setFix, removeFix, metaMax, metaCurrent }
 }
