@@ -1,7 +1,7 @@
 import LevelBehavior from './level-behavior.factory'
 import Attributes from '../attributes.factory'
 import { jest } from '@jest/globals'
-describe('sheet levelBehavior factory', () => {
+describe('sheet composition level behavior', () => {
 	let levelBehavior
 	let sheet = {
 		attributes: Attributes({ con: 12, car: 18 }),
