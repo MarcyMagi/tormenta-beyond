@@ -1,4 +1,4 @@
-import Skill from './skill.factory.js'
+import Skill from './skills.factory.js'
 export default async (loader, state) => {
 	const data = await loader('skills', ['description'])
 	const handler = {}

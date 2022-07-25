@@ -1,4 +1,4 @@
-import Skill from './skill.factory.js'
+import Skill from './skills.factory.js'
 import Attributes from './attributes.factory'
 import { jest } from '@jest/globals'
 
