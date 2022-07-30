@@ -67,7 +67,7 @@ export default (id, config, classConfig, sheet) => {
 	const remove = (key) => {
 		_values.remove(key)
 	}
-	sheet.emmiter.on('attributeUpdate', () => {
+	sheet.emitter.on('attributeUpdate', () => {
 		render()
 	})
 	render()

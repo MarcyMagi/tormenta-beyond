@@ -10,7 +10,7 @@ describe('sheet skill factory', () => {
 		onlyTrained: false,
 	}
 	const sheet = {
-		emmiter: new EventEmitter(),
+		emitter: new EventEmitter(),
 	}
 	const classConfig = {
 		arcanista: {

@@ -37,13 +37,13 @@ export default (baseValues, sheet) => {
 		for (const [key, value] of Object.entries(otherValues)) {
 			_dict[key].set(label, value)
 		}
-		sheet.emmiter.emit('attributeUpdate')
+		sheet.emitter.emit('attributeUpdate')
 	}
 	const removeOther = (label) => {
 		for (const attributeLabel of attributesLabels) {
 			_dict[attributeLabel].remove(label)
 		}
-		sheet.emmiter.emit('attributeUpdate')
+		sheet.emitter.emit('attributeUpdate')
 	}
 	render()
 	return Object.freeze({ values, modifiers, meta, setOther, removeOther })
