@@ -4,7 +4,7 @@ export default (sheet, config, keyAttribute) => {
 	const _maxAdder = AdderData()
 	const _curAdder = AdderData()
 	const _attributes = sheet.attributes
-	const _init = () => {
+	const render = () => {
 		let firstRunned = false
 		const classesEntries = Object.entries(config)
 		for (const [id, classConfig] of classesEntries) {
@@ -117,6 +117,9 @@ export default (sheet, config, keyAttribute) => {
 			}
 		}
 	}
-	_init()
+	sheet.emitter.on('attributeUpdate', () => {
+		render()
+	})
+	render()
 	return { max, current, apply, maxMeta, currentMeta }
 }

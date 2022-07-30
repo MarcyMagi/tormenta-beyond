@@ -1,9 +1,10 @@
 import LevelBehavior from './level-behavior.factory'
 import Attributes from '../attributes.factory'
+import { EventEmitter } from 'events'
 describe('sheet composition level behavior', () => {
 	let levelBehavior
 	let sheet = {
-		attributes: Attributes({ con: 12, car: 18 }),
+		emitter: new EventEmitter(),
 	}
 	let config = {
 		arcanista: {
@@ -17,7 +18,7 @@ describe('sheet composition level behavior', () => {
 		},
 	}
 	beforeEach(() => {
-		sheet.attributes = Attributes({ con: 12, car: 18 })
+		sheet.attributes = Attributes({ con: 12, car: 18 }, sheet)
 		levelBehavior = LevelBehavior(sheet, config, 'con')
 	})
 	it('should get max value correctly', () => {
@@ -41,9 +42,13 @@ describe('sheet composition level behavior', () => {
 			},
 		})
 	})
+	it('should update max when change attribute', () => {
+		sheet.attributes.setOther('some', { con: 2 })
+		const max = levelBehavior.max()
+		expect(max).toBe(22)
+	})
 	it('should get round max negative per level bonus', () => {
 		sheet.attributes.setOther('some', { con: -14 })
-		levelBehavior = LevelBehavior(sheet, config, 'con')
 		const max = levelBehavior.max()
 		expect(max).toBe(4)
 		const meta = levelBehavior.maxMeta()

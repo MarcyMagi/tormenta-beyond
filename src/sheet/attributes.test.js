@@ -1,15 +1,24 @@
+import { jest } from '@jest/globals'
 import Attributes from './attributes.factory.js'
 describe('sheet attributes factory', () => {
 	let attributes
+	const sheet = {
+		emitter: {
+			emit: jest.fn(),
+		},
+	}
 	beforeEach(() => {
-		attributes = Attributes({
-			for: 10,
-			des: 12,
-			con: 14,
-			int: 16,
-			sab: 17,
-			car: 18,
-		})
+		attributes = Attributes(
+			{
+				for: 10,
+				des: 12,
+				con: 14,
+				int: 16,
+				sab: 17,
+				car: 18,
+			},
+			sheet
+		)
 	})
 	it('should get values correctly', () => {
 		expect(attributes.values()).toEqual({
