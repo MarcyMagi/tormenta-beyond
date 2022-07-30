@@ -1,65 +1,114 @@
 import AdderData from './adder-data.factory'
-export default (state, specsKey, keyAttribute) => {
+export default (sheet, config, keyAttribute) => {
 	let _keyAttribute = keyAttribute
 	const _maxAdder = AdderData()
 	const _curAdder = AdderData()
-	const _attributes = state.attributes
-	const _classes = state.classes
-	const max = () => {
-		const classesEntries = Object.entries(_classes.list)
-		for (const [id, config] of classesEntries) {
-			let isFirst = config.isFirst
-			for (let i = 1; i <= config.level(); i++) {
-				//---- Isolate
-				const classKey = `${id}_${i}${isFirst ? '*' : ''}`
-				const classValue = isFirst
-					? config[specsKey].level1
-					: config[specsKey].levelup
-				const modValue = _attributes.modifiers()[_keyAttribute]
-				let finalValue = classValue + modValue
-				finalValue = finalValue > 0 ? finalValue : 1
-				//------
-				_maxAdder.set(classKey, finalValue)
-				if (isFirst) {
-					isFirst = false
+	const _attributes = sheet.attributes
+	const _init = () => {
+		let firstRunned = false
+		const classesEntries = Object.entries(config)
+		for (const [id, classConfig] of classesEntries) {
+			for (let i = 1; i <= classConfig.level; i++) {
+				const level1Check = (ifValue, elseValue) => {
+					if (firstRunned) {
+						return elseValue
+					}
+					return classConfig.levelOne ? ifValue : elseValue
+				}
+				const classKey = `${id}_${i}`
+				const classValue = level1Check(
+					classConfig.levelOne,
+					classConfig.levelUp
+				)
+				let finalValue = classValue
+				_maxAdder.set(classKey, classValue)
+
+				if (_keyAttribute) {
+					const modValue = _attributes.modifiers()[_keyAttribute]
+					finalValue += modValue
+					_maxAdder.set(`att_${_keyAttribute}_${classKey}`, modValue)
+				}
+
+				if (finalValue < 1) {
+					const adjusterValue = 1 - finalValue
+					_maxAdder.set(`adjuster_${classKey}`, adjusterValue)
+				}
+				if (classConfig.levelOne) {
+					firstRunned = true
 				}
 			}
 		}
+		_curAdder.set('max', max())
+	}
+	const max = () => {
 		return _maxAdder.calculate()
 	}
-	const metaMax = () => {
-		max()
-		return _maxAdder.dict()
+	const maxMeta = () => {
+		const dict = _maxAdder.dict()
+		const customDict = Object.entries(dict).reduce((obj, [key, value]) => {
+			const createClassKey = (classKey) => {
+				if (!obj[classKey]) {
+					obj[classKey] = {}
+				}
+			}
+			const [arg1, arg2, arg3, arg4] = key.split('_')
+			if (arg1 === 'att') {
+				const classKey = `${arg3}_${arg4}`
+				const attKey = `${arg1}_${arg2}`
+				createClassKey(classKey)
+				obj[classKey][attKey] = value
+			} else if (arg1 === 'adjuster') {
+				const classKey = `${arg2}_${arg3}`
+				const adjusterKey = arg1
+				createClassKey(classKey)
+				obj[classKey][adjusterKey] = value
+			} else {
+				const classKey = `${arg1}_${arg2}`
+				createClassKey(classKey)
+				obj[classKey]['level'] = value
+			}
+			return obj
+		}, {})
+		return customDict
 	}
 	const current = () => {
-		_curAdder.set('max', max())
 		return _curAdder.calculate()
 	}
-	const metaCurrent = () => {
+	const currentMeta = () => {
 		current()
 		return _curAdder.dict()
 	}
 	const apply = (value, key) => {
-		if (value === 0) {
-			return
-		}
 		const maxResult = max()
 		const curResult = current()
-		const sum = curResult + value
-		if (Math.abs(sum) > Math.abs(maxResult)) {
-			const newValue = sum > 0 ? maxResult - curResult : -maxResult - curResult
-			if (newValue === 0) {
+		const checkValue = () => {
+			if (value === 0) {
 				return
 			}
-			value = newValue
 		}
-		if (!key) {
-			if (value > 0) {
-				key = 'heal'
-			} else {
-				key = 'damage'
+		const fixValue = () => {
+			const sum = curResult + value
+			if (Math.abs(sum) > Math.abs(maxResult)) {
+				const newValue =
+					sum > 0 ? maxResult - curResult : -maxResult - curResult
+				checkValue()
+				value = newValue
 			}
 		}
+		const fixKey = () => {
+			if (!key) {
+				if (value > 0) {
+					key = 'heal'
+				} else {
+					key = 'damage'
+				}
+			}
+		}
+		checkValue()
+		fixValue()
+		fixKey()
+		fixValue()
+
 		const dict = _curAdder.dict()
 		for (let i = 1; i < 2003; i++) {
 			if (!dict[key + i]) {
@@ -68,11 +117,6 @@ export default (state, specsKey, keyAttribute) => {
 			}
 		}
 	}
-	const setFix = (key, value) => {
-		_maxAdder.set(key, value)
-	}
-	const removeFix = (key) => {
-		_maxAdder.remove(key)
-	}
-	return { max, current, apply, setFix, removeFix, metaMax, metaCurrent }
+	_init()
+	return { max, current, apply, maxMeta, currentMeta }
 }
