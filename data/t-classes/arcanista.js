@@ -4,10 +4,14 @@ export default () => {
 			levelOne: 8,
 			levelUp: 2,
 		},
-		mana: {
+		mp: {
 			levelUp: 6,
 		},
-		skills: ['misticismo', 'vontade', 'conhecimento'], //Ou iniciativa, oficio e percepção
+		fixSkills: ['misticismo', 'vontade'],
+		chooseSkills: {
+			quantity: 1,
+			options: ['conhecimento', 'inciativa', 'oficio', 'percepção'],
+		},
 		proficiency: [],
 		abilities: {
 			1: ['caminho-do-arcanista', 'magias'],
