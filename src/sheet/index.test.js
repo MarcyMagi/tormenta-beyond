@@ -1,42 +1,30 @@
 import { jest } from '@jest/globals'
 import factory from './index'
+import skillAtletismo from '../../data/skills/atletismo'
+import skillAdestramento from '../../data/skills/adestramento'
+import skillAcrobacia from '../../data/skills/acrobacia'
+import classArcanista from '../../data/t-classes/arcanista'
 describe('sheet factory integration test', () => {
-	const loader = jest
-		.fn()
-		.mockResolvedValueOnce({
-			humano: {
-				label: 'Humano',
-			},
-		})
-		.mockResolvedValueOnce({
-			atletismo: {
-				label: 'Atletismo',
-				attribute: 'for',
-				armorPenalty: false,
-				onlyTrained: false,
-			},
-			adestramento: {
-				label: 'Adestramento',
-				attribute: 'car',
-				armorPenalty: false,
-				onlyTrained: true,
-			},
-			acrobacia: {
-				label: 'Acrobacia',
-				attribute: 'des',
-				armorPenalty: true,
-				onlyTrained: false,
-			},
-		})
+	const loader = jest.fn((folder) => {
+		if (folder === 'skills') {
+			return {
+				atletismo: skillAtletismo(),
+				adestramento: skillAdestramento(),
+				acrobacia: skillAcrobacia(),
+			}
+		} else if (folder === 't-classes') {
+			return {
+				arcanista: classArcanista(),
+			}
+		}
+	})
 	const config = {
 		character: 'Doka',
 		player: 'Marcy',
-		race: {
-			id: 'humano',
-			modifiers: {
-				for: 2,
-				des: 2,
-				con: 2,
+		classes: {
+			arcanista: {
+				level: 1,
+				isFirst: true,
 			},
 		},
 		baseAttributes: {
@@ -52,7 +40,6 @@ describe('sheet factory integration test', () => {
 		const sheet = await factory(loader, config)
 		expect(sheet.character).toBe('Doka')
 		expect(sheet.player).toBe('Marcy')
-		expect(sheet.race).toBe('Humano')
 		expect(sheet.attributes.modifiers()).toEqual({
 			for: 3,
 			des: 0,
@@ -61,6 +48,8 @@ describe('sheet factory integration test', () => {
 			sab: 2,
 			car: 2,
 		})
+		expect(sheet.hp.max()).toBe(9)
+		expect(sheet.mp.max()).toBe(6)
 		expect(Object.keys(sheet.skills)).toEqual([
 			'atletismo',
 			'adestramento',
