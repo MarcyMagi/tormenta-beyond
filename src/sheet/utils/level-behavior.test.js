@@ -3,9 +3,7 @@ import Attributes from '../attributes.factory'
 import { EventEmitter } from 'events'
 describe('sheet composition level behavior', () => {
 	let levelBehavior
-	let sheet = {
-		emitter: new EventEmitter(),
-	}
+	let sheet
 	let config = {
 		arcanista: {
 			levelOne: 8,
@@ -18,6 +16,9 @@ describe('sheet composition level behavior', () => {
 		},
 	}
 	beforeEach(() => {
+		sheet = {
+			emitter: new EventEmitter(),
+		}
 		sheet.attributes = Attributes({ con: 12, car: 18 }, sheet)
 		levelBehavior = LevelBehavior(sheet, config, 'con')
 	})

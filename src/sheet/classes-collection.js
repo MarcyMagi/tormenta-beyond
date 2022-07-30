@@ -1,3 +1,4 @@
+//make it a factory
 import LevelBehavior from './utils/level-behavior.factory.js'
 
 export default async (loader, personalConfigs, sheet) => {

@@ -9,9 +9,6 @@ describe('sheet skill factory', () => {
 		armorPenalty: false,
 		onlyTrained: false,
 	}
-	const sheet = {
-		emitter: new EventEmitter(),
-	}
 	const classConfig = {
 		arcanista: {
 			level: 7,
@@ -21,8 +18,12 @@ describe('sheet skill factory', () => {
 			level: 8,
 		},
 	}
+	let sheet
 	let skill
 	beforeEach(() => {
+		sheet = {
+			emitter: new EventEmitter(),
+		}
 		sheet.attributes = Attributes({ for: 8, des: 18 }, sheet)
 		skill = Skill('atletismo', config, classConfig, sheet)
 	})

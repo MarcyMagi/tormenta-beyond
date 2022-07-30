@@ -7,10 +7,10 @@ export default () => {
 		mp: {
 			levelUp: 6,
 		},
-		fixSkills: ['misticismo', 'vontade'],
-		chooseSkills: {
+		skills: {
+			fix: ['misticismo', 'vontade'],
 			quantity: 1,
-			options: ['conhecimento', 'inciativa', 'oficio', 'percepção'],
+			options: ['conhecimento', 'inciativa', 'oficio', 'percepcao'],
 		},
 		proficiency: [],
 		abilities: {

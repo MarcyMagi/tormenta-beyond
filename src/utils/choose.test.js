@@ -1,13 +1,14 @@
 import choose from './choose'
+import { jest } from '@jest/globals'
 describe('utils choose', () => {
 	it('should return correct', () => {
 		const chooseObj = choose(
 			'+2 em três atributos',
 			['for', 'des', 'con', 'int', 'sab', 'car'],
 			3,
-			(chosen1, chosen2, chosen3) => ({
+			jest.fn((chosen1, chosen2, chosen3) => ({
 				value: [chosen1, chosen2, chosen3],
-			})
+			}))
 		)
 		const specs = chooseObj.specs
 		expect(specs).toEqual({
