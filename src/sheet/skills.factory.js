@@ -5,12 +5,15 @@ const updateAttribute = (values, obj, attribute) => {
 	values.set('attribute', attributeValue)
 }
 
-export default (id, config, state) => {
+export default (id, config, classConfig, sheet) => {
 	const _id = id
 	const _label = config.label
 	const _values = AdderData()
-	const _classes = state.classes
-	const _attributes = state.attributes
+	const _level = Object.values(classConfig).reduce(
+		(total, now) => (total += now.level),
+		0
+	)
+	const _attributes = sheet.attributes
 	let _armorPenalty = config.armorPenalty
 	let _onlyTrained = config.onlyTrained
 	let _attribute = config.attribute
@@ -31,9 +34,14 @@ export default (id, config, state) => {
 		}
 	}
 	const calculate = () => {
-		const level = _classes.totalLevel()
-		const levelValue = Math.floor(level / 2)
-		const trainValue = !_trainedFrom ? 0 : level >= 15 ? 6 : level >= 7 ? 4 : 2
+		const levelValue = Math.floor(_level / 2)
+		const trainValue = !_trainedFrom
+			? 0
+			: _level >= 15
+			? 6
+			: _level >= 7
+			? 4
+			: 2
 		_values.set('training', trainValue)
 		_values.set('level', levelValue)
 		updateAttribute(_values, _attributes, _attribute)
