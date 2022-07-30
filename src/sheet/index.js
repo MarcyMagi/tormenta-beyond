@@ -1,5 +1,5 @@
-import classesHandler from './classes-handler.js'
-import SkillsCollection from './skills-collection.factory.js'
+import classesHandler from './classes-collection.js'
+import SkillsCollection from './skills-collection.js'
 import Attribute from './attributes.factory.js'
 
 export default async (loader, config) => {
