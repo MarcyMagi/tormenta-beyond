@@ -11,13 +11,19 @@ describe('sheet skill factory', () => {
 	}
 	const sheet = {
 		attributes: Attributes({ for: 8, des: 18 }),
-		classes: {
-			totalLevel: jest.fn().mockReturnValue(15),
+	}
+	const classConfig = {
+		arcanista: {
+			level: 7,
+			isFirst: true,
+		},
+		barbaro: {
+			level: 8,
 		},
 	}
 	let skill
 	beforeEach(() => {
-		skill = Skill('atletismo', config, sheet)
+		skill = Skill('atletismo', config, classConfig, sheet)
 	})
 	it('should get correct values', () => {
 		const calculate = skill.calculate()
