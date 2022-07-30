@@ -2,10 +2,10 @@ import AttributesUtils from '../utils/attributes.js'
 import AdderData from './utils/adder-data.factory.js'
 import { attributes as attributesLabels } from '../config.js'
 
-export default (baseValues) => {
+export default (baseValues, sheet) => {
 	const _attributesUtils = AttributesUtils(attributesLabels)
 	const _dict = {}
-	const init = () => {
+	const render = () => {
 		const _baseData = _attributesUtils.filter(baseValues, true)
 		for (const [key, value] of Object.entries(_baseData)) {
 			const newAttribute = AdderData()
@@ -37,12 +37,14 @@ export default (baseValues) => {
 		for (const [key, value] of Object.entries(otherValues)) {
 			_dict[key].set(label, value)
 		}
+		sheet.emmiter.emit('attributeUpdate')
 	}
 	const removeOther = (label) => {
 		for (const attributeLabel of attributesLabels) {
 			_dict[attributeLabel].remove(label)
 		}
+		sheet.emmiter.emit('attributeUpdate')
 	}
-	init()
+	render()
 	return Object.freeze({ values, modifiers, meta, setOther, removeOther })
 }

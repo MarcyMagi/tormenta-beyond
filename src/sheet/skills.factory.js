@@ -1,10 +1,5 @@
 import AdderData from './utils/adder-data.factory.js'
 
-const updateAttribute = (values, obj, attribute) => {
-	const attributeValue = obj.modifiers()[attribute]
-	values.set('attribute', attributeValue)
-}
-
 export default (id, config, classConfig, sheet) => {
 	const _id = id
 	const _label = config.label
@@ -20,6 +15,24 @@ export default (id, config, classConfig, sheet) => {
 	let _attributeFrom = 'default'
 	let _trainedFrom = false
 
+	const _updateAttribute = () => {
+		const attributeValue = _attributes.modifiers()[_attribute]
+		_values.set('attribute', attributeValue)
+	}
+	const render = () => {
+		const levelValue = Math.floor(_level / 2)
+		const trainValue = !_trainedFrom
+			? 0
+			: _level >= 15
+			? 6
+			: _level >= 7
+			? 4
+			: 2
+		_values.set('training', trainValue)
+		_values.set('level', levelValue)
+		_updateAttribute()
+	}
+
 	const meta = () => {
 		calculate()
 		return {
@@ -34,17 +47,6 @@ export default (id, config, classConfig, sheet) => {
 		}
 	}
 	const calculate = () => {
-		const levelValue = Math.floor(_level / 2)
-		const trainValue = !_trainedFrom
-			? 0
-			: _level >= 15
-			? 6
-			: _level >= 7
-			? 4
-			: 2
-		_values.set('training', trainValue)
-		_values.set('level', levelValue)
-		updateAttribute(_values, _attributes, _attribute)
 		return _values.calculate()
 	}
 	const train = (key) => {
@@ -52,11 +54,12 @@ export default (id, config, classConfig, sheet) => {
 			throw new Error(`skill "${_id}" error: can only train once"`)
 		}
 		_trainedFrom = key
+		render()
 	}
 	const changeAttribute = (key, newAttribute) => {
 		_attributeFrom = key
 		_attribute = newAttribute
-		updateAttribute(_values, _attributes, _attribute)
+		render()
 	}
 	const set = (key, value) => {
 		_values.set(key, value)
@@ -64,5 +67,9 @@ export default (id, config, classConfig, sheet) => {
 	const remove = (key) => {
 		_values.remove(key)
 	}
+	sheet.emmiter.on('attributeUpdate', () => {
+		render()
+	})
+	render()
 	return { meta, calculate, train, changeAttribute, set, remove }
 }

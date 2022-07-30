@@ -1,6 +1,6 @@
 import Skill from './skills.factory.js'
 import Attributes from './attributes.factory'
-import { jest } from '@jest/globals'
+import { EventEmitter } from 'events'
 
 describe('sheet skill factory', () => {
 	const config = {
@@ -10,7 +10,7 @@ describe('sheet skill factory', () => {
 		onlyTrained: false,
 	}
 	const sheet = {
-		attributes: Attributes({ for: 8, des: 18 }),
+		emmiter: new EventEmitter(),
 	}
 	const classConfig = {
 		arcanista: {
@@ -23,6 +23,7 @@ describe('sheet skill factory', () => {
 	}
 	let skill
 	beforeEach(() => {
+		sheet.attributes = Attributes({ for: 8, des: 18 }, sheet)
 		skill = Skill('atletismo', config, classConfig, sheet)
 	})
 	it('should get correct values', () => {
