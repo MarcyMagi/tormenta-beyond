@@ -1,16 +1,21 @@
 import { EventEmitter } from 'events'
-import ClassesCollection from './classes-collection.js'
-import SkillsCollection from './skills-collection.js'
-import Attribute from './attributes.factory.js'
-
-export default async (loader, config) => {
+import Attributes from './attributes.factory.js'
+import LevelBehavior from './utils/level-behavior.factory.js'
+import skillsCollection from './skills-collection'
+export default async (loader, config = {}) => {
 	const sheet = {
+		emitter: new EventEmitter(),
 		character: config.character,
 		player: config.player,
-		emitter: new EventEmitter(),
+		// race, origin, t-class, divinity
+		attributes: Attributes(),
 	}
-	sheet.attributes = Attribute(config.baseAttributes, sheet)
-	Object.assign(sheet, await ClassesCollection(loader, config.classes, sheet))
-	Object.assign(sheet, await SkillsCollection(loader, config.classes, sheet))
+	sheet.hp = LevelBehavior(sheet)
+	sheet.mp = LevelBehavior(sheet)
+	await skillsCollection(loader, sheet)
+	if (!config.baseAttributes) {
+		return sheet
+	}
+	sheet.attributes.set('base', config.baseAttributes)
 	return sheet
 }

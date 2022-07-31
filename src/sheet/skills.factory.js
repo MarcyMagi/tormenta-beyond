@@ -1,25 +1,17 @@
 import AdderData from './utils/adder-data.factory.js'
 
-export default (id, config, classConfig, sheet) => {
+export default (id, config, sheet) => {
 	const _id = id
 	const _label = config.label
 	const _values = AdderData()
-	const _level = Object.values(classConfig).reduce(
-		(total, now) => (total += now.level),
-		0
-	)
-	const _attributes = sheet.attributes
+	const _level = 0
 	let _armorPenalty = config.armorPenalty
 	let _onlyTrained = config.onlyTrained
 	let _attribute = config.attribute
 	let _attributeFrom = 'default'
 	let _trainedFrom = false
-
-	const _updateAttribute = () => {
-		const attributeValue = _attributes.modifiers()[_attribute]
-		_values.set('attribute', attributeValue)
-	}
 	const render = () => {
+		const attributeValue = sheet.attributes.modifiers()[_attribute]
 		const levelValue = Math.floor(_level / 2)
 		const trainValue = !_trainedFrom
 			? 0
@@ -30,7 +22,7 @@ export default (id, config, classConfig, sheet) => {
 			: 2
 		_values.set('training', trainValue)
 		_values.set('level', levelValue)
-		_updateAttribute()
+		_values.set('attribute', attributeValue)
 	}
 
 	const meta = () => {
@@ -56,7 +48,7 @@ export default (id, config, classConfig, sheet) => {
 		_trainedFrom = key
 		render()
 	}
-	const changeAttribute = (key, newAttribute) => {
+	const setAttribute = (key, newAttribute) => {
 		_attributeFrom = key
 		_attribute = newAttribute
 		render()
@@ -67,9 +59,6 @@ export default (id, config, classConfig, sheet) => {
 	const remove = (key) => {
 		_values.remove(key)
 	}
-	sheet.emitter.on('attributeUpdate', () => {
-		render()
-	})
 	render()
-	return { meta, calculate, train, changeAttribute, set, remove }
+	return { meta, calculate, train, setAttribute, set, remove }
 }

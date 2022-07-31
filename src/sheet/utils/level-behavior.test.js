@@ -1,26 +1,13 @@
 import LevelBehavior from './level-behavior.factory'
-import Attributes from '../attributes.factory'
 import { EventEmitter } from 'events'
 describe('sheet composition level behavior', () => {
 	let levelBehavior
-	let sheet
-	let config = {
-		arcanista: {
-			levelOne: 8,
-			levelUp: 2,
-			level: 2,
-		},
-		barbaro: {
-			levelUp: 6,
-			level: 1,
-		},
-	}
 	beforeEach(() => {
-		sheet = {
-			emitter: new EventEmitter(),
-		}
-		sheet.attributes = Attributes({ con: 12, car: 18 }, sheet)
-		levelBehavior = LevelBehavior(sheet, config, 'con')
+		levelBehavior = LevelBehavior()
+		levelBehavior.addLevel('arcanista', 8)
+		levelBehavior.addLevel('arcanista', 2)
+		levelBehavior.addLevel('barbaro', 6)
+		levelBehavior.setPerLevel('attribute', 1)
 	})
 	it('should get max value correctly', () => {
 		const max = levelBehavior.max()
@@ -29,45 +16,20 @@ describe('sheet composition level behavior', () => {
 	it('should get max metadata correctly', () => {
 		const meta = levelBehavior.maxMeta()
 		expect(meta).toEqual({
-			arcanista_1: {
-				level: 8,
-				att_con: 1,
-			},
-			arcanista_2: {
-				level: 2,
-				att_con: 1,
-			},
-			barbaro_1: {
-				level: 6,
-				att_con: 1,
-			},
+			1: { arcanista: 8, attribute: 1 },
+			2: { arcanista: 2, attribute: 1 },
+			3: { barbaro: 6, attribute: 1 },
 		})
 	})
-	it('should update max when change attribute', () => {
-		sheet.attributes.setOther('some', { con: 2 })
-		const max = levelBehavior.max()
-		expect(max).toBe(22)
-	})
 	it('should get round max negative per level bonus', () => {
-		sheet.attributes.setOther('some', { con: -14 })
+		levelBehavior.setPerLevel('attribute', -6)
 		const max = levelBehavior.max()
 		expect(max).toBe(4)
 		const meta = levelBehavior.maxMeta()
 		expect(meta).toEqual({
-			arcanista_1: {
-				level: 8,
-				att_con: -6,
-			},
-			arcanista_2: {
-				level: 2,
-				att_con: -6,
-				adjuster: 5,
-			},
-			barbaro_1: {
-				level: 6,
-				att_con: -6,
-				adjuster: 1,
-			},
+			1: { arcanista: 8, attribute: -6 },
+			2: { arcanista: 2, attribute: -6, roundOne: true },
+			3: { barbaro: 6, attribute: -6, roundOne: true },
 		})
 	})
 	it('should get cur value correctly', () => {
@@ -100,54 +62,5 @@ describe('sheet composition level behavior', () => {
 		expect(cur).toBe(-19)
 		const meta = levelBehavior.currentMeta()
 		expect(meta).toEqual({ max: 19, damage1: -3, damage2: -35 })
-	})
-	it('should return correctly when having level1 two times', () => {
-		config = {
-			arcanista: {
-				levelOne: 8,
-				levelUp: 2,
-				level: 2,
-			},
-			barbaro: {
-				levelOne: 24,
-				levelUp: 6,
-				level: 1,
-			},
-		}
-		levelBehavior = LevelBehavior(sheet, config, 'con')
-		const max = levelBehavior.max()
-		expect(max).toBe(19)
-		const meta = levelBehavior.maxMeta()
-		expect(meta).toEqual({
-			arcanista_1: {
-				level: 8,
-				att_con: 1,
-			},
-			arcanista_2: {
-				level: 2,
-				att_con: 1,
-			},
-			barbaro_1: {
-				level: 6,
-				att_con: 1,
-			},
-		})
-	})
-	it('should work without attribute', () => {
-		levelBehavior = LevelBehavior(sheet, config)
-		const max = levelBehavior.max()
-		expect(max).toBe(16)
-		const meta = levelBehavior.maxMeta()
-		expect(meta).toEqual({
-			arcanista_1: {
-				level: 8,
-			},
-			arcanista_2: {
-				level: 2,
-			},
-			barbaro_1: {
-				level: 6,
-			},
-		})
 	})
 })

@@ -1,6 +1,5 @@
+import Attributes from './attributes.factory.js'
 import Skill from './skills.factory.js'
-import Attributes from './attributes.factory'
-import { EventEmitter } from 'events'
 
 describe('sheet skill factory', () => {
 	const config = {
@@ -9,29 +8,18 @@ describe('sheet skill factory', () => {
 		armorPenalty: false,
 		onlyTrained: false,
 	}
-	const classConfig = {
-		arcanista: {
-			level: 7,
-			isFirst: true,
-		},
-		barbaro: {
-			level: 8,
-		},
-	}
-	let sheet
+	let sheet = {}
 	let skill
 	beforeEach(() => {
-		sheet = {
-			emitter: new EventEmitter(),
-		}
-		sheet.attributes = Attributes({ for: 8, des: 18 }, sheet)
-		skill = Skill('atletismo', config, classConfig, sheet)
+		sheet.attributes = Attributes()
+		sheet.attributes.set('base', { for: 9 })
+		skill = Skill('atletismo', config, sheet)
 	})
 	it('should get correct values', () => {
 		const calculate = skill.calculate()
 		expect(calculate).toEqual(6)
 	})
-	it('should get metadata correctly', () => {
+	it.only('should get metadata correctly', () => {
 		const data = skill.meta()
 		expect(data).toEqual({
 			id: 'atletismo',
@@ -88,7 +76,7 @@ describe('sheet skill factory', () => {
 		expect(data.values.lesser).toBeUndefined()
 	})
 	it('should update results when updating attribute', () => {
-		sheet.attributes.setOther('new', { for: 2 })
+		sheet.attributes.set('new', { for: 2 })
 		const calculate = skill.calculate()
 		expect(calculate).toEqual(7)
 		const meta = skill.meta()

@@ -1,9 +1,9 @@
 import Skill from './skills.factory.js'
-export default async (loader, classConfig, sheet) => {
+export default async (loader, sheet) => {
 	const data = await loader('skills', ['description'])
 	const handler = {}
 	for await (const [id, config] of Object.entries(data)) {
-		handler[id] = Skill(id, config, classConfig, sheet)
+		handler[id] = Skill(id, config, sheet)
 	}
-	return { skills: handler }
+	Object.assign({}, { skills: handler })
 }

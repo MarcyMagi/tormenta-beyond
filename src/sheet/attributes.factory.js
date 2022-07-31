@@ -1,20 +1,15 @@
 import AttributesUtils from '../utils/attributes.js'
 import AdderData from './utils/adder-data.factory.js'
-import { attributes as attributesLabels } from '../config.js'
+import { attributesList } from '../../data/utils.js'
 
-export default (baseValues, sheet) => {
-	const _attributesUtils = AttributesUtils(attributesLabels)
-	const _dict = {}
-	const render = () => {
-		const _baseData = _attributesUtils.filter(baseValues, true)
-		for (const [key, value] of Object.entries(_baseData)) {
-			const newAttribute = AdderData()
-			newAttribute.set('base', value)
-			_dict[key] = newAttribute
-		}
-	}
+export default () => {
+	const _attributesUtils = AttributesUtils(attributesList)
+	const _dict = attributesList.reduce((obj, att) => {
+		obj[att] = AdderData()
+		return obj
+	}, {})
 	const values = () => {
-		return attributesLabels.reduce((obj, value) => {
+		return attributesList.reduce((obj, value) => {
 			obj[value] = _dict[value].calculate()
 			return obj
 		}, {})
@@ -27,24 +22,21 @@ export default (baseValues, sheet) => {
 		}, {})
 	}
 	const meta = () => {
-		return attributesLabels.reduce((obj, value) => {
+		return attributesList.reduce((obj, value) => {
 			obj[value] = _dict[value].dict()
 			return obj
 		}, {})
 	}
-	const setOther = (label, objAttributes) => {
+	const set = (label, objAttributes) => {
 		const otherValues = _attributesUtils.filter(objAttributes)
 		for (const [key, value] of Object.entries(otherValues)) {
 			_dict[key].set(label, value)
 		}
-		sheet.emitter.emit('attributeUpdate')
 	}
-	const removeOther = (label) => {
-		for (const attributeLabel of attributesLabels) {
+	const remove = (label) => {
+		for (const attributeLabel of attributesList) {
 			_dict[attributeLabel].remove(label)
 		}
-		sheet.emitter.emit('attributeUpdate')
 	}
-	render()
-	return Object.freeze({ values, modifiers, meta, setOther, removeOther })
+	return Object.freeze({ values, modifiers, meta, set, remove })
 }

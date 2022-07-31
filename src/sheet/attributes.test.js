@@ -2,23 +2,16 @@ import { jest } from '@jest/globals'
 import Attributes from './attributes.factory.js'
 describe('sheet attributes factory', () => {
 	let attributes
-	const sheet = {
-		emitter: {
-			emit: jest.fn(),
-		},
-	}
 	beforeEach(() => {
-		attributes = Attributes(
-			{
-				for: 10,
-				des: 12,
-				con: 14,
-				int: 16,
-				sab: 17,
-				car: 18,
-			},
-			sheet
-		)
+		attributes = Attributes()
+		attributes.set('base', {
+			for: 10,
+			des: 12,
+			con: 14,
+			int: 16,
+			sab: 17,
+			car: 18,
+		})
 	})
 	it('should get values correctly', () => {
 		expect(attributes.values()).toEqual({
@@ -65,7 +58,7 @@ describe('sheet attributes factory', () => {
 		})
 	})
 	it('should set other', () => {
-		attributes.setOther('something', { for: 3, con: -2, wei: 2 })
+		attributes.set('something', { for: 3, con: -2, wei: 2 })
 		expect(attributes.modifiers().for).toBe(1)
 		expect(attributes.modifiers().con).toBe(1)
 		expect(attributes.modifiers().wei).toBeUndefined()
@@ -75,10 +68,10 @@ describe('sheet attributes factory', () => {
 		expect(attributes.meta().wei).toBeUndefined()
 	})
 	it('should remove other', () => {
-		attributes.setOther('something', { for: 3, con: -2 })
+		attributes.set('something', { for: 3, con: -2 })
 		expect(attributes.meta().for.something).toBe(3)
 		expect(attributes.meta().con.something).toBe(-2)
-		attributes.removeOther('something')
+		attributes.remove('something')
 		expect(attributes.meta().for).toEqual({ base: 10 })
 		expect(attributes.meta().des).toEqual({ base: 12 })
 	})

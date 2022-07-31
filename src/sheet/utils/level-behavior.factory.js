@@ -1,75 +1,40 @@
 import AdderData from './adder-data.factory'
-export default (sheet, config, keyAttribute) => {
-	let _keyAttribute = keyAttribute
-	const _maxAdder = AdderData()
+export default () => {
+	const _maxDict = {}
 	const _curAdder = AdderData()
-	const _attributes = sheet.attributes
-	const render = () => {
-		let firstRunned = false
-		const classesEntries = Object.entries(config)
-		for (const [id, classConfig] of classesEntries) {
-			for (let i = 1; i <= classConfig.level; i++) {
-				const level1Check = (ifValue, elseValue) => {
-					if (firstRunned) {
-						return elseValue
-					}
-					return classConfig.levelOne ? ifValue : elseValue
-				}
-				const classKey = `${id}_${i}`
-				const classValue = level1Check(
-					classConfig.levelOne,
-					classConfig.levelUp
-				)
-				let finalValue = classValue
-				_maxAdder.set(classKey, classValue)
-
-				if (_keyAttribute) {
-					const modValue = _attributes.modifiers()[_keyAttribute]
-					finalValue += modValue
-					_maxAdder.set(`att_${_keyAttribute}_${classKey}`, modValue)
-				}
-
-				if (finalValue < 1) {
-					const adjusterValue = 1 - finalValue
-					_maxAdder.set(`adjuster_${classKey}`, adjusterValue)
-				}
-				if (classConfig.levelOne) {
-					firstRunned = true
-				}
-			}
-		}
+	const _updateCurrent = () => {
 		_curAdder.set('max', max())
 	}
+	let _lastLevel = 0
+	const addLevel = (label, value) => {
+		_lastLevel++
+		_maxDict[_lastLevel] = AdderData()
+		_maxDict[_lastLevel].set(label, value)
+		_updateCurrent()
+	}
+	const setPerLevel = (label, value) => {
+		for (const adderData of Object.values(_maxDict)) {
+			adderData.set(label, value)
+		}
+		_updateCurrent()
+	}
 	const max = () => {
-		return _maxAdder.calculate()
+		const adderValues = Object.values(_maxDict)
+		return adderValues.reduce((total, adder) => {
+			const value = adder.calculate()
+			total += value > 0 ? value : 1
+			return total
+		}, 0)
 	}
 	const maxMeta = () => {
-		const dict = _maxAdder.dict()
-		const customDict = Object.entries(dict).reduce((obj, [key, value]) => {
-			const createClassKey = (classKey) => {
-				if (!obj[classKey]) {
-					obj[classKey] = {}
-				}
-			}
-			const [arg1, arg2, arg3, arg4] = key.split('_')
-			if (arg1 === 'att') {
-				const classKey = `${arg3}_${arg4}`
-				const attKey = `${arg1}_${arg2}`
-				createClassKey(classKey)
-				obj[classKey][attKey] = value
-			} else if (arg1 === 'adjuster') {
-				const classKey = `${arg2}_${arg3}`
-				const adjusterKey = arg1
-				createClassKey(classKey)
-				obj[classKey][adjusterKey] = value
-			} else {
-				const classKey = `${arg1}_${arg2}`
-				createClassKey(classKey)
-				obj[classKey]['level'] = value
+		const adderEntries = Object.entries(_maxDict)
+		return adderEntries.reduce((obj, [level, adder]) => {
+			obj[level] = adder.dict()
+			if (adder.calculate() < 1) {
+				obj[level].roundOne = true
 			}
 			return obj
 		}, {})
-		return customDict
 	}
 	const current = () => {
 		return _curAdder.calculate()
@@ -117,9 +82,5 @@ export default (sheet, config, keyAttribute) => {
 			}
 		}
 	}
-	sheet.emitter.on('attributeUpdate', () => {
-		render()
-	})
-	render()
-	return { max, current, apply, maxMeta, currentMeta }
+	return { max, current, apply, addLevel, setPerLevel, maxMeta, currentMeta }
 }

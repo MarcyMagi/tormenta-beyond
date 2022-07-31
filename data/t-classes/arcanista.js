@@ -1,5 +1,7 @@
+import { choose } from '../utils.js'
 export default () => {
 	return {
+		id: 'arcanista',
 		hp: {
 			levelOne: 8,
 			levelUp: 2,
@@ -7,11 +9,14 @@ export default () => {
 		mp: {
 			levelUp: 6,
 		},
-		skills: {
-			fix: ['misticismo', 'vontade'],
-			quantity: 1,
-			options: ['conhecimento', 'inciativa', 'oficio', 'percepcao'],
-		},
+		skills: choose(
+			'1 skill',
+			['conhecimento', 'inciativa', 'oficio', 'percepcao'],
+			1,
+			(chosenSkill) => {
+				return ['misticismo', 'vontade', chosenSkill]
+			}
+		),
 		proficiency: [],
 		abilities: {
 			1: ['caminho-do-arcanista', 'magias'],
